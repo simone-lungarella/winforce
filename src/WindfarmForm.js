@@ -20,15 +20,15 @@ const formStyle = {
     p: 4,
 };
 
-const WindfarmForm = (props) => {
+const defaultEvent = {
+    turbinName: "",
+    description: "",
+    operation: "Sost. Generatore",
+    startEEMM: null,
+    startOOCC: null,
+};
 
-    const defaultEvent = {
-        turbinName: "",
-        description: "",
-        operation: "Sost. Generatore",
-        startEEMM: null,
-        startOOCC: null,
-    };
+const WindfarmForm = (props) => {
 
     const [formValues, setFormValues] = useState(defaultEvent)
     const [dateEMValue, setEMDateValue] = useState(null);
