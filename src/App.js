@@ -21,8 +21,14 @@ const theme = createTheme({
     },
     secondary: {
       light: '#ff7961',
-      main: '#f44336',
+      main: '#39621d',
       dark: '#ba000d',
+      contrastText: '#000',
+    },
+    success: {
+      light: '#ff7961',
+      main: '#5fa631',
+      dark: '#508929',
       contrastText: '#000',
     }
   },
@@ -35,19 +41,19 @@ const App = () => {
       id: "1",
       turbinName: "MLG01",
       operation: "Sost. Gearbox",
-      description: "Cantiere I.XXXX",
       creationDate: "29-05-2022 19:31",
       completedSteps: 0,
-      complete: false,
+      startEEMM: "01-06-2022",
+      startOOCC: ""
     },
     {
       id: "2",
       turbinName: "RT03",
       operation: "Sost. Gearbox",
-      description: "Cantiere I.XXXX",
       creationDate: "29-05-2022 17:12",
       completedSteps: 3,
-      complete: false
+      startEEMM: "01-06-2022",
+      startOOCC: "02-06-2022"
     }
   ];
 
