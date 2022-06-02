@@ -45,11 +45,11 @@ const WindfarmForm = (props) => {
 
     const handleSubmit = () => {
 
-        // Validate form
+        // TODO: Validate form
         setEMDateValue(null);
         setOCDateValue(null);
-        // Post to the server and get back the entity
-        // Updated the data with the received entity and add to local state
+        // TODO: Post to the server and get back the entity
+        // TODO: Updated the data with the received entity and add to local state
         const newTurbine = {
             ...formValues,
             id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) // TODO: remove generated id and use the one coming from the server
