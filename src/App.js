@@ -1,10 +1,8 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   AppBar,
-  Box, Container, GlobalStyles, Grid, IconButton, Modal
+  Box, Container, createTheme, GlobalStyles, Grid, IconButton, Modal, Stack, ThemeProvider
 } from "@mui/material";
-import Stack from "@mui/material/Stack";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ToolBar from "@mui/material/Toolbar";
 import React, { useState } from "react";
 import ErgLogo from "./ErgLogo.js";
