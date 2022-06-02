@@ -59,7 +59,7 @@ const TurbineDetail = (props) => {
                     </Grid>
                 </Grid>
             </Stack>
-            <LinearProgress color="success" variant="determinate" value={Math.floor(props.reachedStep * 100 / props.stepList.length)} />
+            <LinearProgress color="success" variant="determinate" value={props.stepList.length > 0 && Math.floor(props.reachedStep * 100 / props.stepList.length)} />
             <Box pt={2} />
             <Stack direction="column" spacing={0} alignItems="center" justifyContent="top"
                 style={{ overflowY: "scroll", height: 200, width: "100%" }}>
