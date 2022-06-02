@@ -1,36 +1,63 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Grid from '@mui/material/Grid';
-import IconButton from "@mui/material/IconButton";
+import {
+  AppBar,
+  Box,
+  Button,
+  Container, GlobalStyles, Grid, IconButton, Modal, Typography
+} from "@mui/material";
+import Stack from "@mui/material/Stack";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ToolBar from "@mui/material/Toolbar";
 import React, { useState } from "react";
-import ErgLogo from "./logo.svg";
+import ErgLogo from "./ErgLogo.js";
+import WindfarmForm from "./WindfarmForm.js";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#757ce8',
+      main: '#4a7ec0',
+      dark: '#3c6baa',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    }
+  },
+});
 
 const App = () => {
 
   const TURBINE_DUMMY_DATA = [
     {
       id: "1",
-      name: "Cantiere 1926",
-      turbinName: "RO08 - Asta pitch",
-      operation: "Sost. generatore",
-      descripition: "Cantiere 1926",
+      turbinName: "MLG01",
+      operation: "Sost. Gearbox",
+      description: "Cantiere I.XXXX",
       creationDate: "29-05-2022 19:31",
+      completedSteps: 0,
+      complete: false,
+    },
+    {
+      id: "2",
+      turbinName: "RT03",
+      operation: "Sost. Gearbox",
+      description: "Cantiere I.XXXX",
+      creationDate: "29-05-2022 17:12",
       completedSteps: 3,
       complete: false
     },
     {
-      id: "2",
-      name: "Cantiere 1927",
-      turbinName: "RO08 - Sost. generatore",
-      operation: "Sost. generatore",
-      descripition: "Cantiere 1927",
+      id: "3",
+      turbinName: "RO08",
+      operation: "Sost. Generatore",
+      description: "Cantiere 1926",
       creationDate: "29-05-2022 19:31",
-      completedSteps: 0,
-      complete: false,
+      completedSteps: 5,
+      complete: false
     }
   ];
 
@@ -180,43 +207,81 @@ const App = () => {
     }
   ];
 
+  // Modal status
+  const [open, setOpen] = React.useState(false);
+
+  // Existing windfarms
   const [turbines, setTurbines] = useState(TURBINE_DUMMY_DATA);
+
+  // All steps
   const [steps, setSteps] = useState(STEP_DUMMY_DATA);
 
+  const handleTurbineAdd = (turbineData) => {
+    console.log(turbineData);
+    setTurbines([...turbines, turbineData]);
+  };
+
   return (
-    <Container maxWidth="sm">
-      <AppBar position="static">
-        <ToolBar>
-          <Box
-            component="img"
-            sx={{
-              height: 64,
-            }}
-            padding={2}
-            alt="ERG logo"
-            src={ErgLogo}
-          />
-        </ToolBar>
-      </AppBar>
-      <Box pt={3} />
-      <Grid container direction="column" rowSpacing={2} justifyContent="center" alignItems="center">
-        {turbines.map(function (turbine) {
-          const reachedStep = steps.filter(step => step.eventId === turbine.id).map(filtered => filtered.name)[turbine.completedSteps];
-          return (
-            <Grid item xs={12} key={turbine.id}>
-              <Button style={{ width: 300, height: 100 }} variant="contained">
-                  {turbine.turbinName} - 
-                  {reachedStep}
-              </Button>
-            </Grid>)
-        })}
+    <ThemeProvider theme={theme}>
+      <GlobalStyles
+        styles={{
+          body: {
+            backgroundImage: 'url(' + require('./winforce_bg.png') + ')'
+          },
+          '*::-webkit-scrollbar': {
+            width: '0em'
+          }
+        }}
+      />
+      <Container maxWidth="sm">
+        <AppBar position="static">
+          <ToolBar>
+            <ErgLogo />
+          </ToolBar>
+        </AppBar>
+        <Box pt={6} />
+
+        <Stack direction="column" spacing={2} alignItems="center" justifyContent="top"
+          style={{ overflowY: "scroll", height: 450, width: "100%" }}>
+          {turbines.map((turbine) => {
+            const ownSteps = steps.filter(step => step.eventId === turbine.id).map(filtered => filtered.name);
+            const reachedStep = ownSteps.length > 0 ? ownSteps[turbine.completedSteps] : "No step found";
+            const percentage = ownSteps.length > 0 && (turbine.completedSteps / ownSteps.length) * 100;
+            return (
+              <Grid item xs={8} key={turbine.id}>
+                <Button style={{ width: 400, height: 100 }} variant="contained">
+                  <Grid container direction="column" justifyContent="center" alignItems="center">
+                    <Grid item xs={12}>
+                      <Typography variant="h5"><b>{turbine.turbinName} - {turbine.operation}</b></Typography>
+                      <Typography variant="body2">{Math.floor(percentage)}% - {reachedStep}</Typography>
+                    </Grid>
+                  </Grid>
+                </Button>
+              </Grid>)
+          })}
+        </Stack>
+
         <Box pt={3} />
 
-        <IconButton>
-          <AddCircleOutlineIcon />
-        </IconButton>
-      </Grid>
-    </Container>
+        <Grid container direction="column" alignItems="center" >
+          <Grid item xs={12}>
+            <IconButton onClick={() => setOpen(true)}>
+              <AddCircleOutlineIcon color="primary" fontSize="large" />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box>
+            <WindfarmForm onAddedWindfarm={handleTurbineAdd} />
+          </Box>
+        </Modal>
+      </Container>
+    </ThemeProvider>
   );
 };
 
