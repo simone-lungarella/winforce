@@ -24,7 +24,7 @@ const formStyle = {
 const defaultEvent = {
     turbineName: "",
     description: "",
-    operation: "GENERATOR_REPLACING",
+    operation: "",
     turbineState: "MARCHING",
     startingDateEEMM: null,
     startingDateOOCC: null,
@@ -87,13 +87,16 @@ const WindfarmForm = (props) => {
                     />
                 </Grid>
                 <Grid item >
-                    <Select style={{ width: 250, height: 50 }}
-                        name="operation" value={formValues.operation} onChange={handleInputChange}>
-                        <MenuItem key="1" value="GENERATOR_REPLACING">Sost. Generatore</MenuItem>
-                        <MenuItem key="2" value="GEARBOX_REPLACING">Sost. Gearbox</MenuItem>
-                        <MenuItem key="3" value="ROOT_JOINT">Root Joint</MenuItem>
-                        <MenuItem key="4" value="PITCH_ROD">Pitch Rod</MenuItem>
-                    </Select>
+                    <TextField style={{ width: 250, height: 50 }}
+                        required
+                        error={formValues.operation === ""}
+                        id="operation-input"
+                        name="operation"
+                        label="Tipologia intervento"
+                        type="text"
+                        value={formValues.operation}
+                        onChange={handleInputChange}
+                    />
                 </Grid>
                 <Grid item >
                     <Select style={{ width: 250, height: 50 }}
@@ -114,7 +117,7 @@ const WindfarmForm = (props) => {
                                 setOCDateValue(newValue);
                                 setFormValues({
                                     ...formValues,
-                                    startingDateOOCC:  newValue.getFullYear() + '-' + (("0" + (newValue.getMonth() + 1)).slice(-2)) + '-' + ("0" + newValue.getDate()).slice(-2),
+                                    startingDateOOCC: newValue.getFullYear() + '-' + (("0" + (newValue.getMonth() + 1)).slice(-2)) + '-' + ("0" + newValue.getDate()).slice(-2),
                                 })
                             }}
                             renderInput={(params) => <TextField {...params} />}
