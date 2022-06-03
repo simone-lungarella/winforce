@@ -1,4 +1,5 @@
 import SaveIcon from "@mui/icons-material/Save";
+import CloseIcon from "@mui/icons-material/Close";
 import {
     Box,
     Button, Grid, MenuItem, Select, TextField, Typography
@@ -45,17 +46,18 @@ const WindfarmForm = (props) => {
 
     const handleSubmit = () => {
 
-        // TODO: Validate form
-        setEMDateValue(null);
-        setOCDateValue(null);
-        // TODO: Post to the server and get back the entity
-        // TODO: Updated the data with the received entity and add to local state
-        const newTurbine = {
-            ...formValues,
-            id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) // TODO: remove generated id and use the one coming from the server
-        };
-        props.onAddedWindfarm(newTurbine);
-        setFormValues(defaultEvent);
+        if (formValues.name !== "" && formValues.description !== "") {
+            setEMDateValue(null);
+            setOCDateValue(null);
+            // TODO: Post to the server and get back the entity
+            // TODO: Updated the data with the received entity and add to local state
+            const newTurbine = {
+                ...formValues,
+                id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) // TODO: remove generated id and use the one coming from the server
+            };
+            props.onAddedWindfarm(newTurbine);
+            setFormValues(defaultEvent);
+        }
     }
 
     return (
@@ -68,6 +70,8 @@ const WindfarmForm = (props) => {
 
                 <Grid item xs={12}>
                     <TextField style={{ width: 250, height: 50 }}
+                        required
+                        error={formValues.turbinName === ""}
                         id="turbine-input"
                         name="turbinName"
                         label="Impianto Eolico"
@@ -78,6 +82,8 @@ const WindfarmForm = (props) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField style={{ width: 250, height: 50 }}
+                        required
+                        error={formValues.turbinName === ""}
                         id="description-input"
                         name="description"
                         label="Aerogeneratore"
@@ -132,14 +138,27 @@ const WindfarmForm = (props) => {
                     </LocalizationProvider>
                 </Grid>
                 <Box pt={3} />
-                <Grid item xs={12} >
-                    <Button
-                        variant="contained"
-                        startIcon={<SaveIcon />}
-                        onClick={handleSubmit}
-                    >
-                        SALVA
-                    </Button>
+
+                <Grid container direction="row" justifyContent="center" alignItems="center" columnGap={2} >
+                    <Grid item xs={3} >
+                        <Button
+                            variant="contained"
+                            startIcon={<CloseIcon />}
+                            onClick={props.onClose}
+                        >
+                            CHIUDI
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3} >
+                        <Button
+                            disabled={formValues.name === "" || formValues.description === ""}
+                            variant="contained"
+                            startIcon={<SaveIcon />}
+                            onClick={handleSubmit}
+                        >
+                            SALVA
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
         </Box >

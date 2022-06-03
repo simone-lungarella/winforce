@@ -213,7 +213,12 @@ const App = () => {
   const handleTurbineAdd = (turbineData) => {
     console.log(turbineData);
     setTurbines([...turbines, turbineData]);
+    setOpen(false);
   };
+
+  const handleModalClose = () => {
+    setOpen(false);
+  }
 
   const handleStepComplete = (stepId) => {
     const updatedStep = steps.find(s => s.id === stepId);
@@ -283,7 +288,7 @@ const App = () => {
           aria-describedby="modal-modal-description"
         >
           <Box>
-            <WindfarmForm onAddedWindfarm={handleTurbineAdd} />
+            <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={handleModalClose} />
           </Box>
         </Modal>
       </Container>
