@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/winforce/static/css/main.d7dc322e.css",
-    "main.js": "/winforce/static/js/main.45f57139.js",
+    "main.css": "/winforce/static/css/main.d8204167.css",
+    "main.js": "/winforce/static/js/main.cbdb5a51.js",
     "static/js/787.0d6a95cf.chunk.js": "/winforce/static/js/787.0d6a95cf.chunk.js",
     "static/media/winforce_bg.png": "/winforce/static/media/winforce_bg.a73964cd214b428bcb62.png",
     "static/media/roboto-all-300-normal.woff": "/winforce/static/media/roboto-all-300-normal.168d6383e73339293ac3.woff",
@@ -14,12 +14,12 @@
     "static/media/roboto-greek-ext-300-normal.woff2": "/winforce/static/media/roboto-greek-ext-300-normal.35b9d6be04b95f0f0530.woff2",
     "static/media/logo.svg": "/winforce/static/media/logo.3800c382bf3a3395cb81407f1922a137.svg",
     "index.html": "/winforce/index.html",
-    "main.d7dc322e.css.map": "/winforce/static/css/main.d7dc322e.css.map",
-    "main.45f57139.js.map": "/winforce/static/js/main.45f57139.js.map",
+    "main.d8204167.css.map": "/winforce/static/css/main.d8204167.css.map",
+    "main.cbdb5a51.js.map": "/winforce/static/js/main.cbdb5a51.js.map",
     "787.0d6a95cf.chunk.js.map": "/winforce/static/js/787.0d6a95cf.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d7dc322e.css",
-    "static/js/main.45f57139.js"
+    "static/css/main.d8204167.css",
+    "static/js/main.cbdb5a51.js"
   ]
 }
