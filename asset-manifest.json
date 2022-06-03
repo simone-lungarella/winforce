@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/winforce/static/css/main.d8204167.css",
-    "main.js": "/winforce/static/js/main.cbdb5a51.js",
+    "main.js": "/winforce/static/js/main.874ee34e.js",
     "static/js/787.0d6a95cf.chunk.js": "/winforce/static/js/787.0d6a95cf.chunk.js",
     "static/media/winforce_bg.png": "/winforce/static/media/winforce_bg.a73964cd214b428bcb62.png",
     "static/media/roboto-all-300-normal.woff": "/winforce/static/media/roboto-all-300-normal.168d6383e73339293ac3.woff",
@@ -15,11 +15,11 @@
     "static/media/logo.svg": "/winforce/static/media/logo.3800c382bf3a3395cb81407f1922a137.svg",
     "index.html": "/winforce/index.html",
     "main.d8204167.css.map": "/winforce/static/css/main.d8204167.css.map",
-    "main.cbdb5a51.js.map": "/winforce/static/js/main.cbdb5a51.js.map",
+    "main.874ee34e.js.map": "/winforce/static/js/main.874ee34e.js.map",
     "787.0d6a95cf.chunk.js.map": "/winforce/static/js/787.0d6a95cf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d8204167.css",
-    "static/js/main.cbdb5a51.js"
+    "static/js/main.874ee34e.js"
   ]
 }
