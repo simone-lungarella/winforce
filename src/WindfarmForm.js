@@ -114,7 +114,7 @@ const WindfarmForm = (props) => {
                                 setOCDateValue(newValue);
                                 setFormValues({
                                     ...formValues,
-                                    startingDateOOCC:  newValue.getFullYear() + '-' + (newValue.getMonth() + 1) + '-' + newValue.getDate(),
+                                    startingDateOOCC:  newValue.getFullYear() + '-' + (("0" + (newValue.getMonth() + 1)).slice(-2)) + '-' + ("0" + newValue.getDate()).slice(-2),
                                 })
                             }}
                             renderInput={(params) => <TextField {...params} />}
@@ -132,7 +132,7 @@ const WindfarmForm = (props) => {
                                 setEMDateValue(newValue);
                                 setFormValues({
                                     ...formValues,
-                                    startingDateEEMM: newValue.getFullYear() + '-' + (newValue.getMonth() + 1) + '-' + newValue.getDate(),
+                                    startingDateEEMM: newValue.getFullYear() + '-' + (("0" + (newValue.getMonth() + 1)).slice(-2)) + '-' + ("0" + newValue.getDate()).slice(-2),
                                 })
                             }}
                             renderInput={(params) => <TextField {...params} />}
