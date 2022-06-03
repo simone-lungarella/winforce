@@ -3,7 +3,7 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Box, Checkbox, FormControlLabel, Grid, LinearProgress, Stack, Typography
+    Box, Checkbox, FormControlLabel, Grid, IconButton, LinearProgress, Popover, Stack, Typography
 } from "@mui/material";
 import { default as React } from 'react';
 import eventService from './services/appService';
@@ -24,6 +24,11 @@ const formStyle = {
 };
 
 const TurbineDetail = (props) => {
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handlePopup = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
     const handleCheckboxChange = (event) => {
         if (event.target.checked) {
@@ -48,14 +53,33 @@ const TurbineDetail = (props) => {
                 style={{ overflowY: "scroll", height: 170, width: "100%" }}>
                 <Grid container direction="row" alignItems="center" columnGap={2}>
                     {turbineStatus === "OK" &&
-                        <AutoModeIcon color="success" />
+                        <IconButton onClick={handlePopup} >
+                            <AutoModeIcon color="success" />
+                        </IconButton>
                     }
                     {turbineStatus === "WARN" &&
-                        <WarningIcon color="warning"/>
+                        <IconButton onClick={handlePopup} >
+                            <WarningIcon color="warning" />
+                        </IconButton>
                     }
                     {turbineStatus === "ERROR" &&
-                        <ErrorIcon color="error"/>
+                        <IconButton onClick={handlePopup} >
+                            <ErrorIcon color="error" />
+                        </IconButton>
                     }
+                    <Popover
+                        open={Boolean(anchorEl)}
+                        onClose={() => setAnchorEl(null)}
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                    >
+                        <Typography variant="overline" p={1}>
+                            Turbina: {props.turbineMaster.turbineState}
+                        </Typography>
+                    </Popover>
                     <Typography variant="h5" > <b>{props.turbineMaster.turbineName} - {props.turbineMaster.operation}</b></Typography>
                 </Grid>
                 <Box pt={3} />
@@ -92,9 +116,7 @@ const TurbineDetail = (props) => {
             <Box pt={2} />
             <Accordion>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header">
+                    expandIcon={<ExpandMoreIcon />}>
                     <Typography>VISUALIZZA STEP</Typography>
                 </AccordionSummary>
                 <AccordionDetails>

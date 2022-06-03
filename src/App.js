@@ -1,11 +1,12 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   AppBar,
-  Box, Container, createTheme, GlobalStyles, Grid, IconButton, Modal, Stack, ThemeProvider, Typography
+  Box, Container, createTheme, GlobalStyles, Grid, IconButton, Modal, Stack, ThemeProvider
 } from "@mui/material";
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
 import ErgLogo from "./ErgLogo.js";
+import ETMTitle from "./ETM_Title.png";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import WindfarmForm from "./WindfarmForm.js";
@@ -29,7 +30,7 @@ const theme = createTheme({
       main: '#5fa631',
       dark: '#508929',
       contrastText: '#000',
-    }
+    },
   },
 });
 
@@ -119,9 +120,12 @@ const App = () => {
       <Container maxWidth="sm">
         <AppBar position="static">
           <ToolBar>
-            <ErgLogo />
-            <Box flexGrow={1} />
-            <Typography variant="h4" style={{ flexGrow: 1 }}> ERG TASK MANAGER </Typography>
+            <Stack direction="row" spacing={8} alignItems="center" justifyContent="top">
+              <ErgLogo />
+              <Box >
+                <img src={ETMTitle} alt="title" width={200} ></img>
+              </Box>
+            </Stack>
           </ToolBar>
         </AppBar>
         <Box pt={6} />
@@ -156,8 +160,6 @@ const App = () => {
         <Modal
           open={open}
           onClose={() => setOpen(false)}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
         >
           <Box>
             <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={handleModalClose} />
