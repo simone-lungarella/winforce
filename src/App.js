@@ -59,15 +59,19 @@ const App = () => {
 
   const handleTurbineAdd = (turbineData) => {
 
-    console.log(turbineData);
     eventService
       .addTurbine(turbineData)
       .then(response => {
         if (response.status === 200) {
-          setTurbines([...turbines, turbineData]);
+          eventService.getTurbines().then(turbineResponse => {
+            setTurbines(turbineResponse.data);
+          })
+          eventService.getSteps().then(stepsResponse => {
+            setSteps(stepsResponse.data);
+          })
           setOpen(false);
         }
-    });
+      });
   };
 
   const handleModalClose = () => {

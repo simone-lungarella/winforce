@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:8080/v1.0.0/";
+const baseUrl = "https://dockyard-handler.herokuapp.com/v1.0.0/";
 
 
 const getTurbines = () => {
@@ -14,8 +14,13 @@ const getSteps = () => {
     return axios.get(baseUrl + 'steps');
 }
 
+const setStepComplete = (stepId, isComplete) => {
+    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete);
+}
+
 export default {
     getTurbines : getTurbines,
     getSteps : getSteps,
-    addTurbine : addTurbine
+    addTurbine : addTurbine,
+    setStepComplete : setStepComplete
 }

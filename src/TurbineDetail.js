@@ -5,8 +5,8 @@ import {
     AccordionSummary,
     Box, Checkbox, FormControlLabel, Grid, LinearProgress, Stack, Typography
 } from "@mui/material";
-import axios from 'axios';
 import { default as React } from 'react';
+import eventService from './services/eventService';
 
 const formStyle = {
     position: 'absolute',
@@ -25,10 +25,10 @@ const TurbineDetail = (props) => {
     const handleCheckboxChange = (event) => {
         if (event.target.checked) {
             props.stepComplete(event.target.value);
-            axios.put("http://localhost:8080/v1.0.0/step/complete?stepId=" + event.target.value + "&isCompleted=true");
+            eventService.setStepComplete(event.target.value, true);
         } else {
             props.stepIncomplete(event.target.value);
-            axios.put("http://localhost:8080/v1.0.0/step/complete?stepId=" + event.target.value + "&isCompleted=false");
+            eventService.setStepComplete(event.target.value, false);
         }
     }
 
