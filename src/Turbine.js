@@ -67,10 +67,10 @@ const Turbine = (props) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button style={{ width: 400, height: 100 }} variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}>
+            <Button style={{ width: 350, height: 100 }} variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}>
                 <Grid container direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12}>
-                        <Typography variant="h5"><b>{props.turbine.turbineName} - {props.turbine.operation}</b></Typography>
+                        <Typography variant="h6"><b>{props.turbine.turbineName} - {props.turbine.operation}</b></Typography>
                         <Typography variant="body2"> {reachedStep}</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ width: '100%', mr: 1 }}>
