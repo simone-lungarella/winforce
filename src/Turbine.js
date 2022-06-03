@@ -71,7 +71,7 @@ const Turbine = (props) => {
                         <Typography variant="button"><b>{props.turbine.turbineName} - {props.turbine.operation}</b></Typography>
                         <Typography variant="body2"> {reachedStep}</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Box sx={{ mr: 1, width:200}}>
+                            <Box sx={{ mr: 1, width: 200 }}>
                                 <LinearProgress color={percentage === 100 ? "secondary" : "success"} variant="determinate" value={percentage} />
                             </Box>
                             <Box sx={{ minWidth: 35 }}>

@@ -68,7 +68,7 @@ const WindfarmForm = (props) => {
                         error={formValues.turbineName === ""}
                         id="turbine-input"
                         name="turbineName"
-                        label="Impianto Eolico"
+                        label="Aerogeneratore"
                         type="text"
                         value={formValues.turbineName}
                         onChange={handleInputChange}
@@ -77,10 +77,10 @@ const WindfarmForm = (props) => {
                 <Grid item >
                     <TextField style={{ width: 250, height: 50 }}
                         required
-                        error={formValues.turbineName === ""}
+                        error={formValues.description === ""}
                         id="description-input"
                         name="description"
-                        label="Aerogeneratore"
+                        label="Impianto Eolico"
                         type="text"
                         value={formValues.description}
                         onChange={handleInputChange}
