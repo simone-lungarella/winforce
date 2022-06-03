@@ -120,7 +120,7 @@ const App = () => {
       <Container maxWidth="sm">
         <AppBar position="static">
           <ToolBar>
-            <Stack direction="row" spacing={8} alignItems="center" justifyContent="top">
+            <Stack direction="row" spacing={6} alignItems="center" justifyContent="top">
               <ErgLogo />
               <Box >
                 <img src={ETMTitle} alt="title" width={200} ></img>
