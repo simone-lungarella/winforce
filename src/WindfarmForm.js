@@ -49,13 +49,7 @@ const WindfarmForm = (props) => {
         if (formValues.name !== "" && formValues.description !== "") {
             setEMDateValue(null);
             setOCDateValue(null);
-            // TODO: Post to the server and get back the entity
-            // TODO: Updated the data with the received entity and add to local state
-            const newTurbine = {
-                ...formValues,
-                id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) // TODO: remove generated id and use the one coming from the server
-            };
-            props.onAddedWindfarm(newTurbine);
+            props.onAddedWindfarm(formValues);
             setFormValues(defaultEvent);
         }
     }
@@ -68,7 +62,7 @@ const WindfarmForm = (props) => {
             <Box pt={3} />
             <Grid container direction="column" justifyContent="center" alignItems="center" rowSpacing={2}>
 
-                <Grid item xs={12}>
+                <Grid item >
                     <TextField style={{ width: 250, height: 50 }}
                         required
                         error={formValues.turbineName === ""}
@@ -80,7 +74,7 @@ const WindfarmForm = (props) => {
                         onChange={handleInputChange}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item >
                     <TextField style={{ width: 250, height: 50 }}
                         required
                         error={formValues.turbineName === ""}
@@ -92,7 +86,7 @@ const WindfarmForm = (props) => {
                         onChange={handleInputChange}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item >
                     <Select style={{ width: 250, height: 50 }}
                         name="operation" value={formValues.operation} onChange={handleInputChange}>
                         <MenuItem key="1" value="GENERATOR_REPLACING">Sost. Generatore</MenuItem>
@@ -101,7 +95,7 @@ const WindfarmForm = (props) => {
                         <MenuItem key="4" value="PITCH_ROD">Pitch Rod</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item >
                     <Select style={{ width: 250, height: 50 }}
                         name="turbineState" value={formValues.turbineState} onChange={handleInputChange}>
                         <MenuItem key="1" value="MARCHING">In marcia</MenuItem>
@@ -109,7 +103,7 @@ const WindfarmForm = (props) => {
                         <MenuItem key="3" value="LIMITED">Limitata</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item >
                     <LocalizationProvider dateAdapter={AdapterDateFns} >
                         <DatePicker
                             label="Avvio attività OOCC"
@@ -127,7 +121,7 @@ const WindfarmForm = (props) => {
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item >
                     <LocalizationProvider dateAdapter={AdapterDateFns} >
                         <DatePicker
                             label="Avvio attività EEMM"
@@ -146,7 +140,7 @@ const WindfarmForm = (props) => {
                     </LocalizationProvider>
                 </Grid>
                 <Grid container direction="row" justifyContent="center" alignItems="center"  >
-                    <Grid item xs={2} m={4}>
+                    <Grid item m={4} xs={2}>
                         <Button
                             variant="contained"
                             startIcon={<CloseIcon />}

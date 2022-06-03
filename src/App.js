@@ -120,7 +120,7 @@ const App = () => {
       <Container maxWidth="sm">
         <AppBar position="static">
           <ToolBar>
-            <Stack direction="row" spacing={6} alignItems="center" justifyContent="top">
+            <Stack direction="row" alignItems="center" justifyContent="top">
               <ErgLogo />
               <Box >
                 <img src={ETMTitle} alt="title" width={200} ></img>
@@ -138,7 +138,7 @@ const App = () => {
             const turbineSteps = steps.filter(step => step.eventId === turbine.id);
             return (
 
-              <Grid item xs={8} key={turbine.id}>
+              <Grid item key={turbine.id}>
                 <Turbine turbine={turbine} steps={turbineSteps}
                   completeStep={handleStepComplete}
                   incompleteStep={handleStepIncomplete}
@@ -151,7 +151,7 @@ const App = () => {
         <Box pt={3} />
 
         <Grid container direction="column" alignItems="center" >
-          <Grid item xs={12}>
+          <Grid item >
             <IconButton onClick={() => setOpen(true)}>
               <AddCircleOutlineIcon color="primary" fontSize="large" />
             </IconButton>

@@ -23,6 +23,12 @@ const formStyle = {
     p: 3,
 };
 
+const states = {
+    ok: "OK",
+    warning: "WARNING",
+    error: "ERROR"
+}
+
 const TurbineDetail = (props) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,11 +46,11 @@ const TurbineDetail = (props) => {
         }
     }
 
-    let turbineStatus = "OK";
+    let turbineStatus = states.ok;
     if (props.turbineMaster.turbineState === "Limitata") {
-        turbineStatus = "WARN";
+        turbineStatus = states.warning;
     } else if (props.turbineMaster.turbineState === "Ferma") {
-        turbineStatus = "ERROR";
+        turbineStatus = states.error;
     }
 
     return (
@@ -52,17 +58,17 @@ const TurbineDetail = (props) => {
             <Stack direction="column" alignItems="center" justifyContent="top"
                 style={{ overflowY: "scroll", height: 170, width: "100%" }}>
                 <Grid container direction="row" alignItems="center" columnGap={2}>
-                    {turbineStatus === "OK" &&
+                    {turbineStatus === states.ok &&
                         <IconButton onClick={handlePopup} >
                             <AutoModeIcon color="success" />
                         </IconButton>
                     }
-                    {turbineStatus === "WARN" &&
+                    {turbineStatus === states.warning &&
                         <IconButton onClick={handlePopup} >
                             <WarningIcon color="warning" />
                         </IconButton>
                     }
-                    {turbineStatus === "ERROR" &&
+                    {turbineStatus === states.error &&
                         <IconButton onClick={handlePopup} >
                             <ErrorIcon color="error" />
                         </IconButton>
