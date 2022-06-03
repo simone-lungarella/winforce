@@ -47,8 +47,6 @@ const Turbine = (props) => {
             <Dialog
                 open={openAlert}
                 onClose={() => { setOpenAlert(false) }}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
                 maxWidth="xs"
             >
                 <DialogTitle id="alert-dialog-title">
@@ -88,8 +86,6 @@ const Turbine = (props) => {
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
             >
                 <Box>
                     <TurbineDetail

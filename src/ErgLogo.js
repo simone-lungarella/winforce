@@ -13,7 +13,8 @@ const ErgLogo = () => {
             padding={2}
             alt="ERG logo"
             src={Logo}
-        />);
+        />
+    )
 };
 
 export default ErgLogo;
