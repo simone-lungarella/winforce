@@ -1,7 +1,7 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   AppBar,
-  Box, Container, createTheme, GlobalStyles, Grid, IconButton, Modal, Stack, ThemeProvider
+  Box, Container, createTheme, GlobalStyles, Grid, IconButton, Modal, Stack, ThemeProvider, Typography
 } from "@mui/material";
 import ToolBar from "@mui/material/Toolbar";
 import React, { useState } from "react";
@@ -224,14 +224,14 @@ const App = () => {
     const updatedStep = steps.find(s => s.id === stepId);
     updatedStep.complete = true;
     setSteps(steps.map(s => s.id === stepId ? updatedStep : s));
-    setTurbines(turbines.map(t => t.id === updatedStep.eventId ? {...t, completedSteps: t.completedSteps + 1} : t));
+    setTurbines(turbines.map(t => t.id === updatedStep.eventId ? { ...t, completedSteps: t.completedSteps + 1 } : t));
   }
 
   const handleStepIncomplete = (stepId) => {
     const updatedStep = steps.find(s => s.id === stepId);
     updatedStep.complete = false;
     setSteps(steps.map(s => s.id === stepId ? updatedStep : s));
-    setTurbines(turbines.map(t => t.id === updatedStep.eventId ? {...t, completedSteps: t.completedSteps - 1} : t));
+    setTurbines(turbines.map(t => t.id === updatedStep.eventId ? { ...t, completedSteps: t.completedSteps - 1 } : t));
   }
 
   return (
@@ -251,6 +251,8 @@ const App = () => {
         <AppBar position="static">
           <ToolBar>
             <ErgLogo />
+            <Box flexGrow={1} />
+            <Typography variant="h4" style={{ flexGrow: 1 }}> ERG TASK MANAGER </Typography>
           </ToolBar>
         </AppBar>
         <Box pt={6} />
@@ -264,7 +266,7 @@ const App = () => {
             return (
 
               <Grid item xs={8} key={turbine.id}>
-                <Turbine turbine={turbine} steps={turbineSteps} 
+                <Turbine turbine={turbine} steps={turbineSteps}
                   completeStep={handleStepComplete}
                   incompleteStep={handleStepIncomplete} />
               </Grid>

@@ -56,7 +56,8 @@ const Turbine = (props) => {
                         reachedStep={props.turbine.completedSteps}
                         stepComplete={handleStepComplete}
                         stepIncomplete={handleStepIncomplete}
-                        turbineMaster={props.turbine} />
+                        turbineMaster={props.turbine}
+                        onClose={() => setOpen(false)} />
                 </Box>
             </Modal>
         </React.Fragment>

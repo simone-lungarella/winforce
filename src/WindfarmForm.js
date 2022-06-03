@@ -14,11 +14,11 @@ const formStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 300,
     bgcolor: 'background.paper',
     border: '2px solid #284871',
     boxShadow: 24,
-    p: 4,
+    p: 3,
 };
 
 const defaultEvent = {
@@ -137,19 +137,16 @@ const WindfarmForm = (props) => {
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Box pt={3} />
-
-                <Grid container direction="row" justifyContent="center" alignItems="center" columnGap={2} >
-                    <Grid item xs={3} >
+                <Grid container direction="row" justifyContent="center" alignItems="center"  >
+                    <Grid item xs={2} m={4}>
                         <Button
                             variant="contained"
                             startIcon={<CloseIcon />}
-                            onClick={props.onClose}
-                        >
+                            onClick={props.onClose}>
                             CHIUDI
                         </Button>
                     </Grid>
-                    <Grid item xs={3} >
+                    <Grid item xs={4} m={4}>
                         <Button
                             disabled={formValues.name === "" || formValues.description === ""}
                             variant="contained"
@@ -160,6 +157,7 @@ const WindfarmForm = (props) => {
                         </Button>
                     </Grid>
                 </Grid>
+
             </Grid>
         </Box >
     );
