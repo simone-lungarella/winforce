@@ -6,7 +6,10 @@ import {
     Box, Checkbox, FormControlLabel, Grid, LinearProgress, Stack, Typography
 } from "@mui/material";
 import { default as React } from 'react';
-import eventService from './services/eventService';
+import eventService from './services/appService';
+import WarningIcon from '@mui/icons-material/Warning';
+import ErrorIcon from '@mui/icons-material/Error';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
 
 const formStyle = {
     position: 'absolute',
@@ -32,12 +35,29 @@ const TurbineDetail = (props) => {
         }
     }
 
+    let turbineStatus = "OK";
+    if (props.turbineMaster.turbineState === "Limitata") {
+        turbineStatus = "WARN";
+    } else if (props.turbineMaster.turbineState === "Ferma") {
+        turbineStatus = "ERROR";
+    }
+
     return (
         <Box sx={formStyle} >
             <Stack direction="column" alignItems="center" justifyContent="top"
                 style={{ overflowY: "scroll", height: 170, width: "100%" }}>
-
-                <Typography variant="h5" > <b>{props.turbineMaster.turbineName} - {props.turbineMaster.operation}</b></Typography>
+                <Grid container direction="row" alignItems="center" columnGap={2}>
+                    {turbineStatus === "OK" &&
+                        <AutoModeIcon color="success" />
+                    }
+                    {turbineStatus === "WARN" &&
+                        <WarningIcon color="warning"/>
+                    }
+                    {turbineStatus === "ERROR" &&
+                        <ErrorIcon color="error"/>
+                    }
+                    <Typography variant="h5" > <b>{props.turbineMaster.turbineName} - {props.turbineMaster.operation}</b></Typography>
+                </Grid>
                 <Box pt={3} />
                 <Grid container direction="row" alignItems="center" columnGap={2}>
                     <Grid item xs={5}>

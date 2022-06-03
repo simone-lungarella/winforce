@@ -1,9 +1,13 @@
 import {
     Box, Button,
-    Grid, LinearProgress, Modal, Typography
+    Dialog, DialogContent, DialogActions, DialogContentText, DialogTitle,
+    Grid, IconButton, LinearProgress, Modal, Typography
 } from "@mui/material";
 import React from 'react';
 import TurbineDetail from './TurbineDetail.js';
+import DeleteIcon from '@mui/icons-material/Delete';
+import "./Turbine.css";
+
 
 const Turbine = (props) => {
 
@@ -17,6 +21,14 @@ const Turbine = (props) => {
 
     // Modal status
     const [open, setOpen] = React.useState(false);
+
+    // Dialog status
+    const [openAlert, setOpenAlert] = React.useState(false);
+
+    const handleEventDeletion = () => {
+        props.onDeletedWindfarm(props.turbine.id);
+    }
+
     const stepsNames = props.steps.map(filtered => filtered.name);
     let reachedStep = stepsNames.length > 0 ? stepsNames[props.turbine.completedSteps] : "No step found";
     if (props.turbine.completedSteps === stepsNames.length) {
@@ -29,6 +41,32 @@ const Turbine = (props) => {
 
     return (
         <React.Fragment>
+            <IconButton onClick={() => { setOpenAlert(true) }} >
+                <DeleteIcon className="changeColor" />
+            </IconButton>
+            <Dialog
+                open={openAlert}
+                onClose={() => { setOpenAlert(false) }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                maxWidth="xs"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Sei sicuro di voler eliminare: " + props.turbine.turbineName + "?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        L'eliminazione dell'evento e tutte le sue informazioni verranno
+                        permanentemente cancellate.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => { setOpenAlert(false) }}>Annulla</Button>
+                    <Button onClick={handleEventDeletion} autoFocus>
+                        Elimina
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Button style={{ width: 400, height: 100 }} variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}>
                 <Grid container direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12}>

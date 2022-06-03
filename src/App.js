@@ -6,7 +6,7 @@ import {
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
 import ErgLogo from "./ErgLogo.js";
-import eventService from "./services/eventService";
+import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import WindfarmForm from "./WindfarmForm.js";
 
@@ -74,6 +74,17 @@ const App = () => {
       });
   };
 
+  const handleTurbineDeletion = (turbineId) => {
+
+    eventService
+      .deleteTurbine(turbineId)
+      .then(response => {
+        if (response.status === 200) {
+          setTurbines(turbines.filter(turbine => turbine.id !== turbineId));
+        }
+      });
+  }
+
   const handleModalClose = () => {
     setOpen(false);
   }
@@ -126,7 +137,8 @@ const App = () => {
               <Grid item xs={8} key={turbine.id}>
                 <Turbine turbine={turbine} steps={turbineSteps}
                   completeStep={handleStepComplete}
-                  incompleteStep={handleStepIncomplete} />
+                  incompleteStep={handleStepIncomplete}
+                  onDeletedWindfarm={handleTurbineDeletion} />
               </Grid>
             )
           })}

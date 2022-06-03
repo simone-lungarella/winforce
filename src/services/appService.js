@@ -10,6 +10,10 @@ const addTurbine = (turbineData) => {
     return axios.post(baseUrl + 'event', turbineData);
 }
 
+const deleteTurbine = (turbineId) => {
+    return axios.delete(baseUrl + "event?eventId=" + turbineId);
+}
+
 const getSteps = () => {
     return axios.get(baseUrl + 'steps');
 }
@@ -18,9 +22,12 @@ const setStepComplete = (stepId, isComplete) => {
     return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete);
 }
 
-export default {
-    getTurbines : getTurbines,
-    getSteps : getSteps,
-    addTurbine : addTurbine,
-    setStepComplete : setStepComplete
+const appService = {
+    getTurbines: getTurbines,
+    getSteps: getSteps,
+    addTurbine: addTurbine,
+    setStepComplete: setStepComplete,
+    deleteTurbine: deleteTurbine
 }
+
+export default appService
