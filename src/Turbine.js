@@ -22,14 +22,17 @@ const Turbine = (props) => {
     if (props.turbine.completedSteps === stepsNames.length) {
         reachedStep = "COMPLETATO";
     }
-    const percentage = stepsNames.length > 0 && (props.turbine.completedSteps / stepsNames.length) * 100;
+    let percentage = 0;
+    if (stepsNames.length > 0) {
+        percentage = Math.round((props.turbine.completedSteps / stepsNames.length) * 100);
+    }
 
     return (
         <React.Fragment>
             <Button style={{ width: 400, height: 100 }} variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}>
                 <Grid container direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12}>
-                        <Typography variant="h5"><b>{props.turbine.turbinName} - {props.turbine.operation}</b></Typography>
+                        <Typography variant="h5"><b>{props.turbine.turbineName} - {props.turbine.operation}</b></Typography>
                         <Typography variant="body2"> {reachedStep}</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ width: '100%', mr: 1 }}>

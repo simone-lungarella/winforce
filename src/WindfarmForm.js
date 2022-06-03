@@ -22,11 +22,12 @@ const formStyle = {
 };
 
 const defaultEvent = {
-    turbinName: "",
+    turbineName: "",
     description: "",
-    operation: "Sost. Generatore",
-    startEEMM: null,
-    startOOCC: null,
+    operation: "GENERATOR_REPLACING",
+    turbineState: "MARCHING",
+    startingDateEEMM: null,
+    startingDateOOCC: null,
 };
 
 const WindfarmForm = (props) => {
@@ -36,7 +37,6 @@ const WindfarmForm = (props) => {
     const [dateOCValue, setOCDateValue] = useState(null);
 
     const handleInputChange = (e) => {
-        console.log(formValues);
         const { name, value } = e.target;
         setFormValues({
             ...formValues,
@@ -71,19 +71,19 @@ const WindfarmForm = (props) => {
                 <Grid item xs={12}>
                     <TextField style={{ width: 250, height: 50 }}
                         required
-                        error={formValues.turbinName === ""}
+                        error={formValues.turbineName === ""}
                         id="turbine-input"
-                        name="turbinName"
+                        name="turbineName"
                         label="Impianto Eolico"
                         type="text"
-                        value={formValues.turbinName}
+                        value={formValues.turbineName}
                         onChange={handleInputChange}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField style={{ width: 250, height: 50 }}
                         required
-                        error={formValues.turbinName === ""}
+                        error={formValues.turbineName === ""}
                         id="description-input"
                         name="description"
                         label="Aerogeneratore"
@@ -95,10 +95,18 @@ const WindfarmForm = (props) => {
                 <Grid item xs={12}>
                     <Select style={{ width: 250, height: 50 }}
                         name="operation" value={formValues.operation} onChange={handleInputChange}>
-                        <MenuItem key="1" value="Sost. Generatore">Sost. Generatore</MenuItem>
-                        <MenuItem key="2" value="Sost. Gearbox">Sost. Gearbox</MenuItem>
-                        <MenuItem key="3" value="Root Joint">Root Joint</MenuItem>
-                        <MenuItem key="4" value="Pitch Rod">Pitch Rod</MenuItem>
+                        <MenuItem key="1" value="GENERATOR_REPLACING">Sost. Generatore</MenuItem>
+                        <MenuItem key="2" value="GEARBOX_REPLACING">Sost. Gearbox</MenuItem>
+                        <MenuItem key="3" value="ROOT_JOINT">Root Joint</MenuItem>
+                        <MenuItem key="4" value="PITCH_ROD">Pitch Rod</MenuItem>
+                    </Select>
+                </Grid>
+                <Grid item xs={12}>
+                    <Select style={{ width: 250, height: 50 }}
+                        name="turbineState" value={formValues.turbineState} onChange={handleInputChange}>
+                        <MenuItem key="1" value="MARCHING">In marcia</MenuItem>
+                        <MenuItem key="2" value="STANDING">Ferma</MenuItem>
+                        <MenuItem key="3" value="LIMITED">Limitata</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item xs={12} >
@@ -106,13 +114,13 @@ const WindfarmForm = (props) => {
                         <DatePicker
                             label="Avvio attività OOCC"
                             value={dateOCValue}
-                            inputFormat="dd-MM-yyyy"
+                            inputFormat="yyyy-MM-dd"
                             onChange={(newValue) => {
 
                                 setOCDateValue(newValue);
                                 setFormValues({
                                     ...formValues,
-                                    startOOCC: newValue.getDate() + '-' + (newValue.getMonth() + 1) + '-' + newValue.getFullYear(),
+                                    startingDateOOCC:  newValue.getFullYear() + '-' + (newValue.getMonth() + 1) + '-' + newValue.getDate(),
                                 })
                             }}
                             renderInput={(params) => <TextField {...params} />}
@@ -124,13 +132,13 @@ const WindfarmForm = (props) => {
                         <DatePicker
                             label="Avvio attività EEMM"
                             value={dateEMValue}
-                            inputFormat="dd-MM-yyyy"
+                            inputFormat="yyyy-MM-dd"
                             onChange={(newValue) => {
 
                                 setEMDateValue(newValue);
                                 setFormValues({
                                     ...formValues,
-                                    startEEMM: newValue.getDate() + '-' + (newValue.getMonth() + 1) + '-' + newValue.getFullYear(),
+                                    startingDateEEMM: newValue.getFullYear() + '-' + (newValue.getMonth() + 1) + '-' + newValue.getDate(),
                                 })
                             }}
                             renderInput={(params) => <TextField {...params} />}

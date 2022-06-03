@@ -5,6 +5,7 @@ import {
     AccordionSummary,
     Box, Checkbox, FormControlLabel, Grid, LinearProgress, Stack, Typography
 } from "@mui/material";
+import axios from 'axios';
 import { default as React } from 'react';
 
 const formStyle = {
@@ -22,9 +23,13 @@ const formStyle = {
 const TurbineDetail = (props) => {
 
     const handleCheckboxChange = (event) => {
-        event.target.checked ?
-            props.stepComplete(event.target.value) :
+        if (event.target.checked) {
+            props.stepComplete(event.target.value);
+            axios.put("http://localhost:8080/v1.0.0/step/complete?stepId=" + event.target.value + "&isCompleted=true");
+        } else {
             props.stepIncomplete(event.target.value);
+            axios.put("http://localhost:8080/v1.0.0/step/complete?stepId=" + event.target.value + "&isCompleted=false");
+        }
     }
 
     return (
@@ -32,7 +37,7 @@ const TurbineDetail = (props) => {
             <Stack direction="column" alignItems="center" justifyContent="top"
                 style={{ overflowY: "scroll", height: 170, width: "100%" }}>
 
-                <Typography variant="h5" > <b>{props.turbineMaster.turbinName} - {props.turbineMaster.operation}</b></Typography>
+                <Typography variant="h5" > <b>{props.turbineMaster.turbineName} - {props.turbineMaster.operation}</b></Typography>
                 <Box pt={3} />
                 <Grid container direction="row" alignItems="center" columnGap={2}>
                     <Grid item xs={5}>
@@ -47,8 +52,8 @@ const TurbineDetail = (props) => {
                         <Typography variant="overline" > Inizio att. EEMM </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        {props.turbineMaster.startEEMM &&
-                            <Typography variant="h6" > {props.turbineMaster.startEEMM} </Typography>
+                        {props.turbineMaster.startingDateEEMM &&
+                            <Typography variant="h6" > {props.turbineMaster.startingDateEEMM} </Typography>
                         }
                     </Grid>
                 </Grid>
@@ -57,13 +62,13 @@ const TurbineDetail = (props) => {
                         <Typography variant="overline" > Inizio att. OOCC </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        {props.turbineMaster.startOOCC &&
-                            <Typography variant="h6" > {props.turbineMaster.startOOCC} </Typography>
+                        {props.turbineMaster.startingDateOOCC &&
+                            <Typography variant="h6" > {props.turbineMaster.startingDateOOCC} </Typography>
                         }
                     </Grid>
                 </Grid>
             </Stack>
-            <LinearProgress color="success" variant="determinate" value={props.stepList.length > 0 && Math.floor(props.reachedStep * 100 / props.stepList.length)} />
+            <LinearProgress color="success" variant="determinate" value={props.stepList.length > 0 ? Math.floor(props.reachedStep * 100 / props.stepList.length) : 0} />
             <Box pt={2} />
             <Accordion>
                 <AccordionSummary
