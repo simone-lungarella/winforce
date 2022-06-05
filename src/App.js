@@ -1,6 +1,6 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
-  AppBar,
+  AppBar, Popover, Typography,
   Box, Container, createTheme, GlobalStyles, Grid, IconButton, Modal, Stack, ThemeProvider
 } from "@mui/material";
 import ToolBar from "@mui/material/Toolbar";
@@ -10,6 +10,8 @@ import ETMTitle from "./ETM_Title.png";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import WindfarmForm from "./WindfarmForm.js";
+import MenuIcon from '@mui/icons-material/Menu';
+import LoginForm from "./LoginForm.js";
 
 const theme = createTheme({
   palette: {
@@ -35,6 +37,14 @@ const theme = createTheme({
 });
 
 const App = () => {
+
+  // User authentication
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [auth, setAuth] = useState(null);
+  const [loginFormOpen, setLoginFormOpen] = useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   // Modal status
   const [open, setOpen] = React.useState(false);
@@ -86,10 +96,6 @@ const App = () => {
       });
   }
 
-  const handleModalClose = () => {
-    setOpen(false);
-  }
-
   const handleStepComplete = (stepId) => {
     const updatedStep = steps.find(s => s.id === stepId);
     updatedStep.complete = true;
@@ -102,6 +108,13 @@ const App = () => {
     updatedStep.complete = false;
     setSteps(steps.map(s => s.id === stepId ? updatedStep : s));
     setTurbines(turbines.map(t => t.id === updatedStep.eventId ? { ...t, completedSteps: t.completedSteps - 1 } : t));
+  }
+
+  const handleLogin = (name, pass) => {
+    setUsername(name);
+    setPassword(pass);
+
+    setAuth(eventService.login(username, password));
   }
 
   return (
@@ -120,49 +133,72 @@ const App = () => {
       <Container maxWidth="sm">
         <AppBar position="static">
           <ToolBar>
-            <Stack direction="row" alignItems="center" justifyContent="top">
+            <Stack direction="row" alignItems="center" justifyContent="top" columnGap={1}>
               <ErgLogo />
               <Box >
                 <img src={ETMTitle} alt="title" width={200} ></img>
               </Box>
+              <IconButton onClick={() => setLoginFormOpen(true)}>
+                <MenuIcon />
+              </IconButton>
+              <Modal
+                open={loginFormOpen}
+                onClose={() => setLoginFormOpen(false)}
+              >
+                <Box>
+                  <LoginForm onLogin={handleLogin}/>
+                </Box>
+              </Modal>
             </Stack>
           </ToolBar>
         </AppBar>
         <Box pt={6} />
+        {(auth?.accessToken != null) &&
+          <Stack direction="column" spacing={2} alignItems="center" justifyContent="top"
+            style={{ overflowY: "scroll", height: 450, width: "100%" }}>
 
-        <Stack direction="column" spacing={2} alignItems="center" justifyContent="top"
-          style={{ overflowY: "scroll", height: 450, width: "100%" }}>
+            {turbines.map((turbine) => {
 
-          {turbines.map((turbine) => {
+              const turbineSteps = steps.filter(step => step.eventId === turbine.id);
+              return (
 
-            const turbineSteps = steps.filter(step => step.eventId === turbine.id);
-            return (
-
-              <Grid item key={turbine.id}>
-                <Turbine turbine={turbine} steps={turbineSteps}
-                  completeStep={handleStepComplete}
-                  incompleteStep={handleStepIncomplete}
-                  onDeletedWindfarm={handleTurbineDeletion} />
-              </Grid>
-            )
-          })}
-        </Stack>
+                <Grid item key={turbine.id}>
+                  <Turbine turbine={turbine} steps={turbineSteps}
+                    completeStep={handleStepComplete}
+                    incompleteStep={handleStepIncomplete}
+                    onDeletedWindfarm={handleTurbineDeletion} />
+                </Grid>
+              )
+            })}
+          </Stack>}
 
         <Box pt={3} />
 
         <Grid container direction="column" alignItems="center" >
           <Grid item >
-            <IconButton onClick={() => setOpen(true)}>
-              <AddCircleOutlineIcon color="primary" fontSize="large" />
+            <IconButton onClick={(auth?.accessToken != null) ? () => setOpen(true) : (event) => setAnchorEl(event.currentTarget)} >
+              <AddCircleOutlineIcon color={(auth?.accessToken != null) ? "primary" : "error"} fontSize="large" />
             </IconButton>
           </Grid>
         </Grid>
+        <Popover
+          open={Boolean(anchorEl)}
+          onClose={() => setAnchorEl(null)}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }} >
+          <Typography variant="overline" p={1}>
+            UTENTE NON AUTORIZZATO
+          </Typography>
+        </Popover>
         <Modal
           open={open}
           onClose={() => setOpen(false)}
         >
           <Box>
-            <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={handleModalClose} />
+            <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={() => setOpen(false)} />
           </Box>
         </Modal>
       </Container>
