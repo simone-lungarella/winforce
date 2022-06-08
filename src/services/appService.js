@@ -1,53 +1,63 @@
 import axios from 'axios';
 const baseUrl = "http://localhost:8080/v1.0.0/";
 
+let token = null
+
+const setToken = newToken => {
+    if (newToken != null) {
+        token = newToken;
+        localStorage.setItem("token", token);
+    }
+}
+
+const getToken = () => {
+    return token;
+}
 
 const getTurbines = () => {
-    return axios.get(baseUrl + 'events');
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.get(baseUrl + 'events', config);
 }
 
 const addTurbine = (turbineData) => {
-    return axios.post(baseUrl + 'event', turbineData);
+
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.post(baseUrl + 'event', turbineData, config);
 }
 
 const deleteTurbine = (turbineId) => {
-    return axios.delete(baseUrl + "event?eventId=" + turbineId);
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.delete(baseUrl + "event?eventId=" + turbineId, config);
 }
 
 const getSteps = () => {
-    return axios.get(baseUrl + 'steps');
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.get(baseUrl + 'steps', config);
 }
 
 const setStepComplete = (stepId, isComplete) => {
-    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete);
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, config);
 }
 
 const login = async (username, password) => {
 
-    let response = null;
-    try {
-        response = await axios.post("http://localhost:8080/login",
-        JSON.stringify({ username, password }), {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
-    });
-    } catch (error) {
-        if (!error?.response) {
-            console.log("No server response");
-        } else if (error.response?.status === 400) {
-            console.log("Bad request");
-        } else if (error.response?.status === 401) {
-            console.log("Unauthorized");
-        } else {
-            console.log("Error: ", error.response?.status);
-        }
-    }
-
-    const accessToken = response?.data?.accessToken;
-    const roles = response?.data?.roles;
-    return {
-        username, password, accessToken, roles
-    }
+    return axios.get("http://localhost:8080/login?username=" + username + "&password=" + password);
 }
 
 const saveUser = (username, password) => {
@@ -65,7 +75,9 @@ const appService = {
     setStepComplete: setStepComplete,
     deleteTurbine: deleteTurbine,
     login: login,
-    saveUser: saveUser
+    saveUser: saveUser,
+    setToken: setToken,
+    getToken: getToken
 }
 
 export default appService

@@ -2,12 +2,14 @@ import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
 import {
     Box,
-    Button, Grid, MenuItem, Select, TextField, Typography
+    Button, Grid, IconButton, InputAdornment, MenuItem, Select, TextField, Typography
 } from "@mui/material";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { default as React, useState } from 'react';
+import { MobileDatePicker } from "@mui/x-date-pickers";
+import EventIcon from '@mui/icons-material/Event';
 
 const formStyle = {
     position: 'absolute',
@@ -36,6 +38,9 @@ const WindfarmForm = (props) => {
     const [dateEMValue, setEMDateValue] = useState(null);
     const [dateOCValue, setOCDateValue] = useState(null);
 
+    const [isEMOpen, setIsEMOpen] = useState(false);
+    const [isOCOpen, setIsOCOpen] = useState(false);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({
@@ -47,9 +52,14 @@ const WindfarmForm = (props) => {
     const handleSubmit = () => {
 
         if (formValues.name !== "" && formValues.description !== "") {
+
+            formValues.startingDateEEMM = dateEMValue;
+            formValues.startingDateOOCC = dateOCValue;
+
             setEMDateValue(null);
             setOCDateValue(null);
             props.onAddedWindfarm(formValues);
+            console.log(formValues);
             setFormValues(defaultEvent);
         }
     }
@@ -60,7 +70,7 @@ const WindfarmForm = (props) => {
                 CREA NUOVO INTERVENTO
             </Typography>
             <Box pt={3} />
-            <Grid container direction="column" justifyContent="center" alignItems="center" rowSpacing={2}>
+            <Grid container direction="column" alignItems="center" rowSpacing={2}>
 
                 <Grid item >
                     <TextField style={{ width: 250, height: 50 }}
@@ -108,36 +118,53 @@ const WindfarmForm = (props) => {
                 </Grid>
                 <Grid item >
                     <LocalizationProvider dateAdapter={AdapterDateFns} >
-                        <DatePicker
+                        <MobileDatePicker
                             label="Avvio attività OOCC"
                             value={dateOCValue}
-                            inputFormat="yyyy-MM-dd"
-                            onChange={(newValue) => {
-                                setOCDateValue(newValue);
-                                setFormValues({
-                                    ...formValues,
-                                    startingDateOOCC: newValue.getFullYear() + '-' + (("0" + (newValue.getMonth() + 1)).slice(-2)) + '-' + ("0" + newValue.getDate()).slice(-2),
-                                })
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
+                            open={isOCOpen}
+                            onOpen={() => { setIsOCOpen(true) }}
+                            onClose={() => { setIsOCOpen(false) }}
+                            onChange={setOCDateValue}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton edge="end" onClick={() => { setIsOCOpen(true) }}>
+                                                    <EventIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            )}
                         />
                     </LocalizationProvider>
                 </Grid>
                 <Grid item >
                     <LocalizationProvider dateAdapter={AdapterDateFns} >
-                        <DatePicker
+                        <MobileDatePicker
                             label="Avvio attività EEMM"
                             value={dateEMValue}
-                            inputFormat="yyyy-MM-dd"
-                            onChange={(newValue) => {
-
-                                setEMDateValue(newValue);
-                                setFormValues({
-                                    ...formValues,
-                                    startingDateEEMM: newValue.getFullYear() + '-' + (("0" + (newValue.getMonth() + 1)).slice(-2)) + '-' + ("0" + newValue.getDate()).slice(-2),
-                                })
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
+                            open={isEMOpen}
+                            onOpen={() => { setIsEMOpen(true) }}
+                            onClose={() => { setIsEMOpen(false) }}
+                            onChange={setEMDateValue}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton edge="end" onClick={() => { setIsEMOpen(true) }}>
+                                                    <EventIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            )}
                         />
                     </LocalizationProvider>
                 </Grid>

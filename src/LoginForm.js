@@ -1,15 +1,15 @@
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoginIcon from '@mui/icons-material/Login';
 import {
     Box,
-    Button, Grid, IconButton, TextField, Typography
+    Button, Grid, IconButton, TextField
 } from "@mui/material";
+import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import { default as React, useState } from 'react';
 import eventService from "./services/appService";
-import InputAdornment from '@mui/material/InputAdornment';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 
 const formStyle = {
     position: 'absolute',
@@ -29,11 +29,17 @@ const LoginForm = (props) => {
     const [password, setPassword] = useState('');
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    
-    const handleSubmit = () => {
-        props.onLogin(username, password);
-        setUsername('');
-        setPassword('');
+    const [invalidCredentials, setInvalidCredentials] = useState(false);
+
+    const handleSubmit = async () => {
+
+        eventService.login(username, password).then(response => {
+            setInvalidCredentials(false);
+            props.setAuthenticated();
+            eventService.setToken(response.data.jwtToken);
+        }).catch(() => {
+            setInvalidCredentials(true);
+        });
     }
 
     return (
@@ -41,6 +47,7 @@ const LoginForm = (props) => {
             <Grid container direction="column" justifyContent="center" alignItems="center" rowGap={2} >
                 <TextField style={{ width: 250, height: 50 }}
                     required
+                    error={invalidCredentials}
                     id="username-input"
                     name="username"
                     label="Nome utente"
@@ -49,9 +56,10 @@ const LoginForm = (props) => {
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <FormControl variant="outlined" style={{ width: 250, height: 50 }}>
-                    <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
+                    <InputLabel error={invalidCredentials} >Password *</InputLabel>
                     <OutlinedInput
                         required
+                        error={invalidCredentials}
                         id="outlined-adornment-password"
                         label="Password"
                         name="password"
