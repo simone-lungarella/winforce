@@ -133,7 +133,10 @@ const App = () => {
   }
 
   const handleStepComplete = (stepId) => {
-    const updatedStep = steps.find(s => s.id === stepId);
+    console.log("Trying to update step with id", stepId);
+    console.log("All steps", steps);
+    const updatedStep = steps.find(s => s.id.toString() === stepId.toString());
+    console.log("Step to update", updatedStep);
     updatedStep.complete = true;
     setSteps(steps.map(s => s.id === stepId ? updatedStep : s));
     setTurbines(turbines.map(t => t.id === updatedStep.eventId ? { ...t, completedSteps: t.completedSteps + 1 } : t));
