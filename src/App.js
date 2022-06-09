@@ -1,19 +1,18 @@
+import { AccountCircle } from "@mui/icons-material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+import MenuIcon from '@mui/icons-material/Menu';
 import {
-  AppBar, Popover, Typography,
-  Box, Container, createTheme, GlobalStyles, Grid, IconButton, Modal, Stack, ThemeProvider, Divider, Menu, MenuItem, ListItemIcon, ListItemText, CircularProgress
+  AppBar, Box, Container, createTheme, GlobalStyles, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Modal, Popover, Stack, ThemeProvider, Typography
 } from "@mui/material";
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
 import ErgLogo from "./ErgLogo.js";
 import ETMTitle from "./ETM_Title.png";
+import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import WindfarmForm from "./WindfarmForm.js";
-import MenuIcon from '@mui/icons-material/Menu';
-import LoginForm from "./LoginForm.js";
-import { AccountCircle } from "@mui/icons-material";
-import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 
 const theme = createTheme({
   palette: {
@@ -68,7 +67,6 @@ const App = () => {
     }).catch(error => {
       console.log(error);
     });
-    // TODO: gestire caricamento eventi?
   }
 
   const handleLogout = () => {
@@ -96,11 +94,15 @@ const App = () => {
   const [steps, setSteps] = useState([]);
   useEffect(() => {
 
-    eventService.getSteps()
-      .then(response => {
-        setSteps(response.data);
-      })
-  }, []);
+    if (isAuthenticated) {
+      eventService.getSteps()
+        .then(response => {
+          setSteps(response.data);
+        }).catch(error => {
+          console.log(error);
+        });
+    }
+  }, [isAuthenticated]);
 
   const handleTurbineAdd = (turbineData) => {
 
@@ -210,7 +212,7 @@ const App = () => {
         </AppBar>
         <Box pt={6} />
         <Stack direction="column" spacing={2} alignItems="center" justifyContent="top"
-          style={{ overflowY: "scroll", height: 400, width: "100%" }}>
+          style={{ overflowY: "scroll", height: 450, width: "100%" }}>
 
           {Array.isArray(turbines) && turbines.map((turbine) => {
 

@@ -10,10 +10,6 @@ const setToken = newToken => {
     }
 }
 
-const getToken = () => {
-    return token;
-}
-
 const getTurbines = () => {
     const config = {
         headers: { Authorization: 'bearer ' + token },
@@ -52,7 +48,7 @@ const setStepComplete = (stepId, isComplete) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, config);
+    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, null, config);
 }
 
 const login = async (username, password) => {
@@ -76,8 +72,7 @@ const appService = {
     deleteTurbine: deleteTurbine,
     login: login,
     saveUser: saveUser,
-    setToken: setToken,
-    getToken: getToken
+    setToken: setToken
 }
 
 export default appService
