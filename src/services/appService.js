@@ -1,25 +1,67 @@
 import axios from 'axios';
-const baseUrl = "https://dockyard-handler.herokuapp.com/v1.0.0/";
+const baseUrl = "https://dockyard-handler.herokuapp.com/";
 
+let token = null
+
+const setToken = newToken => {
+    if (newToken != null) {
+        token = newToken;
+        localStorage.setItem("token", token);
+    }
+}
 
 const getTurbines = () => {
-    return axios.get(baseUrl + 'events');
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.get(baseUrl + 'events', config);
 }
 
 const addTurbine = (turbineData) => {
-    return axios.post(baseUrl + 'event', turbineData);
+
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.post(baseUrl + 'event', turbineData, config);
 }
 
 const deleteTurbine = (turbineId) => {
-    return axios.delete(baseUrl + "event?eventId=" + turbineId);
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.delete(baseUrl + "event?eventId=" + turbineId, config);
 }
 
 const getSteps = () => {
-    return axios.get(baseUrl + 'steps');
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.get(baseUrl + 'steps', config);
 }
 
 const setStepComplete = (stepId, isComplete) => {
-    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete);
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, null, config);
+}
+
+const login = async (username, password) => {
+
+    return axios.get("https://dockyard-handler.herokuapp.com/login?username=" + username + "&password=" + password);
+}
+
+const saveUser = (username, password) => {
+    const user = {
+        username: username,
+        password: password
+    }
+    return axios.post(baseUrl + "registration/user", user);
 }
 
 const appService = {
@@ -27,7 +69,10 @@ const appService = {
     getSteps: getSteps,
     addTurbine: addTurbine,
     setStepComplete: setStepComplete,
-    deleteTurbine: deleteTurbine
+    deleteTurbine: deleteTurbine,
+    login: login,
+    saveUser: saveUser,
+    setToken: setToken
 }
 
 export default appService
