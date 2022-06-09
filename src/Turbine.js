@@ -1,7 +1,7 @@
 import {
     Box, Button,
     Dialog, DialogContent, DialogActions, DialogContentText, DialogTitle,
-    Grid, IconButton, LinearProgress, Modal, Typography
+    Grid, IconButton, LinearProgress, Modal, Typography, Fade
 } from "@mui/material";
 import React from 'react';
 import TurbineDetail from './TurbineDetail.js';
@@ -21,6 +21,9 @@ const Turbine = (props) => {
 
     // Modal status
     const [open, setOpen] = React.useState(false);
+    const handleDetailClose = () => {
+        setOpen(false);
+    }
 
     // Dialog status
     const [openAlert, setOpenAlert] = React.useState(false);
@@ -87,15 +90,18 @@ const Turbine = (props) => {
                 open={open}
                 onClose={() => setOpen(false)}
             >
-                <Box>
-                    <TurbineDetail
-                        stepList={props.steps}
-                        reachedStep={props.turbine.completedSteps}
-                        stepComplete={handleStepComplete}
-                        stepIncomplete={handleStepIncomplete}
-                        turbineMaster={props.turbine}
-                        onClose={() => setOpen(false)} />
-                </Box>
+                <Fade in={open}>
+                    <Box>
+                        <TurbineDetail
+                            stepList={props.steps}
+                            reachedStep={props.turbine.completedSteps}
+                            stepComplete={handleStepComplete}
+                            stepIncomplete={handleStepIncomplete}
+                            turbineMaster={props.turbine}
+                            onClose={handleDetailClose}
+                        />
+                    </Box>
+                </Fade>
             </Modal>
         </React.Fragment>
     );

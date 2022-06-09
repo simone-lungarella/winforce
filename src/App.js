@@ -3,7 +3,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
-  AppBar, Box, Container, createTheme, GlobalStyles, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Modal, Popover, Stack, ThemeProvider, Typography
+  AppBar, Box, Container, createTheme, Fade, GlobalStyles, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Modal, Popover, Stack, ThemeProvider, Typography
 } from "@mui/material";
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import WindfarmForm from "./WindfarmForm.js";
+import Backdrop from '@mui/material/Backdrop';
 
 const theme = createTheme({
   palette: {
@@ -106,6 +107,8 @@ const App = () => {
 
   const handleTurbineAdd = (turbineData) => {
 
+    setOpen(false);
+
     eventService
       .addTurbine(turbineData)
       .then(response => {
@@ -116,7 +119,6 @@ const App = () => {
           eventService.getSteps().then(stepsResponse => {
             setSteps(stepsResponse.data);
           })
-          setOpen(false);
         }
       });
   };
@@ -127,26 +129,24 @@ const App = () => {
       .deleteTurbine(turbineId)
       .then(response => {
         if (response.status === 200) {
-          setTurbines(turbines.filter(turbine => turbine.id !== turbineId));
+          setTurbines(turbines.filter(turbine => turbine.id.toString() !== turbineId.toString()));
         }
       });
   }
 
   const handleStepComplete = (stepId) => {
-    console.log("Trying to update step with id", stepId);
-    console.log("All steps", steps);
     const updatedStep = steps.find(s => s.id.toString() === stepId.toString());
-    console.log("Step to update", updatedStep);
     updatedStep.complete = true;
-    setSteps(steps.map(s => s.id === stepId ? updatedStep : s));
-    setTurbines(turbines.map(t => t.id === updatedStep.eventId ? { ...t, completedSteps: t.completedSteps + 1 } : t));
+    setSteps(steps.map(s => s.id.toString() === stepId.toString() ? updatedStep : s));
+    setTurbines(turbines.map(t => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps + 1 } : t));
   }
 
   const handleStepIncomplete = (stepId) => {
-    const updatedStep = steps.find(s => s.id === stepId);
+    console.log("Step set incomplete");
+    const updatedStep = steps.find(s => s.id.toString() === stepId.toString());
     updatedStep.complete = false;
-    setSteps(steps.map(s => s.id === stepId ? updatedStep : s));
-    setTurbines(turbines.map(t => t.id === updatedStep.eventId ? { ...t, completedSteps: t.completedSteps - 1 } : t));
+    setSteps(steps.map(s => s.id.toString() === stepId.toString() ? updatedStep : s));
+    setTurbines(turbines.map(t => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps - 1 } : t));
   }
 
   return (
@@ -203,12 +203,19 @@ const App = () => {
                 </MenuItem>
               </Menu>
               <Modal
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
                 open={loginFormOpen}
                 onClose={() => setLoginFormOpen(false)}
               >
-                <Box>
-                  <LoginForm setAuthenticated={handleLogin} />
-                </Box>
+                <Fade in={loginFormOpen}>
+                  <Box>
+                    <LoginForm setAuthenticated={handleLogin} />
+                  </Box>
+                </Fade>
               </Modal>
             </Stack>
           </ToolBar>
@@ -226,7 +233,7 @@ const App = () => {
                 <Turbine turbine={turbine} steps={turbineSteps}
                   completeStep={handleStepComplete}
                   incompleteStep={handleStepIncomplete}
-                  onDeletedWindfarm={handleTurbineDeletion} />
+                  onDeletedWindfarm={handleTurbineDeletion}/>
               </Grid>
             )
           })}
@@ -261,12 +268,19 @@ const App = () => {
           </Typography>
         </Popover>
         <Modal
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
           open={open}
           onClose={() => setOpen(false)}
         >
-          <Box>
-            <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={() => setOpen(false)} />
-          </Box>
+          <Fade in={open}>
+            <Box>
+              <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={() => setOpen(false)} />
+            </Box>
+          </Fade>
         </Modal>
       </Container>
     </ThemeProvider>

@@ -1,15 +1,14 @@
-import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
+import EventIcon from '@mui/icons-material/Event';
+import SaveIcon from "@mui/icons-material/Save";
 import {
     Box,
     Button, Grid, IconButton, InputAdornment, MenuItem, Select, TextField, Typography
 } from "@mui/material";
+import { MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { default as React, useState } from 'react';
-import { MobileDatePicker } from "@mui/x-date-pickers";
-import EventIcon from '@mui/icons-material/Event';
 
 const formStyle = {
     position: 'absolute',
@@ -51,17 +50,13 @@ const WindfarmForm = (props) => {
 
     const handleSubmit = () => {
 
-        if (formValues.name !== "" && formValues.description !== "") {
+        formValues.startingDateEEMM = dateEMValue;
+        formValues.startingDateOOCC = dateOCValue;
 
-            formValues.startingDateEEMM = dateEMValue;
-            formValues.startingDateOOCC = dateOCValue;
-
-            setEMDateValue(null);
-            setOCDateValue(null);
-            props.onAddedWindfarm(formValues);
-            console.log(formValues);
-            setFormValues(defaultEvent);
-        }
+        props.onAddedWindfarm(formValues);
+        setEMDateValue(null);
+        setOCDateValue(null);
+        setFormValues(defaultEvent);
     }
 
     return (
@@ -188,7 +183,6 @@ const WindfarmForm = (props) => {
                         </Button>
                     </Grid>
                 </Grid>
-
             </Grid>
         </Box >
     );
