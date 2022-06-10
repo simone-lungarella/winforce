@@ -49,9 +49,18 @@ const App = () => {
 
   // Retrieve token from local storage
   useEffect(() => {
-    if (window.localStorage.getItem("token") != null) {
-      eventService.setToken(window.localStorage.getItem("token"));
+
+    const localToken = window.localStorage.getItem("token");
+    if (localToken != null) {
+      eventService.setToken(localToken);
       setIsAuthenticated(true);
+      
+      // Refreshing events after token insertion
+      eventService.getTurbines().then(response => {
+        setTurbines(response.data);
+      }).catch(error => {
+        console.log(error);
+      });
     }
   }, []);
 
@@ -149,6 +158,9 @@ const App = () => {
     setTurbines(turbines.map(t => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps - 1 } : t));
   }
 
+  // The turbine with minor completedSteps should be on top
+  turbines.sort((a, b) => a.completedSteps - b.completedSteps);
+
   return (
 
     <ThemeProvider theme={theme}>
@@ -224,7 +236,8 @@ const App = () => {
         <Stack direction="column" spacing={2} alignItems="center" justifyContent="top"
           style={{ overflowY: "scroll", height: 450, width: "100%" }}>
 
-          {Array.isArray(turbines) && turbines.map((turbine) => {
+          {Array.isArray(turbines) && turbines
+          .map((turbine) => {
 
             const turbineSteps = steps.filter(step => step.eventId === turbine.id);
             return (
@@ -233,7 +246,7 @@ const App = () => {
                 <Turbine turbine={turbine} steps={turbineSteps}
                   completeStep={handleStepComplete}
                   incompleteStep={handleStepIncomplete}
-                  onDeletedWindfarm={handleTurbineDeletion}/>
+                  onDeletedWindfarm={handleTurbineDeletion} />
               </Grid>
             )
           })}

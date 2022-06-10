@@ -109,7 +109,8 @@ const TurbineDetail = (props) => {
                                             value={step.id}
                                             control={<Checkbox size="large" color="success"
                                                 checked={step == null || step.complete}
-                                                disabled={(orderedSteps[props.reachedStep]) != null && step.id > (orderedSteps[props.reachedStep]).id}
+                                                disabled={(step.complete && (orderedSteps[props.reachedStep-1]) != null && step.id < (orderedSteps[props.reachedStep-1]).id)
+                                                    || ((orderedSteps[props.reachedStep]) != null && step.id > (orderedSteps[props.reachedStep]).id)}
                                                 onChange={handleCheckboxChange}
                                             />}
                                             label={<Typography variant="overline" ><b>{step.name}</b></Typography>}
