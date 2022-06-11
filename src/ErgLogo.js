@@ -11,6 +11,7 @@ const ErgLogo = () => {
                 height: 64,
             }}
             padding={2}
+
             alt="ERG logo"
             src={Logo}
         />
