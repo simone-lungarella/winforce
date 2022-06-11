@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from "./logo.svg";
+import Title from "./ErgTitle.svg";
 import Box from "@mui/material/Box";
 
 const ErgLogo = () => {
@@ -10,13 +10,14 @@ const ErgLogo = () => {
             sx={{
                 position: 'absolute',
                 top: '50%',
-                left: '0%',
-                transform: 'translate(10%, -50%)',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
                 height: 64,
             }}
+            padding={1}
 
-            alt="ERG logo"
-            src={Logo}
+            alt="ERG title"
+            src={Title}
         />
     )
 };

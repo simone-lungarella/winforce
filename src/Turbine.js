@@ -74,7 +74,11 @@ const Turbine = (props) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button style={{ width: 300, height: 100 }} variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}>
+            <Button variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}
+                sx={{
+                    width:280,
+                    height: 100
+                }}>
                 <Grid container direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12}>
                         <Typography variant="button"><b>{props.turbine.turbineName} - {props.turbine.operation}</b></Typography>

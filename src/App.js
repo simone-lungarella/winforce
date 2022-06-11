@@ -8,7 +8,7 @@ import {
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
 import ErgLogo from "./ErgLogo.js";
-import ETMTitle from "./ETM_Title.png";
+import ErgTitle from "./ErgTitle.js";
 import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
@@ -185,66 +185,74 @@ const App = () => {
         }}
       />
       <Container maxWidth="sm">
-        <AppBar position="static">
-          <ToolBar>
-            <Stack direction="row" alignItems="center" justifyContent="top" columnGap={3}>
-              <ErgLogo />
-              <Box >
-                <img src={ETMTitle} alt="title" width={150} ></img>
-              </Box>
-              <IconButton onClick={(event) => { setAnchorMenuEl(event.currentTarget) }}>
-                <SettingsIcon color={isAuthenticated ? 'success' : 'error'} fontSize="large" />
-              </IconButton>
-              <Menu
-                anchorEl={anchorMenuEl}
-                open={anchorMenuEl !== null}
-                onClose={() => setAnchorMenuEl(null)}
-              >
-                {isAuthenticated &&
-                  <MenuItem onClick={handleLogout}>
-                    <ListItemIcon>
-                      <AccountCircle color="error" fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>Logout</ListItemText>
-                  </MenuItem>
-                }
-
-                {!isAuthenticated &&
-                  <MenuItem onClick={handleLoginFormOpen}>
-                    <ListItemIcon>
-                      <AccountCircle color="primary" fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText>Login</ListItemText>
-                  </MenuItem>
-                }
-
-                <MenuItem disabled><ListItemIcon>
-                  <BuildCircleIcon fontSize="small" />
-                </ListItemIcon>
-                  <ListItemText>Console</ListItemText>
+        <AppBar>
+          <ToolBar sx={{ height: 80 }}>
+            <ErgLogo />
+            <ErgTitle />
+            <IconButton
+              onClick={(event) => { setAnchorMenuEl(event.currentTarget) }}
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                right: '0%',
+                transform: 'translate(-10%, -50%)',
+                fontSize: 48
+              }}>
+              <SettingsIcon color={isAuthenticated ? 'success' : 'error'} fontSize="inherit" />
+            </IconButton>
+            <Menu
+              anchorEl={anchorMenuEl}
+              open={anchorMenuEl !== null}
+              onClose={() => setAnchorMenuEl(null)}
+            >
+              {isAuthenticated &&
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon>
+                    <AccountCircle color="error" fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Logout</ListItemText>
                 </MenuItem>
-              </Menu>
-              <Modal
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-                open={loginFormOpen}
-                onClose={() => setLoginFormOpen(false)}
-              >
-                <Fade in={loginFormOpen}>
-                  <Box>
-                    <LoginForm setAuthenticated={handleLogin} />
-                  </Box>
-                </Fade>
-              </Modal>
-            </Stack>
+              }
+
+              {!isAuthenticated &&
+                <MenuItem onClick={handleLoginFormOpen}>
+                  <ListItemIcon>
+                    <AccountCircle color="primary" fontSize="medium" />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography variant="overline" >Login</Typography>
+                  </ListItemText>
+                </MenuItem>
+              }
+
+              <MenuItem disabled><ListItemIcon>
+                <BuildCircleIcon fontSize="medium" />
+              </ListItemIcon>
+                <ListItemText>
+                  <Typography variant="overline" >Console</Typography>
+                </ListItemText>
+              </MenuItem>
+            </Menu>
+            <Modal
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+              open={loginFormOpen}
+              onClose={() => setLoginFormOpen(false)}
+            >
+              <Fade in={loginFormOpen}>
+                <Box>
+                  <LoginForm setAuthenticated={handleLogin} />
+                </Box>
+              </Fade>
+            </Modal>
           </ToolBar>
         </AppBar>
-        <Box pt={6} />
+        <Box pt={16} />
         <Stack direction="column" spacing={2} alignItems="center" justifyContent="top"
-          style={{ overflowY: "scroll", height: 450, width: "100%" }}>
+          style={{ overflowY: "scroll", height: 450 }}>
 
           {Array.isArray(turbines) && turbines
             .map((turbine) => {
@@ -264,20 +272,22 @@ const App = () => {
           {
             !isAuthenticated &&
             <Grid item>
-              <Typography variant="h6" align="center"> Effettuare il login per visualizzare il contenuto </Typography>
+              <Typography variant="overline" align="center"> OFFLINE </Typography>
             </Grid>
           }
         </Stack>
 
         <Box pt={3} />
-
-        <Grid container direction="column" alignItems="center" >
-          <Grid item >
-            <IconButton onClick={isAuthenticated ? () => setOpen(true) : (event) => setAnchorEl(event.currentTarget)} >
-              <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="large" />
-            </IconButton>
-          </Grid>
-        </Grid>
+        <IconButton onClick={isAuthenticated ? () => setOpen(true) : (event) => setAnchorEl(event.currentTarget)}
+          sx={{
+            position: 'absolute',
+            bottom: '0%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: 48,
+          }}>
+          <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
+        </IconButton>
         <Popover
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(null)}
