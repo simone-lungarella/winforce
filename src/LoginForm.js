@@ -2,7 +2,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoginIcon from '@mui/icons-material/Login';
 import {
     Box,
-    Button, Grid, IconButton, TextField
+    Button, Grid, IconButton, TextField, Typography
 } from "@mui/material";
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -34,9 +34,18 @@ const LoginForm = (props) => {
     const handleSubmit = async () => {
 
         eventService.login(username, password).then(response => {
-            setInvalidCredentials(false);
-            props.setAuthenticated();
-            eventService.setToken(response.data.jwtToken);
+
+            const token = response?.data?.jwtToken;
+
+            if (token != null) {
+                setInvalidCredentials(false);
+                props.setAuthenticated(true);
+                eventService.setToken(token);
+            } else {
+                setInvalidCredentials(true);
+                props.setAuthenticated(false);
+                eventService.setToken(null);
+            }
         }).catch(() => {
             setInvalidCredentials(true);
         });
@@ -45,6 +54,9 @@ const LoginForm = (props) => {
     return (
         <Box sx={formStyle} >
             <Grid container direction="column" justifyContent="center" alignItems="center" rowGap={2} >
+                {invalidCredentials &&
+                    <Typography color="error" variant="overline">Nome utente o password sbagliata</Typography>
+                }
                 <TextField style={{ width: 250, height: 50 }}
                     required
                     error={invalidCredentials}

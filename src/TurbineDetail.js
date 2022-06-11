@@ -25,22 +25,28 @@ const TurbineDetail = (props) => {
 
     const handleCheckboxChange = (event) => {
         if (event.target.checked) {
-            props.stepComplete(event.target.value);
-            eventService.setStepComplete(event.target.value, true);
+            eventService.setStepComplete(event.target.value, true).then(() => {
+                props.stepComplete(event.target.value);
+            }).catch(() => {
+                console.log("Error setting step complete");
+            });
         } else {
-            props.stepIncomplete(event.target.value);
-            eventService.setStepComplete(event.target.value, false);
+            eventService.setStepComplete(event.target.value, false).then(() => {
+                props.stepIncomplete(event.target.value);
+            }).catch(() => {
+                console.log("Error setting step incomplete");
+            });
         }
     }
 
     let turbineName = props.turbineMaster.turbineName.toUpperCase();
-    if (turbineName.length > 15) {
-        turbineName = turbineName.substring(0, 15) + "...";
+    if (turbineName.length > 13) {
+        turbineName = turbineName.substring(0, 13) + "...";
     }
 
     let operation = props.turbineMaster.operation;
-    if (operation.length > 20) {
-        operation = operation.substring(0, 20) + "...";
+    if (operation.length > 18) {
+        operation = operation.substring(0, 18) + "...";
     }
 
     // Order steps by id
@@ -109,7 +115,7 @@ const TurbineDetail = (props) => {
                                             value={step.id}
                                             control={<Checkbox size="large" color="success"
                                                 checked={step == null || step.complete}
-                                                disabled={(step.complete && (orderedSteps[props.reachedStep-1]) != null && step.id < (orderedSteps[props.reachedStep-1]).id)
+                                                disabled={(step.complete && (orderedSteps[props.reachedStep - 1]) != null && step.id < (orderedSteps[props.reachedStep - 1]).id)
                                                     || ((orderedSteps[props.reachedStep]) != null && step.id > (orderedSteps[props.reachedStep]).id)}
                                                 onChange={handleCheckboxChange}
                                             />}

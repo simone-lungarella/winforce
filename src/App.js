@@ -1,7 +1,7 @@
 import { AccountCircle } from "@mui/icons-material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
-import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
   AppBar, Box, Container, createTheme, Fade, GlobalStyles, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Modal, Popover, Stack, ThemeProvider, Typography
 } from "@mui/material";
@@ -54,7 +54,7 @@ const App = () => {
     if (localToken != null) {
       eventService.setToken(localToken);
       setIsAuthenticated(true);
-      
+
       // Refreshing events after token insertion
       eventService.getTurbines().then(response => {
         setTurbines(response.data);
@@ -67,16 +67,24 @@ const App = () => {
   // Modal status
   const [open, setOpen] = React.useState(false);
 
-  const handleLogin = () => {
-    setLoginFormOpen(false);
+  const handleLogin = (isLogged) => {
+    setLoginFormOpen(!isLogged);
+    setIsAuthenticated(isLogged);
+
+    if (isLogged) {
+      setAnchorMenuEl(null);
+      eventService.getTurbines().then(response => {
+        setTurbines(response.data);
+        console.log("Turbines added", response.data);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+  }
+
+  const handleLoginFormOpen = () => {
     setAnchorMenuEl(null);
-    setIsAuthenticated(true);
-    eventService.getTurbines().then(response => {
-      setTurbines(response.data);
-      console.log("Turbines added", response.data);
-    }).catch(error => {
-      console.log(error);
-    });
+    setLoginFormOpen(true);
   }
 
   const handleLogout = () => {
@@ -159,7 +167,9 @@ const App = () => {
   }
 
   // The turbine with minor completedSteps should be on top
-  turbines.sort((a, b) => a.completedSteps - b.completedSteps);
+  if (isAuthenticated) {
+    turbines.sort((a, b) => a.completedSteps - b.completedSteps);
+  }
 
   return (
 
@@ -177,13 +187,13 @@ const App = () => {
       <Container maxWidth="sm">
         <AppBar position="static">
           <ToolBar>
-            <Stack direction="row" alignItems="center" justifyContent="top" columnGap={1}>
+            <Stack direction="row" alignItems="center" justifyContent="top" columnGap={3}>
               <ErgLogo />
               <Box >
                 <img src={ETMTitle} alt="title" width={150} ></img>
               </Box>
               <IconButton onClick={(event) => { setAnchorMenuEl(event.currentTarget) }}>
-                <MenuIcon />
+                <SettingsIcon color={isAuthenticated ? 'success' : 'error'} fontSize="large" />
               </IconButton>
               <Menu
                 anchorEl={anchorMenuEl}
@@ -200,7 +210,7 @@ const App = () => {
                 }
 
                 {!isAuthenticated &&
-                  <MenuItem onClick={() => setLoginFormOpen(true)}>
+                  <MenuItem onClick={handleLoginFormOpen}>
                     <ListItemIcon>
                       <AccountCircle color="primary" fontSize="small" />
                     </ListItemIcon>
@@ -237,22 +247,22 @@ const App = () => {
           style={{ overflowY: "scroll", height: 450, width: "100%" }}>
 
           {Array.isArray(turbines) && turbines
-          .map((turbine) => {
+            .map((turbine) => {
 
-            const turbineSteps = steps.filter(step => step.eventId === turbine.id);
-            return (
+              const turbineSteps = steps.filter(step => step.eventId === turbine.id);
+              return (
 
-              <Grid item key={turbine.id}>
-                <Turbine turbine={turbine} steps={turbineSteps}
-                  completeStep={handleStepComplete}
-                  incompleteStep={handleStepIncomplete}
-                  onDeletedWindfarm={handleTurbineDeletion} />
-              </Grid>
-            )
-          })}
+                <Grid item key={turbine.id}>
+                  <Turbine turbine={turbine} steps={turbineSteps}
+                    completeStep={handleStepComplete}
+                    incompleteStep={handleStepIncomplete}
+                    onDeletedWindfarm={handleTurbineDeletion} />
+                </Grid>
+              )
+            })}
 
           {
-            (!isAuthenticated || !Array.isArray(turbines)) &&
+            !isAuthenticated &&
             <Grid item>
               <Typography variant="h6" align="center"> Effettuare il login per visualizzare il contenuto </Typography>
             </Grid>

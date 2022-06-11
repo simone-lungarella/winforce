@@ -8,7 +8,6 @@ import TurbineDetail from './TurbineDetail.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import "./Turbine.css";
 
-
 const Turbine = (props) => {
 
     const handleStepComplete = (step) => {
@@ -49,11 +48,18 @@ const Turbine = (props) => {
             </IconButton>
             <Dialog
                 open={openAlert}
+                keepMounted
                 onClose={() => { setOpenAlert(false) }}
                 maxWidth="xs"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Sei sicuro di voler eliminare: " + props.turbine.turbineName + "?"}
+                    <Grid container direction="row" alignItems="center" justify="center">
+                        <Grid item>
+                            <Typography variant="h5">
+                                ELIMINARE  <b>{props.turbine.turbineName.toUpperCase()}</b> ?
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
