@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/winforce/static/css/main.d8204167.css",
-    "main.js": "/winforce/static/js/main.3cbbc992.js",
+    "main.js": "/winforce/static/js/main.8ef2d3aa.js",
     "static/js/787.0d6a95cf.chunk.js": "/winforce/static/js/787.0d6a95cf.chunk.js",
     "static/media/roboto-all-300-normal.woff": "/winforce/static/media/roboto-all-300-normal.168d6383e73339293ac3.woff",
     "static/media/winforce_bg.png": "/winforce/static/media/winforce_bg.ca7591675406f48802f7.png",
     "static/media/roboto-latin-300-normal.woff2": "/winforce/static/media/roboto-latin-300-normal.c48fb6765a9fcb00b330.woff2",
     "static/media/roboto-cyrillic-ext-300-normal.woff2": "/winforce/static/media/roboto-cyrillic-ext-300-normal.4777461b144e55145268.woff2",
-    "static/media/ETM_Title.png": "/winforce/static/media/ETM_Title.7de450f6b5e78a75d50e.png",
     "static/media/roboto-latin-ext-300-normal.woff2": "/winforce/static/media/roboto-latin-ext-300-normal.dc7dcec8e3f654e0ed63.woff2",
     "static/media/roboto-cyrillic-300-normal.woff2": "/winforce/static/media/roboto-cyrillic-300-normal.1431d1cef06ad04f5458.woff2",
     "static/media/roboto-greek-300-normal.woff2": "/winforce/static/media/roboto-greek-300-normal.db2632771401f61463fe.woff2",
     "static/media/roboto-vietnamese-300-normal.woff2": "/winforce/static/media/roboto-vietnamese-300-normal.32fc45a3d1e8ea11fabc.woff2",
+    "static/media/ErgTitle.svg": "/winforce/static/media/ErgTitle.2adb3f3f71593d23080e9c66b7e493f9.svg",
     "static/media/roboto-greek-ext-300-normal.woff2": "/winforce/static/media/roboto-greek-ext-300-normal.35b9d6be04b95f0f0530.woff2",
     "static/media/logo.svg": "/winforce/static/media/logo.3800c382bf3a3395cb81407f1922a137.svg",
     "index.html": "/winforce/index.html",
     "main.d8204167.css.map": "/winforce/static/css/main.d8204167.css.map",
-    "main.3cbbc992.js.map": "/winforce/static/js/main.3cbbc992.js.map",
+    "main.8ef2d3aa.js.map": "/winforce/static/js/main.8ef2d3aa.js.map",
     "787.0d6a95cf.chunk.js.map": "/winforce/static/js/787.0d6a95cf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d8204167.css",
-    "static/js/main.3cbbc992.js"
+    "static/js/main.8ef2d3aa.js"
   ]
 }
