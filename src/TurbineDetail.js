@@ -3,11 +3,13 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Box, Checkbox, FormControlLabel, Grid, LinearProgress, Stack, Typography
+    Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Grid, LinearProgress, Stack, Typography
 } from "@mui/material";
 import { default as React } from 'react';
 import eventService from './services/appService';
 import TurbineStatus from './TurbineStatus';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const formStyle = {
     position: 'absolute',
@@ -22,6 +24,9 @@ const formStyle = {
 };
 
 const TurbineDetail = (props) => {
+
+    // Dialog status
+    const [openAlert, setOpenAlert] = React.useState(false);
 
     const handleCheckboxChange = (event) => {
         if (event.target.checked) {
@@ -52,7 +57,12 @@ const TurbineDetail = (props) => {
     // Order steps by id
     const orderedSteps = props.stepList.sort((a, b) => a.id - b.id);
 
+    const handleEventDeletion = () => {
+        props.onDeletedWindfarm(props.turbineMaster.id);
+    }
+
     return (
+
         <Box sx={formStyle} >
             <Stack direction="column" alignItems="center" justifyContent="top"
                 style={{ overflowY: "scroll" }}>
@@ -130,6 +140,44 @@ const TurbineDetail = (props) => {
                     </Stack>
                 </AccordionDetails>
             </Accordion>
+            <Box pt={2} />
+            <Grid container direction="row" alignItems="center" justifyContent="center" columnGap={2}>
+                <Grid item>
+                    <Button startIcon={<DeleteIcon />} color='error' variant='contained'
+                        onClick={() => { setOpenAlert(true) }}>Elimina</Button>
+                </Grid>
+                <Grid item>
+                    <Button disabled startIcon={<EditIcon />} variant='contained'>Modifica</Button>
+                </Grid>
+            </Grid>
+            <Dialog
+                open={openAlert}
+                keepMounted
+                onClose={() => { setOpenAlert(false) }}
+                maxWidth="xs"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    <Grid container direction="row" alignItems="center" justify="center">
+                        <Grid item>
+                            <Typography variant="h5">
+                                ELIMINARE  <b>{props.turbineMaster.turbineName.toUpperCase()}</b> ?
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        L'eliminazione dell'evento e tutte le sue informazioni verranno
+                        permanentemente cancellate.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => { setOpenAlert(false) }}>Annulla</Button>
+                    <Button onClick={handleEventDeletion} autoFocus>
+                        Elimina
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box >
     );
 }
