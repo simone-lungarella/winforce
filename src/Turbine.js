@@ -1,12 +1,9 @@
 import {
-    Box, Button,
-    Dialog, DialogContent, DialogActions, DialogContentText, DialogTitle,
-    Grid, IconButton, LinearProgress, Modal, Typography, Fade
+    Box, Button, Fade, Grid, LinearProgress, Modal, Typography
 } from "@mui/material";
 import React from 'react';
-import TurbineDetail from './TurbineDetail.js';
-import DeleteIcon from '@mui/icons-material/Delete';
 import "./Turbine.css";
+import TurbineDetail from './TurbineDetail.js';
 
 const Turbine = (props) => {
 
@@ -24,9 +21,6 @@ const Turbine = (props) => {
         setOpen(false);
     }
 
-    // Dialog status
-    const [openAlert, setOpenAlert] = React.useState(false);
-
     const handleEventDeletion = () => {
         props.onDeletedWindfarm(props.turbine.id);
     }
@@ -43,37 +37,6 @@ const Turbine = (props) => {
 
     return (
         <React.Fragment>
-            <IconButton onClick={() => { setOpenAlert(true) }} >
-                <DeleteIcon className="changeColor" />
-            </IconButton>
-            <Dialog
-                open={openAlert}
-                keepMounted
-                onClose={() => { setOpenAlert(false) }}
-                maxWidth="xs"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    <Grid container direction="row" alignItems="center" justify="center">
-                        <Grid item>
-                            <Typography variant="h5">
-                                ELIMINARE  <b>{props.turbine.turbineName.toUpperCase()}</b> ?
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        L'eliminazione dell'evento e tutte le sue informazioni verranno
-                        permanentemente cancellate.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => { setOpenAlert(false) }}>Annulla</Button>
-                    <Button onClick={handleEventDeletion} autoFocus>
-                        Elimina
-                    </Button>
-                </DialogActions>
-            </Dialog>
             <Button variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}
                 sx={{
                     width:280,
@@ -109,6 +72,7 @@ const Turbine = (props) => {
                             stepIncomplete={handleStepIncomplete}
                             turbineMaster={props.turbine}
                             onClose={handleDetailClose}
+                            onDeletedWindfarm={handleEventDeletion}
                         />
                     </Box>
                 </Fade>
