@@ -277,17 +277,16 @@ const App = () => {
           }
         </Stack>
 
-        <Box pt={3} />
-        <IconButton onClick={isAuthenticated ? () => setOpen(true) : (event) => setAnchorEl(event.currentTarget)}
-          sx={{
-            position: 'absolute',
-            bottom: '0%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            fontSize: 48,
-          }}>
-          <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
-        </IconButton>
+        <Grid container justifyContent="center">
+          <Grid item >
+            <IconButton onClick={isAuthenticated ? () => setOpen(true) : (event) => setAnchorEl(event.currentTarget)}
+              sx={{
+                fontSize: 48,
+              }}>
+              <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
+            </IconButton>
+          </Grid>
+        </Grid>
         <Popover
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(null)}
