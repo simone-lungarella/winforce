@@ -39,11 +39,11 @@ const LoginForm = (props) => {
 
             if (token != null) {
                 setInvalidCredentials(false);
-                props.setAuthenticated(true);
+                props.setAuthenticated(true, response.data);
                 eventService.setToken(token);
             } else {
                 setInvalidCredentials(true);
-                props.setAuthenticated(false);
+                props.setAuthenticated(false, null);
                 eventService.setToken(null);
             }
         }).catch(() => {
@@ -55,7 +55,7 @@ const LoginForm = (props) => {
         <Box sx={formStyle} >
             <Grid container direction="column" justifyContent="center" alignItems="center" rowGap={2} >
                 {invalidCredentials &&
-                    <Typography color="error" variant="overline">Nome utente o password sbagliata</Typography>
+                    <Typography color="error" variant="overline">Credenziali non corrette</Typography>
                 }
                 <TextField style={{ width: 250, height: 50 }}
                     required

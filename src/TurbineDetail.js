@@ -25,6 +25,16 @@ const formStyle = {
 
 const TurbineDetail = (props) => {
 
+    const orderedSteps = props.stepList.sort((a, b) => a.id - b.id);
+    
+    const isAuthorized = (step) => {
+        const index = orderedSteps.indexOf(step);
+        if (index >= 0) {
+            const auth = window.localStorage.getItem("authorizations");
+            return auth.charAt(index) === '1';
+        }
+    }
+
     // Dialog status
     const [openAlert, setOpenAlert] = React.useState(false);
 
@@ -53,9 +63,6 @@ const TurbineDetail = (props) => {
     if (operation.length > 18) {
         operation = operation.substring(0, 18) + "...";
     }
-
-    // Order steps by id
-    const orderedSteps = props.stepList.sort((a, b) => a.id - b.id);
 
     const handleEventDeletion = () => {
         props.onDeletedWindfarm(props.turbineMaster.id);
@@ -125,8 +132,10 @@ const TurbineDetail = (props) => {
                                             value={step.id}
                                             control={<Checkbox size="large" color="success"
                                                 checked={step == null || step.complete}
-                                                disabled={(step.complete && (orderedSteps[props.reachedStep - 1]) != null && step.id < (orderedSteps[props.reachedStep - 1]).id)
-                                                    || ((orderedSteps[props.reachedStep]) != null && step.id > (orderedSteps[props.reachedStep]).id)}
+                                                disabled={
+                                                    (step.complete && (orderedSteps[props.reachedStep - 1]) != null && step.id < (orderedSteps[props.reachedStep - 1]).id) // Step complete and behind last
+                                                    || ((orderedSteps[props.reachedStep]) != null && step.id > (orderedSteps[props.reachedStep]).id) // Step complete and last of list
+                                                    || (!isAuthorized(step))} 
                                                 onChange={handleCheckboxChange}
                                             />}
                                             label={<Typography variant="overline" ><b>{step.name}</b></Typography>}

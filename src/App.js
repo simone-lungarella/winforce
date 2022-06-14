@@ -3,7 +3,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  AppBar, Box, Container, createTheme, Fade, GlobalStyles, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Modal, Popover, Stack, ThemeProvider, Typography
+  AppBar, Box, CircularProgress, Container, createTheme, Fade, GlobalStyles, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Modal, Popover, Stack, ThemeProvider, Typography
 } from "@mui/material";
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import WindfarmForm from "./WindfarmForm.js";
 import Backdrop from '@mui/material/Backdrop';
+import AdminConsole from "./AdminConsole.js";
 
 const theme = createTheme({
   palette: {
@@ -42,6 +43,7 @@ const App = () => {
 
   // User authentication
   const [loginFormOpen, setLoginFormOpen] = useState(false);
+  const [consoleOpen, setConsoleOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -67,11 +69,13 @@ const App = () => {
   // Modal status
   const [open, setOpen] = React.useState(false);
 
-  const handleLogin = (isLogged) => {
+  const handleLogin = (isLogged, data) => {
     setLoginFormOpen(!isLogged);
     setIsAuthenticated(isLogged);
 
     if (isLogged) {
+      window.localStorage.setItem("roles", data.roles);
+      window.localStorage.setItem("authorizations", data.authorizations)
       setAnchorMenuEl(null);
       eventService.getTurbines().then(response => {
         setTurbines(response.data);
@@ -79,6 +83,8 @@ const App = () => {
       }).catch(error => {
         console.log(error);
       });
+    } else {
+      window.localStorage.removeItem("roles");
     }
   }
 
@@ -89,6 +95,7 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("roles");
     eventService.setToken(null);
     setIsAuthenticated(false);
     setTurbines([]);
@@ -225,7 +232,7 @@ const App = () => {
                 </MenuItem>
               }
 
-              <MenuItem disabled><ListItemIcon>
+              <MenuItem onClick={() => {setConsoleOpen(true)}} disabled={window.localStorage.getItem("roles") !== "ADMIN"}><ListItemIcon>
                 <BuildCircleIcon fontSize="medium" />
               </ListItemIcon>
                 <ListItemText>
@@ -245,6 +252,21 @@ const App = () => {
               <Fade in={loginFormOpen}>
                 <Box>
                   <LoginForm setAuthenticated={handleLogin} />
+                </Box>
+              </Fade>
+            </Modal>
+            <Modal
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+              open={consoleOpen}
+              onClose={() => setConsoleOpen(false)}
+            >
+              <Fade in={consoleOpen}>
+                <Box>
+                  <AdminConsole />
                 </Box>
               </Fade>
             </Modal>
@@ -268,11 +290,16 @@ const App = () => {
                 </Grid>
               )
             })}
-
           {
             !isAuthenticated &&
             <Grid item>
               <Typography variant="overline" align="center"> OFFLINE </Typography>
+            </Grid>
+          }
+          {
+            isAuthenticated && (!Array.isArray(turbines) || turbines.length === 0) &&
+            <Grid item>
+              <CircularProgress />
             </Grid>
           }
         </Stack>
