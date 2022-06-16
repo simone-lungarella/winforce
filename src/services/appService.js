@@ -56,12 +56,12 @@ const login = async (username, password) => {
     return axios.get("http://localhost:8080/login?username=" + username + "&password=" + password);
 }
 
-const saveUser = (username, password) => {
-    const user = {
-        username: username,
-        password: password
+const createUser = (username, password, userRole) => {
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
     }
-    return axios.post(baseUrl + "registration/user", user);
+    
+    return axios.post(baseUrl + "registration/user", { username: username, password: password, userRole: userRole }, config);
 }
 
 const appService = {
@@ -71,8 +71,8 @@ const appService = {
     setStepComplete: setStepComplete,
     deleteTurbine: deleteTurbine,
     login: login,
-    saveUser: saveUser,
-    setToken: setToken
+    setToken: setToken,
+    createUser: createUser
 }
 
 export default appService

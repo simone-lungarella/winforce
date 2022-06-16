@@ -25,7 +25,10 @@ const formStyle = {
 
 const TurbineDetail = (props) => {
 
-    const orderedSteps = props.stepList.sort((a, b) => a.id - b.id);
+    let orderedSteps = [];
+    if(Array.isArray(props.stepList)) {
+        orderedSteps = props.stepList.sort((a, b) => a.id - b.id);
+    }
     
     const isAuthorized = (step) => {
         const index = orderedSteps.indexOf(step);
