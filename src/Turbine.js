@@ -2,7 +2,6 @@ import {
     Box, Button, Fade, Grid, LinearProgress, Modal, Typography
 } from "@mui/material";
 import React from 'react';
-import "./Turbine.css";
 import TurbineDetail from './TurbineDetail.js';
 
 const Turbine = (props) => {

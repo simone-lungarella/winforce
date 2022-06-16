@@ -1,20 +1,20 @@
 import { AccountCircle } from "@mui/icons-material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
   AppBar, Box, CircularProgress, Container, createTheme, Fade, GlobalStyles, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Modal, Popover, Stack, ThemeProvider, Typography
 } from "@mui/material";
+import Backdrop from '@mui/material/Backdrop';
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
+import AddUserForm from "./AddUserForm.js";
 import ErgLogo from "./ErgLogo.js";
 import ErgTitle from "./ErgTitle.js";
 import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import WindfarmForm from "./WindfarmForm.js";
-import Backdrop from '@mui/material/Backdrop';
-import AdminConsole from "./AdminConsole.js";
 
 const theme = createTheme({
   palette: {
@@ -45,6 +45,7 @@ const App = () => {
   const [loginFormOpen, setLoginFormOpen] = useState(false);
   const [consoleOpen, setConsoleOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [turbinesReady, setTurbinesReady] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorMenuEl, setAnchorMenuEl] = React.useState(null);
@@ -60,8 +61,10 @@ const App = () => {
       // Refreshing events after token insertion
       eventService.getTurbines().then(response => {
         setTurbines(response.data);
+        setTurbinesReady(true);
       }).catch(error => {
         console.log(error);
+        setTurbinesReady(false);
       });
     }
   }, []);
@@ -75,16 +78,18 @@ const App = () => {
 
     if (isLogged) {
       window.localStorage.setItem("roles", data.roles);
-      window.localStorage.setItem("authorizations", data.authorizations)
-      setAnchorMenuEl(null);
+      window.localStorage.setItem("authorizations", data.authorizations);
       eventService.getTurbines().then(response => {
         setTurbines(response.data);
-        console.log("Turbines added", response.data);
+        setTurbinesReady(true);
       }).catch(error => {
         console.log(error);
+        setTurbinesReady(false);
       });
     } else {
       window.localStorage.removeItem("roles");
+      window.localStorage.removeItem("authorizations");
+      setTurbinesReady(false);
     }
   }
 
@@ -93,12 +98,18 @@ const App = () => {
     setLoginFormOpen(true);
   }
 
+  const handleAddUserFormOpen = () => {
+    setAnchorMenuEl(null);
+    setConsoleOpen(true);
+  }
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("roles");
+    window.localStorage.removeItem("authorizations");
+    setTurbinesReady(false);
     eventService.setToken(null);
     setIsAuthenticated(false);
-    setTurbines([]);
   }
 
   // Existing windfarms
@@ -108,8 +119,10 @@ const App = () => {
     if (isAuthenticated) {
       eventService.getTurbines().then(response => {
         setTurbines(response.data);
+        setTurbinesReady(true);
       }).catch(error => {
         console.log(error);
+        setTurbinesReady(false);
       });
     }
 
@@ -174,7 +187,7 @@ const App = () => {
   }
 
   // The turbine with minor completedSteps should be on top
-  if (isAuthenticated) {
+  if (isAuthenticated && turbinesReady) {
     turbines.sort((a, b) => a.completedSteps - b.completedSteps);
   }
 
@@ -217,7 +230,7 @@ const App = () => {
                   <ListItemIcon>
                     <AccountCircle color="error" fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText>Logout</ListItemText>
+                  <Typography variant="overline">Logout</Typography>
                 </MenuItem>
               }
 
@@ -227,16 +240,16 @@ const App = () => {
                     <AccountCircle color="primary" fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
-                    <Typography variant="overline" >Login</Typography>
+                    <Typography variant="overline">Login</Typography>
                   </ListItemText>
                 </MenuItem>
               }
 
-              <MenuItem onClick={() => {setConsoleOpen(true)}} disabled={window.localStorage.getItem("roles") !== "ADMIN"}><ListItemIcon>
-                <BuildCircleIcon fontSize="medium" />
+              <MenuItem onClick={handleAddUserFormOpen} disabled={window.localStorage.getItem("roles") !== "ADMIN"}><ListItemIcon>
+                <AssignmentIndIcon color={window.localStorage.getItem("roles") !== "ADMIN" ? "" : "primary"} fontSize="medium" />
               </ListItemIcon>
                 <ListItemText>
-                  <Typography variant="overline" >Console</Typography>
+                  <Typography variant="overline">Sign up</Typography>
                 </ListItemText>
               </MenuItem>
             </Menu>
@@ -266,7 +279,7 @@ const App = () => {
             >
               <Fade in={consoleOpen}>
                 <Box>
-                  <AdminConsole />
+                  <AddUserForm  />
                 </Box>
               </Fade>
             </Modal>
@@ -276,7 +289,7 @@ const App = () => {
         <Stack direction="column" spacing={2} alignItems="center" justifyContent="top"
           style={{ overflowY: "scroll", height: 450 }}>
 
-          {Array.isArray(turbines) && turbines
+          {isAuthenticated && turbinesReady && turbines
             .map((turbine) => {
 
               const turbineSteps = steps.filter(step => step.eventId === turbine.id);
@@ -291,13 +304,13 @@ const App = () => {
               )
             })}
           {
-            !isAuthenticated &&
+            !isAuthenticated && !turbinesReady &&
             <Grid item>
               <Typography variant="overline" align="center"> OFFLINE </Typography>
             </Grid>
           }
           {
-            isAuthenticated && (!Array.isArray(turbines) || turbines.length === 0) &&
+            isAuthenticated && !turbinesReady &&
             <Grid item>
               <CircularProgress />
             </Grid>
