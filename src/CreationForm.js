@@ -24,14 +24,16 @@ const formStyle = {
 
 const defaultEvent = {
     turbineName: "",
+    turbineNumber: "XXXX",
     description: "",
-    operation: "",
-    turbineState: "MARCHING",
+    power: "MEGAWATT",
+    operation: ["Asta pitch"],
+    turbineState: "In marcia",
     startingDateEEMM: null,
     startingDateOOCC: null,
 };
 
-const WindfarmForm = (props) => {
+const CreationForm = (props) => {
 
     const [formValues, setFormValues] = useState(defaultEvent)
     const [dateEMValue, setEMDateValue] = useState(null);
@@ -68,7 +70,7 @@ const WindfarmForm = (props) => {
             <Grid container direction="column" alignItems="center" rowSpacing={2}>
 
                 <Grid item >
-                    <TextField style={{ width: 250, height: 50 }}
+                    <TextField style={{ width: 180, height: 50 }}
                         required
                         error={formValues.turbineName === ""}
                         id="turbine-input"
@@ -76,6 +78,14 @@ const WindfarmForm = (props) => {
                         label="Aerogeneratore"
                         type="text"
                         value={formValues.turbineName}
+                        onChange={handleInputChange}
+                    />
+                    <TextField style={{ width: 70, height: 50}}
+                        disabled
+                        id="turbine-number"
+                        name="turbineNumber"
+                        type="text"
+                        value={formValues.turbineNumber}
                         onChange={handleInputChange}
                     />
                 </Grid>
@@ -92,23 +102,26 @@ const WindfarmForm = (props) => {
                     />
                 </Grid>
                 <Grid item >
-                    <TextField style={{ width: 250, height: 50 }}
-                        required
-                        error={formValues.operation === ""}
-                        id="operation-input"
-                        name="operation"
-                        label="Tipologia intervento"
-                        type="text"
-                        value={formValues.operation}
-                        onChange={handleInputChange}
-                    />
+                    <Select style={{ width: 250, height: 50 }}
+                        name="operation" value={formValues.operation} onChange={handleInputChange} multiple >
+                        <MenuItem key="1" value="Asta pitch">Asta pitch</MenuItem>
+                        <MenuItem key="2" value="Riparazione pale">Riparazione pale</MenuItem>
+                        <MenuItem key="3" value="Pulizia tubolare">Pulizia tubolare</MenuItem>
+                    </Select>
                 </Grid>
                 <Grid item >
                     <Select style={{ width: 250, height: 50 }}
                         name="turbineState" value={formValues.turbineState} onChange={handleInputChange}>
-                        <MenuItem key="1" value="MARCHING">In marcia</MenuItem>
-                        <MenuItem key="2" value="STANDING">Ferma</MenuItem>
-                        <MenuItem key="3" value="LIMITED">Limitata</MenuItem>
+                        <MenuItem key="1" value="In marcia">In marcia</MenuItem>
+                        <MenuItem key="2" value="Ferma">Ferma</MenuItem>
+                        <MenuItem key="3" value="Limitata">Limitata</MenuItem>
+                    </Select>
+                </Grid>
+                <Grid item >
+                    <Select style={{ width: 250, height: 50 }}
+                        name="power" value={formValues.power} onChange={handleInputChange}>
+                        <MenuItem key="1" value="MEGAWATT">Megawatt</MenuItem>
+                        <MenuItem key="2" value="KILOWATT">Kilowatt</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item >
@@ -188,4 +201,4 @@ const WindfarmForm = (props) => {
     );
 }
 
-export default WindfarmForm;
+export default CreationForm;

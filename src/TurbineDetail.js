@@ -1,15 +1,16 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Grid, LinearProgress, Stack, Typography
-} from "@mui/material";
-import { default as React } from 'react';
-import eventService from './services/appService';
-import TurbineStatus from './TurbineStatus';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+    Accordion, AccordionDetails, AccordionSummary, Modal,
+    Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControlLabel, Grid, LinearProgress, Stack, Typography
+} from "@mui/material";
+import { default as React } from 'react';
+import ModificationForm from './ModificationForm';
+import eventService from './services/appService';
+import Backdrop from '@mui/material/Backdrop';
+import TurbineStatus from './TurbineStatus';
+
 
 const formStyle = {
     position: 'absolute',
@@ -26,10 +27,10 @@ const formStyle = {
 const TurbineDetail = (props) => {
 
     let orderedSteps = [];
-    if(Array.isArray(props.stepList)) {
+    if (Array.isArray(props.stepList)) {
         orderedSteps = props.stepList.sort((a, b) => a.id - b.id);
     }
-    
+
     const isAuthorized = (step) => {
         const index = orderedSteps.indexOf(step);
         if (index >= 0) {
@@ -40,6 +41,7 @@ const TurbineDetail = (props) => {
 
     // Dialog status
     const [openAlert, setOpenAlert] = React.useState(false);
+    const [openEdit, setOpenEdit] = React.useState(false);
 
     const handleCheckboxChange = (event) => {
         if (event.target.checked) {
@@ -58,17 +60,27 @@ const TurbineDetail = (props) => {
     }
 
     let turbineName = props.turbineMaster.turbineName.toUpperCase();
-    if (turbineName.length > 13) {
-        turbineName = turbineName.substring(0, 13) + "...";
+    if (turbineName.length > 8) {
+        turbineName = turbineName.substring(0, 8) + "...";
     }
 
-    let operation = props.turbineMaster.operation;
-    if (operation.length > 18) {
-        operation = operation.substring(0, 18) + "...";
+    // TODO: handle operation as list and separate with comma
+    let operations = props.turbineMaster.operation[0];
+    if (props.turbineMaster.operation.length > 1) {
+        operations += ", " + props.turbineMaster.operation[1];
+    }
+    
+    if (operations.length > 18) {
+        operations = operations.substring(0, 18) + "...";
     }
 
     const handleEventDeletion = () => {
         props.onDeletedWindfarm(props.turbineMaster.id);
+    }
+
+    const handleTurbineEdit = (turbine) => {
+        props.onUpdatedWindfarm(turbine);
+        setOpenEdit(false);
     }
 
     return (
@@ -82,8 +94,8 @@ const TurbineDetail = (props) => {
                         <TurbineStatus turbineState={props.turbineMaster.turbineState} />
                     </Grid>
                     <Grid item>
-                        <Typography variant="h5"><b>{turbineName}</b></Typography>
-                        <Typography variant="h5">{operation}</Typography>
+                        <Typography variant="h5"><b>{turbineName} - {props.turbineMaster.turbineNumber}</b></Typography>
+                        <Typography variant="h5">{operations}</Typography>
                     </Grid>
                 </Grid>
                 <Box pt={3} />
@@ -138,7 +150,7 @@ const TurbineDetail = (props) => {
                                                 disabled={
                                                     (step.complete && (orderedSteps[props.reachedStep - 1]) != null && step.id < (orderedSteps[props.reachedStep - 1]).id) // Step complete and behind last
                                                     || ((orderedSteps[props.reachedStep]) != null && step.id > (orderedSteps[props.reachedStep]).id) // Step complete and last of list
-                                                    || (!isAuthorized(step))} 
+                                                    || (!isAuthorized(step))}
                                                 onChange={handleCheckboxChange}
                                             />}
                                             label={<Typography variant="overline" ><b>{step.name}</b></Typography>}
@@ -159,7 +171,7 @@ const TurbineDetail = (props) => {
                         onClick={() => { setOpenAlert(true) }}>Elimina</Button>
                 </Grid>
                 <Grid item>
-                    <Button disabled startIcon={<EditIcon />} variant='contained'>Modifica</Button>
+                    <Button startIcon={<EditIcon />} variant='contained' onClick={() => { setOpenEdit(true) }}>Modifica</Button>
                 </Grid>
             </Grid>
             <Dialog
@@ -190,6 +202,21 @@ const TurbineDetail = (props) => {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Modal
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+                open={openEdit}
+                onClose={() => setOpenEdit(false)}
+            >
+                <Fade in={openEdit}>
+                    <Box>
+                        <ModificationForm event={props.turbineMaster} onUpdatedWindfarm={handleTurbineEdit} onClose={() => setOpenEdit(false)} />
+                    </Box>
+                </Fade>
+            </Modal>
         </Box >
     );
 }

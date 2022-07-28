@@ -27,6 +27,15 @@ const addTurbine = (turbineData) => {
     return axios.post(baseUrl + 'event', turbineData, config);
 }
 
+const alterTurbine = (turbineData) => {
+
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.put(baseUrl + 'event', turbineData, config);
+}
+
 const deleteTurbine = (turbineId) => {
     const config = {
         headers: { Authorization: 'bearer ' + token },
@@ -72,7 +81,8 @@ const appService = {
     deleteTurbine: deleteTurbine,
     login: login,
     setToken: setToken,
-    createUser: createUser
+    createUser: createUser,
+    alterTurbine: alterTurbine
 }
 
 export default appService

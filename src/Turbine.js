@@ -24,6 +24,10 @@ const Turbine = (props) => {
         props.onDeletedWindfarm(props.turbine.id);
     }
 
+    const handleEventUpdate = (turbine) => {
+        props.onUpdatedWindfarm(turbine);
+    }
+
     const stepsNames = props.steps.map(filtered => filtered.name);
     let reachedStep = stepsNames.length > 0 ? stepsNames[props.turbine.completedSteps] : "No step found";
     if (props.turbine.completedSteps === stepsNames.length) {
@@ -43,7 +47,7 @@ const Turbine = (props) => {
                 }}>
                 <Grid container direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12}>
-                        <Typography variant="button"><b>{props.turbine.turbineName} - {props.turbine.operation}</b></Typography>
+                        <Typography variant="button"><b>{props.turbine.turbineName} - {props.turbine.turbineNumber}</b></Typography>
                         <Typography variant="body2"> {reachedStep}</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ mr: 1, width: 200 }}>
@@ -72,6 +76,7 @@ const Turbine = (props) => {
                             turbineMaster={props.turbine}
                             onClose={handleDetailClose}
                             onDeletedWindfarm={handleEventDeletion}
+                            onUpdatedWindfarm={handleEventUpdate}
                         />
                     </Box>
                 </Fade>

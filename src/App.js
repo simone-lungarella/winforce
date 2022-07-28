@@ -14,7 +14,7 @@ import ErgTitle from "./ErgTitle.js";
 import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
-import WindfarmForm from "./WindfarmForm.js";
+import CreationForm from "./CreationForm.js";
 
 const theme = createTheme({
   palette: {
@@ -171,6 +171,17 @@ const App = () => {
       });
   }
 
+  const handleTurbineUpdate = (turbine) => {
+    eventService.alterTurbine(turbine)
+      .then(response => {
+        if (response.status === 200) {
+          setTurbines(turbines.map(t => t.id === turbine.id ? turbine : t));
+        }
+      }).catch(() => {
+        console.log("Error altering turbine");
+      });
+  }
+
   const handleStepComplete = (stepId) => {
     const updatedStep = steps.find(s => s.id.toString() === stepId.toString());
     updatedStep.complete = true;
@@ -299,7 +310,8 @@ const App = () => {
                   <Turbine turbine={turbine} steps={turbineSteps}
                     completeStep={handleStepComplete}
                     incompleteStep={handleStepIncomplete}
-                    onDeletedWindfarm={handleTurbineDeletion} />
+                    onDeletedWindfarm={handleTurbineDeletion}
+                    onUpdatedWindfarm={handleTurbineUpdate} />
                 </Grid>
               )
             })}
@@ -350,7 +362,7 @@ const App = () => {
         >
           <Fade in={open}>
             <Box>
-              <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={() => setOpen(false)} />
+              <CreationForm onAddedWindfarm={handleTurbineAdd} onClose={() => setOpen(false)} />
             </Box>
           </Fade>
         </Modal>
