@@ -37,7 +37,7 @@ const CreationForm = (props) => {
 
     const [formValues, setFormValues] = useState(defaultEvent)
     const [dateEMValue, setEMDateValue] = useState(null);
-    const [dateOCValue, setOCDateValue] = useState(null);
+    const [dateOCValue, setOCDateValue] = useState(new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000));
 
     const [isEMOpen, setIsEMOpen] = useState(false);
     const [isOCOpen, setIsOCOpen] = useState(false);
@@ -48,6 +48,14 @@ const CreationForm = (props) => {
             ...formValues,
             [name]: value,
         });
+
+        if (name === "power") {
+            if (value === "MEGAWATT") {
+                setOCDateValue(new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000));
+            } else {
+                setOCDateValue(new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000));
+            }
+        }
     };
 
     const handleSubmit = () => {

@@ -15,6 +15,7 @@ import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import CreationForm from "./CreationForm.js";
+import DownloadIcon from '@mui/icons-material/Download';
 
 const theme = createTheme({
   palette: {
@@ -91,6 +92,17 @@ const App = () => {
       window.localStorage.removeItem("authorizations");
       setTurbinesReady(false);
     }
+  }
+
+  const handleExport = () => {
+    eventService.getExportdata().then(response => {
+      const blob = new Blob([response.data], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "export.csv";
+      link.click();
+    });
   }
 
   const handleLoginFormOpen = () => {
@@ -336,6 +348,14 @@ const App = () => {
                 fontSize: 48,
               }}>
               <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
+            </IconButton>
+          </Grid>
+          <Grid item >
+            <IconButton disabled={!isAuthenticated} onClick={handleExport}
+              sx={{
+                fontSize: 48,
+              }}>
+              <DownloadIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
             </IconButton>
           </Grid>
         </Grid>

@@ -52,6 +52,14 @@ const getSteps = () => {
     return axios.get(baseUrl + 'steps', config);
 }
 
+const getExportdata = () => {
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.get(baseUrl + 'events/csv', config);
+}
+
 const setStepComplete = (stepId, isComplete) => {
     const config = {
         headers: { Authorization: 'bearer ' + token },
@@ -82,7 +90,8 @@ const appService = {
     login: login,
     setToken: setToken,
     createUser: createUser,
-    alterTurbine: alterTurbine
+    alterTurbine: alterTurbine,
+    getExportdata: getExportdata
 }
 
 export default appService
