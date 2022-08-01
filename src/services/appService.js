@@ -27,6 +27,15 @@ const addTurbine = (turbineData) => {
     return axios.post(baseUrl + 'event', turbineData, config);
 }
 
+const alterTurbine = (turbineData) => {
+
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.put(baseUrl + 'event', turbineData, config);
+}
+
 const deleteTurbine = (turbineId) => {
     const config = {
         headers: { Authorization: 'bearer ' + token },
@@ -41,6 +50,14 @@ const getSteps = () => {
     }
 
     return axios.get(baseUrl + 'steps', config);
+}
+
+const getExportdata = () => {
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.get(baseUrl + 'events/csv', config);
 }
 
 const setStepComplete = (stepId, isComplete) => {
@@ -72,7 +89,9 @@ const appService = {
     deleteTurbine: deleteTurbine,
     login: login,
     setToken: setToken,
-    createUser: createUser
+    createUser: createUser,
+    alterTurbine: alterTurbine,
+    getExportdata: getExportdata
 }
 
 export default appService

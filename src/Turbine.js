@@ -3,6 +3,15 @@ import {
 } from "@mui/material";
 import React from 'react';
 import TurbineDetail from './TurbineDetail.js';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
+import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from '@mui/icons-material/Warning';
+
+const states = {
+    ok: "OK",
+    warning: "WARNING",
+    error: "ERROR"
+}
 
 const Turbine = (props) => {
 
@@ -24,6 +33,10 @@ const Turbine = (props) => {
         props.onDeletedWindfarm(props.turbine.id);
     }
 
+    const handleEventUpdate = (turbine) => {
+        props.onUpdatedWindfarm(turbine);
+    }
+
     const stepsNames = props.steps.map(filtered => filtered.name);
     let reachedStep = stepsNames.length > 0 ? stepsNames[props.turbine.completedSteps] : "No step found";
     if (props.turbine.completedSteps === stepsNames.length) {
@@ -34,6 +47,13 @@ const Turbine = (props) => {
         percentage = Math.round((props.turbine.completedSteps / stepsNames.length) * 100);
     }
 
+    let status = states.ok;
+    if (props.turbine.turbineState === "Limitata") {
+        status = states.warning;
+    } else if (props.turbine.turbineState === "Ferma") {
+        status = states.error;
+    }
+
     return (
         <React.Fragment>
             <Button variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}
@@ -42,9 +62,25 @@ const Turbine = (props) => {
                     height: 100
                 }}>
                 <Grid container direction="column" justifyContent="center" alignItems="center">
+                    <Grid container direction="row" >
+                        <Grid item xs={2}>
+                            {status === states.ok &&
+                                <AutoModeIcon color="success" fontSize='large'/>
+                            }
+                            {status === states.warning &&
+                                <WarningIcon color="warning" fontSize='large'/>
+                            }
+                            {status === states.error &&
+                                <ErrorIcon color="error" fontSize='large'/>
+                            }
+                        </Grid>
+                        <Box p={2} />
+                        <Grid item>
+                            <Typography variant="button"><b>{props.turbine.turbineName} - {props.turbine.turbineNumber}</b></Typography>
+                            <Typography variant="body2"> {reachedStep}</Typography>
+                        </Grid>
+                    </Grid>
                     <Grid item xs={12}>
-                        <Typography variant="button"><b>{props.turbine.turbineName} - {props.turbine.operation}</b></Typography>
-                        <Typography variant="body2"> {reachedStep}</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ mr: 1, width: 200 }}>
                                 <LinearProgress color={percentage === 100 ? "secondary" : "success"} variant="determinate" value={percentage} />
@@ -72,6 +108,7 @@ const Turbine = (props) => {
                             turbineMaster={props.turbine}
                             onClose={handleDetailClose}
                             onDeletedWindfarm={handleEventDeletion}
+                            onUpdatedWindfarm={handleEventUpdate}
                         />
                     </Box>
                 </Fade>

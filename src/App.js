@@ -14,7 +14,8 @@ import ErgTitle from "./ErgTitle.js";
 import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
-import WindfarmForm from "./WindfarmForm.js";
+import CreationForm from "./CreationForm.js";
+import DownloadIcon from '@mui/icons-material/Download';
 
 const theme = createTheme({
   palette: {
@@ -93,6 +94,17 @@ const App = () => {
     }
   }
 
+  const handleExport = () => {
+    eventService.getExportdata().then(response => {
+      const blob = new Blob([response.data], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "export.csv";
+      link.click();
+    });
+  }
+
   const handleLoginFormOpen = () => {
     setAnchorMenuEl(null);
     setLoginFormOpen(true);
@@ -168,6 +180,17 @@ const App = () => {
         if (response.status === 200) {
           setTurbines(turbines.filter(turbine => turbine.id.toString() !== turbineId.toString()));
         }
+      });
+  }
+
+  const handleTurbineUpdate = (turbine) => {
+    eventService.alterTurbine(turbine)
+      .then(response => {
+        if (response.status === 200) {
+          setTurbines(turbines.map(t => t.id === turbine.id ? turbine : t));
+        }
+      }).catch(() => {
+        console.log("Error altering turbine");
       });
   }
 
@@ -299,7 +322,8 @@ const App = () => {
                   <Turbine turbine={turbine} steps={turbineSteps}
                     completeStep={handleStepComplete}
                     incompleteStep={handleStepIncomplete}
-                    onDeletedWindfarm={handleTurbineDeletion} />
+                    onDeletedWindfarm={handleTurbineDeletion}
+                    onUpdatedWindfarm={handleTurbineUpdate} />
                 </Grid>
               )
             })}
@@ -326,6 +350,14 @@ const App = () => {
               <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
             </IconButton>
           </Grid>
+          <Grid item >
+            <IconButton disabled={!isAuthenticated} onClick={handleExport}
+              sx={{
+                fontSize: 48,
+              }}>
+              <DownloadIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
+            </IconButton>
+          </Grid>
         </Grid>
         <Popover
           open={Boolean(anchorEl)}
@@ -350,7 +382,7 @@ const App = () => {
         >
           <Fade in={open}>
             <Box>
-              <WindfarmForm onAddedWindfarm={handleTurbineAdd} onClose={() => setOpen(false)} />
+              <CreationForm onAddedWindfarm={handleTurbineAdd} onClose={() => setOpen(false)} />
             </Box>
           </Fade>
         </Modal>
