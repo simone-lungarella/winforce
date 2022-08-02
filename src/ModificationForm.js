@@ -15,11 +15,13 @@ const formStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 300,
+    width: 330,
     bgcolor: 'background.paper',
     border: '2px solid #284871',
     boxShadow: 24,
-    p: 3,
+    p: 2,
+    maxHeight: '300px', 
+    overflow: 'auto'
 };
 
 const ModificationForm = (props) => {
@@ -99,6 +101,18 @@ const ModificationForm = (props) => {
                         label="Impianto Eolico"
                         type="text"
                         value={formValues.description}
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item >
+                    <TextField style={{ width: 250, height: 50 }}
+                        required
+                        error={formValues.odlNumber === ""}
+                        id="odl-number"
+                        name="odlNumber"
+                        label="Numero ODL"
+                        type="number"
+                        value={formValues.odlNumber}
                         onChange={handleInputChange}
                     />
                 </Grid>
