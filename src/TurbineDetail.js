@@ -21,7 +21,7 @@ const formStyle = {
     bgcolor: 'background.paper',
     border: '2px solid #284871',
     boxShadow: 24,
-    p: 3,
+    p: 2,
 };
 
 const TurbineDetail = (props) => {

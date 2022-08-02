@@ -15,17 +15,20 @@ const formStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 300,
+    width: 330,
     bgcolor: 'background.paper',
     border: '2px solid #284871',
     boxShadow: 24,
-    p: 3,
+    p: 2,
+    maxHeight: '300px', 
+    overflow: 'auto'
 };
 
 const defaultEvent = {
     turbineName: "",
     turbineNumber: "XXXX",
     description: "",
+    odlNumber: "",
     power: "MEGAWATT",
     operation: ["Asta pitch"],
     turbineState: "In marcia",
@@ -74,6 +77,7 @@ const CreationForm = (props) => {
             <Typography align="center" id="modal-modal-title" variant="h6" >
                 CREA NUOVO INTERVENTO
             </Typography>
+            
             <Box pt={3} />
             <Grid container direction="column" alignItems="center" rowSpacing={2}>
 
@@ -89,7 +93,6 @@ const CreationForm = (props) => {
                         onChange={handleInputChange}
                     />
                     <TextField style={{ width: 70, height: 50}}
-                        disabled
                         id="turbine-number"
                         name="turbineNumber"
                         type="text"
@@ -106,6 +109,18 @@ const CreationForm = (props) => {
                         label="Impianto Eolico"
                         type="text"
                         value={formValues.description}
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item >
+                    <TextField style={{ width: 250, height: 50 }}
+                        required
+                        error={formValues.odlNumber === ""}
+                        id="odl-number"
+                        name="odlNumber"
+                        label="Numero ODL"
+                        type="number"
+                        value={formValues.odlNumber}
                         onChange={handleInputChange}
                     />
                 </Grid>
