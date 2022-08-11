@@ -9,8 +9,8 @@ import Backdrop from '@mui/material/Backdrop';
 import ToolBar from "@mui/material/Toolbar";
 import React, { useEffect, useState } from "react";
 import AddUserForm from "./AddUserForm.js";
-import ErgLogo from "./ErgLogo.js";
-import ErgTitle from "./ErgTitle.js";
+import AppLogo from "./AppLogo.js";
+import AppTitle from "./Title.js";
 import LoginForm from "./LoginForm.js";
 import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
@@ -157,7 +157,7 @@ const App = () => {
   const handleTurbineAdd = (turbineData) => {
 
     setOpen(false);
-
+    console.log(turbineData);
     eventService
       .addTurbine(turbineData)
       .then(response => {
@@ -210,7 +210,7 @@ const App = () => {
   }
 
   // The turbine with minor completedSteps should be on top
-  if (isAuthenticated && turbinesReady) {
+  if (isAuthenticated && turbinesReady && turbines.length > 0) {
     turbines.sort((a, b) => a.completedSteps - b.completedSteps);
   }
 
@@ -228,10 +228,10 @@ const App = () => {
         }}
       />
       <Container maxWidth="sm">
-        <AppBar>
-          <ToolBar sx={{ height: 80 }}>
-            <ErgLogo />
-            <ErgTitle />
+        <AppBar color="secondary">
+          <ToolBar sx={{ height: 80 }} >
+            <AppLogo />
+            <AppTitle />
             <IconButton
               onClick={(event) => { setAnchorMenuEl(event.currentTarget) }}
               sx={{

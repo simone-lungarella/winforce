@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from "./logo.svg";
 import Box from "@mui/material/Box";
 
-const ErgLogo = () => {
+const AppLogo = () => {
 
     return (
         <Box
@@ -15,10 +15,10 @@ const ErgLogo = () => {
                 height: 64,
             }}
 
-            alt="ERG logo"
+            alt="App logo"
             src={Logo}
         />
     )
 };
 
-export default ErgLogo;
+export default AppLogo;

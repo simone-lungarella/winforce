@@ -34,7 +34,7 @@ const ModificationForm = (props) => {
     const [isOCOpen, setIsOCOpen] = useState(false);
 
     useEffect(() => {
-        console.log(props.event);
+        
         setFormValues(props.event);
         if (props.event.startingDateEEMM != null) {
             setEMDateValue(props.event.startingDateEEMM);
@@ -57,11 +57,10 @@ const ModificationForm = (props) => {
 
         formValues.startingDateEEMM = dateEMValue;
         formValues.startingDateOOCC = dateOCValue;
-
+        console.log(formValues);
         props.onUpdatedWindfarm(formValues);
         setEMDateValue(null);
         setOCDateValue(null);
-        console.log("Updated");
     }
 
     return (
@@ -106,18 +105,18 @@ const ModificationForm = (props) => {
                 </Grid>
                 <Grid item >
                     <TextField style={{ width: 250, height: 50 }}
-                        error={formValues.odlNumber === ""}
-                        id="odl-number"
+                        id="odl-number-mod"
                         name="odlNumber"
                         label="Numero ODL"
-                        type="number"
+                        type="text"
                         value={formValues.odlNumber}
                         onChange={handleInputChange}
                     />
                 </Grid>
                 <Grid item >
                     <Select style={{ width: 250, height: 50 }}
-                        name="operation" value={formValues.operation} onChange={handleInputChange} multiple >
+                        name="operation" value={formValues.operation} onChange={handleInputChange} multiple 
+                        error={formValues.operation.length === 0} required >
                         <MenuItem key="1" value="Asta pitch">Asta pitch</MenuItem>
                         <MenuItem key="2" value="Riparazione pale">Riparazione pale</MenuItem>
                         <MenuItem key="3" value="Pulizia tubolare">Pulizia tubolare</MenuItem>
@@ -201,7 +200,7 @@ const ModificationForm = (props) => {
                     </Grid>
                     <Grid item xs={4} m={4}>
                         <Button
-                            disabled={formValues.name === "" || formValues.description === ""}
+                            disabled={formValues.name === "" || formValues.description === "" || formValues.operation.length === 0}
                             variant="contained"
                             startIcon={<SaveIcon />}
                             onClick={handleSubmit}

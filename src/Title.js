@@ -1,8 +1,8 @@
 import React from 'react';
-import Title from "./ErgTitle.svg";
+import AppTitle from "./Title.svg";
 import Box from "@mui/material/Box";
 
-const ErgLogo = () => {
+const Title = () => {
 
     return (
         <Box
@@ -16,10 +16,10 @@ const ErgLogo = () => {
             }}
             padding={1}
 
-            alt="ERG title"
-            src={Title}
+            alt="App title"
+            src={AppTitle}
         />
     )
 };
 
-export default ErgLogo;
+export default Title;
