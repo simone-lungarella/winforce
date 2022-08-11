@@ -1,5 +1,5 @@
-<h1 align="center">Erg Task Manager</h1>
-<h3 align="center">ERG Task manager that helps ERG teams to organize windfarm in Italy</h3>
+<h1 align="center">Task Manager</h1>
+<h3 align="center">Task manager that helps teams to organize windfarms</h3>
 
 <p align="center" >
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />

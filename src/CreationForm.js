@@ -28,7 +28,7 @@ const defaultEvent = {
     turbineName: "",
     turbineNumber: "XXXX",
     description: "",
-    odlNumber: "",
+    odlNumber: 0,
     power: "MEGAWATT",
     operation: ["Asta pitch"],
     turbineState: "In marcia",
@@ -114,8 +114,6 @@ const CreationForm = (props) => {
                 </Grid>
                 <Grid item >
                     <TextField style={{ width: 250, height: 50 }}
-                        required
-                        error={formValues.odlNumber === ""}
                         id="odl-number"
                         name="odlNumber"
                         label="Numero ODL"
@@ -126,7 +124,8 @@ const CreationForm = (props) => {
                 </Grid>
                 <Grid item >
                     <Select style={{ width: 250, height: 50 }}
-                        name="operation" value={formValues.operation} onChange={handleInputChange} multiple >
+                        name="operation" value={formValues.operation} onChange={handleInputChange} multiple 
+                        error={formValues.operation.length === 0} required>
                         <MenuItem key="1" value="Asta pitch">Asta pitch</MenuItem>
                         <MenuItem key="2" value="Riparazione pale">Riparazione pale</MenuItem>
                         <MenuItem key="3" value="Pulizia tubolare">Pulizia tubolare</MenuItem>
@@ -210,7 +209,7 @@ const CreationForm = (props) => {
                     </Grid>
                     <Grid item xs={4} m={4}>
                         <Button
-                            disabled={formValues.name === "" || formValues.description === ""}
+                            disabled={formValues.name === "" || formValues.description === "" || formValues.operation.length === 0}
                             variant="contained"
                             startIcon={<SaveIcon />}
                             onClick={handleSubmit}
