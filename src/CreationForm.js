@@ -20,7 +20,7 @@ const formStyle = {
     border: '2px solid #284871',
     boxShadow: 24,
     p: 2,
-    maxHeight: '300px', 
+    maxHeight: '300px',
     overflow: 'auto'
 };
 
@@ -30,7 +30,7 @@ const defaultEvent = {
     description: "",
     odlNumber: 0,
     power: "MEGAWATT",
-    operation: ["Asta pitch"],
+    operation: ["Sostituzione Traversa"],
     turbineState: "In marcia",
     startingDateEEMM: null,
     startingDateOOCC: null,
@@ -77,7 +77,7 @@ const CreationForm = (props) => {
             <Typography align="center" id="modal-modal-title" variant="h6" >
                 CREA NUOVO INTERVENTO
             </Typography>
-            
+
             <Box pt={3} />
             <Grid container direction="column" alignItems="center" rowSpacing={2}>
 
@@ -92,7 +92,7 @@ const CreationForm = (props) => {
                         value={formValues.turbineName}
                         onChange={handleInputChange}
                     />
-                    <TextField style={{ width: 70, height: 50}}
+                    <TextField style={{ width: 70, height: 50 }}
                         id="turbine-number"
                         name="turbineNumber"
                         type="text"
@@ -124,11 +124,26 @@ const CreationForm = (props) => {
                 </Grid>
                 <Grid item >
                     <Select style={{ width: 250, height: 50 }}
-                        name="operation" value={formValues.operation} onChange={handleInputChange} multiple 
+                        name="operation" value={formValues.operation} onChange={handleInputChange} multiple
                         error={formValues.operation.length === 0} required>
-                        <MenuItem key="1" value="Asta pitch">Asta pitch</MenuItem>
+                        <MenuItem key="1" value="Sostituzione Traversa">Sost. Traversa</MenuItem>
                         <MenuItem key="2" value="Riparazione pale">Riparazione pale</MenuItem>
-                        <MenuItem key="3" value="Pulizia tubolare">Pulizia tubolare</MenuItem>
+                        <MenuItem key="3" value="Sostituzione trafo">Sost. trafo</MenuItem>
+                        <MenuItem key="4" value="Sostituzione generatore">Sost. generatore</MenuItem>
+                        <MenuItem key="5" value="Sostituzione Ralla">Sost. Ralla</MenuItem>
+                        <MenuItem key="6" value="Pulizia Tubolare">Pulizia tubolare</MenuItem>
+                        <MenuItem key="7" value="Sostituzione IMS">Sost. IMS</MenuItem>
+                        <MenuItem key="8" value="Serraggio bulloni nose cone">Serraggio Nose Cone</MenuItem>
+                        <MenuItem key="9" value="Sostituzione Stella HUB">Sost. Stella HUB</MenuItem>
+                        <MenuItem key="10" value="Sostituzione Pala discesa rotore">Sost. Pala discesa rotore</MenuItem>
+                        <MenuItem key="11" value="Sostituzione cuscinetto">Sost. cuscinetto</MenuItem>
+                        <MenuItem key="12" value="Sostituzione Asta Pitch">Sost. Asta Pitch</MenuItem>
+                        <MenuItem key="13" value="Sostituzione Yaw Gear">Sost. Yaw Gear</MenuItem>
+                        <MenuItem key="14" value="Sostituzione Gearbox">Sost. Gearbox</MenuItem>
+                        <MenuItem key="15" value="Sostituzione Pala RJ">Sost. Pala RJ</MenuItem>
+                        <MenuItem key="16" value="Sostituzione Albero lento">Sost. Albero lento</MenuItem>
+                        <MenuItem key="17" value="Ispezione RJ">Ispezione RJ</MenuItem>
+                        <MenuItem key="18" value="Manutenzione ordinaria viabilità">Manutenzione ordinaria viabilità</MenuItem>
                     </Select>
                 </Grid>
                 <Grid item >
