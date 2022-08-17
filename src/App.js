@@ -220,7 +220,7 @@ const App = () => {
       <GlobalStyles
         styles={{
           body: {
-            backgroundImage: 'url(' + require('./winforce_bg.png') + ')'
+            backgroundColor:'#98acdc'
           },
           '*::-webkit-scrollbar': {
             width: '0em'
@@ -228,7 +228,7 @@ const App = () => {
         }}
       />
       <Container maxWidth="sm">
-        <AppBar color="secondary">
+        <AppBar style={{backgroundColor:"#132F4D"}}>
           <ToolBar sx={{ height: 80 }} >
             <AppLogo />
             <AppTitle />
