@@ -54,9 +54,11 @@ const Turbine = (props) => {
         status = states.error;
     }
 
+    const isOvertime = props.turbine.permittingDate + 90 * 24 * 60 * 60 * 1000 > new Date().getTime();
+
     return (
         <React.Fragment>
-            <Button variant="contained" color={percentage === 100 ? "success" : "primary"} onClick={() => setOpen(true)}
+            <Button variant="contained" color={percentage === 100 ? "success" : percentage < 80 && isOvertime ? "error" : "primary"} onClick={() => setOpen(true)}
                 sx={{
                     width:280,
                     height: 100
