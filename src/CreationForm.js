@@ -40,7 +40,7 @@ const CreationForm = (props) => {
 
     const [formValues, setFormValues] = useState(defaultEvent)
     const [dateEMValue, setEMDateValue] = useState(null);
-    const [dateOCValue, setOCDateValue] = useState(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000));
+    const [dateOCValue, setOCDateValue] = useState(new Date().toString());
 
     const [isEMOpen, setIsEMOpen] = useState(false);
     const [isOCOpen, setIsOCOpen] = useState(false);
@@ -54,9 +54,29 @@ const CreationForm = (props) => {
 
         if (name === "power") {
             if (value === "MEGAWATT") {
-                setOCDateValue(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000));
+
+                let startDate = new Date();
+                let endDate = new Date(), noOfDaysToAdd = 7, count = 0;
+                while (count < noOfDaysToAdd) {
+                    endDate = new Date(startDate.setDate(startDate.getDate() + 1));
+                    console.log(endDate);
+                    if (endDate.getDay() !== 0 && endDate.getDay() !== 6) {
+                        count++;
+                    }
+                }
+                setOCDateValue(endDate.toString());
+                
             } else {
-                setOCDateValue(new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000));
+
+                let startDate = new Date();
+                let endDate = "", noOfDaysToAdd = 5, count = 0;
+                while (count < noOfDaysToAdd) {
+                    endDate = new Date(startDate.setDate(startDate.getDate() + 1));
+                    if (endDate.getDay() !== 0 && endDate.getDay() !== 6) {
+                        count++;
+                    }
+                }
+                setOCDateValue(endDate.toString());
             }
         }
     };

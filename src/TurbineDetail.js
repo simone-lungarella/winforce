@@ -69,7 +69,7 @@ const TurbineDetail = (props) => {
     if (props.turbineMaster.operation.length > 1) {
         operations += ", " + props.turbineMaster.operation[1];
     }
-    
+
     if (operations.length > 18) {
         operations = operations.substring(0, 18) + "...";
     }
@@ -104,7 +104,7 @@ const TurbineDetail = (props) => {
                         <Typography variant="overline" > Creazione </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography variant="h6" > {props.turbineMaster.creationDate}</Typography>
+                        <Typography variant="h6" > { props.turbineMaster.creationDate.substring(0, 10) }</Typography>
                     </Grid>
                 </Grid>
                 <Grid container direction="row" alignItems="center" columnGap={2}>

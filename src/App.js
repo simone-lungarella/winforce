@@ -16,6 +16,7 @@ import eventService from "./services/appService";
 import Turbine from "./Turbine.js";
 import CreationForm from "./CreationForm.js";
 import DownloadIcon from '@mui/icons-material/Download';
+import BottomNavigation from "@mui/material/BottomNavigation";
 
 const theme = createTheme({
   palette: {
@@ -220,7 +221,7 @@ const App = () => {
       <GlobalStyles
         styles={{
           body: {
-            backgroundColor:'#98acdc'
+            backgroundColor: '#98acdc'
           },
           '*::-webkit-scrollbar': {
             width: '0em'
@@ -228,7 +229,7 @@ const App = () => {
         }}
       />
       <Container maxWidth="sm">
-        <AppBar style={{backgroundColor:"#132F4D"}}>
+        <AppBar style={{ backgroundColor: "#132F4D" }}>
           <ToolBar sx={{ height: 80 }} >
             <AppLogo />
             <AppTitle />
@@ -302,7 +303,7 @@ const App = () => {
             >
               <Fade in={consoleOpen}>
                 <Box>
-                  <AddUserForm  />
+                  <AddUserForm />
                 </Box>
               </Fade>
             </Modal>
@@ -341,24 +342,6 @@ const App = () => {
           }
         </Stack>
 
-        <Grid container justifyContent="center">
-          <Grid item >
-            <IconButton onClick={isAuthenticated ? () => setOpen(true) : (event) => setAnchorEl(event.currentTarget)}
-              sx={{
-                fontSize: 48,
-              }}>
-              <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
-            </IconButton>
-          </Grid>
-          <Grid item >
-            <IconButton disabled={!isAuthenticated} onClick={handleExport}
-              sx={{
-                fontSize: 48,
-              }}>
-              <DownloadIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
-            </IconButton>
-          </Grid>
-        </Grid>
         <Popover
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(null)}
@@ -387,6 +370,49 @@ const App = () => {
           </Fade>
         </Modal>
       </Container>
+      <BottomNavigation sx={{
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        backgroundColor: '#98acdc',
+        borderTop: '1px solid #e0f1f8',
+        borderBottom: '1px solid #e0f1f8',
+        boxShadow: '0px -1px 0px 0px rgba(0,0,0,0.2), 0px 1px 0px 0px rgba(0,0,0,0.14), 0px 2px 0px 0px rgba(0,0,0,0.12)',
+        padding: '0px',
+        margin: '0px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        '@media (max-width: 600px)': {
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          flexWrap: 'nowrap',
+        },
+      }} >
+
+        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item >
+            <IconButton onClick={isAuthenticated ? () => setOpen(true) : (event) => setAnchorEl(event.currentTarget)}
+              sx={{
+                fontSize: 48,
+              }}>
+              <AddCircleOutlineIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
+            </IconButton>
+          </Grid>
+          <Grid item >
+            <IconButton disabled={!isAuthenticated} onClick={handleExport}
+              sx={{
+                fontSize: 48,
+              }}>
+              <DownloadIcon color={isAuthenticated ? "primary" : "error"} fontSize="inherit" />
+            </IconButton>
+          </Grid>
+        </Grid>
+
+      </BottomNavigation>
     </ThemeProvider>
   );
 };
