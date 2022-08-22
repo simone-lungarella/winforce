@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:8080/v1.0.0/";
+const baseUrl = "https://dockyard-handler.herokuapp.com/v1.0.0/";
 
 let token = null
 
@@ -70,7 +70,7 @@ const setStepComplete = (stepId, isComplete) => {
 
 const login = async (username, password) => {
 
-    return axios.get("http://localhost:8080/login?username=" + username + "&password=" + password);
+    return axios.get("https://dockyard-handler.herokuapp.com/login?username=" + username + "&password=" + password);
 }
 
 const createUser = (username, password, userRole) => {
