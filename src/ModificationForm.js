@@ -20,7 +20,6 @@ import { default as React, useEffect, useState } from "react";
 import Header from "./Header";
 
 const formStyle = {
-  overflow: "auto",
   padding: "20px",
   marginBottom: "3rem",
 };
@@ -61,8 +60,13 @@ const ModificationForm = (props) => {
 
   return (
     <React.Fragment>
+      <Box
+        sx={{
+          marginTop: "80px",
+        }}
+      />
+      <Header title="MODIFICA" />
       <Box sx={formStyle}>
-        <Header title="MODIFICA" />
         <Box pt={3} />
         <Grid container direction="column" alignItems="center" rowSpacing={2}>
           <Grid item>

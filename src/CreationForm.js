@@ -11,7 +11,7 @@ import {
   InputAdornment,
   MenuItem,
   Select,
-  TextField
+  TextField,
 } from "@mui/material";
 import { MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -76,6 +76,11 @@ const CreationForm = (props) => {
 
   return (
     <React.Fragment>
+      <Box
+        sx={{
+          marginTop: "80px",
+        }}
+      />
       <Header title="CREA INTERVENTO" />
 
       <Box sx={formStyle}>
@@ -321,7 +326,11 @@ const CreationForm = (props) => {
           onClick={() => {
             handleTurbineAdd();
           }}
-          disabled={formValues.turbineName === "" || formValues.description === "" || formValues.operation.length === 0}
+          disabled={
+            formValues.turbineName === "" ||
+            formValues.description === "" ||
+            formValues.operation.length === 0
+          }
           icon={<SaveIcon sx={{ fontSize: 42 }} color="primary" />}
         />
       </BottomNavigation>

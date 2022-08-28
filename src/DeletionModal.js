@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Backdrop, Box, Button, Grid, Modal, Typography } from "@mui/material";
 
 import { default as React } from "react";
 import eventService from "./services/appService";
@@ -25,6 +25,17 @@ const DeletionModal = (props) => {
   };
 
   return (
+    <Modal
+      open={true}
+      title="Eliminazione intervento"
+      onClose={() => {
+        props.handleClose();
+      }}
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
       <Box sx={formStyle}>
         <Grid
           container
@@ -34,17 +45,18 @@ const DeletionModal = (props) => {
           rowGap={2}
         >
           <Typography variant="h6" component="h2">
-            Eliminare turbina?
+            Eliminare intervento?
           </Typography>
           <Typography sx={{ mt: 2 }}>
-            L'eliminazione della turbina: <b>{props.turbineName}</b> sarà
-            permanente.
+            L'eliminazione dell'intervento associato alla turbina con nome:{" "}
+            <b>{props.turbineName}</b> sarà permanente.
           </Typography>
           <Button variant="contained" onClick={handleTurbineDeletion}>
             ELIMINA
           </Button>
         </Grid>
       </Box>
+    </Modal>
   );
 };
 
