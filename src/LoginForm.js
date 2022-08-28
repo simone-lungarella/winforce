@@ -17,9 +17,6 @@ const formStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 300,
-    bgcolor: 'background.paper',
-    border: '2px solid #284871',
-    boxShadow: 24,
     p: 3,
 };
 
@@ -31,7 +28,7 @@ const LoginForm = (props) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [invalidCredentials, setInvalidCredentials] = useState(false);
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
 
         eventService.login(username, password).then(response => {
 
@@ -60,7 +57,6 @@ const LoginForm = (props) => {
                 <TextField style={{ width: 250, height: 50 }}
                     required
                     error={invalidCredentials}
-                    id="username-input"
                     name="username"
                     label="Nome utente"
                     type="text"
@@ -72,7 +68,6 @@ const LoginForm = (props) => {
                     <OutlinedInput
                         required
                         error={invalidCredentials}
-                        id="outlined-adornment-password"
                         label="Password"
                         name="password"
                         type={isPasswordVisible ? 'text' : 'password'}

@@ -11,6 +11,9 @@ const setToken = newToken => {
 }
 
 const getTurbines = () => {
+
+    console.log("BACKEND SRV - Retrieving all turbines");
+
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
@@ -19,6 +22,8 @@ const getTurbines = () => {
 }
 
 const addTurbine = (turbineData) => {
+
+    console.log("BACKEND SRV - Creating turbine: " + turbineData.name);
 
     const config = {
         headers: { Authorization: 'bearer ' + token },
@@ -29,6 +34,8 @@ const addTurbine = (turbineData) => {
 
 const alterTurbine = (turbineData) => {
 
+    console.log("BACKEND SRV - Updating turbine: " + turbineData.name);
+
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
@@ -37,6 +44,9 @@ const alterTurbine = (turbineData) => {
 }
 
 const deleteTurbine = (turbineId) => {
+    
+    console.log("BACKEND SRV - Deleting turbine: " + turbineId);
+
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
@@ -45,6 +55,9 @@ const deleteTurbine = (turbineId) => {
 }
 
 const getSteps = () => {
+
+    console.log("BACKEND SRV - Retrieving all steps");
+
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
@@ -53,6 +66,9 @@ const getSteps = () => {
 }
 
 const getExportdata = () => {
+
+    console.log("BACKEND SRV - Creating csv file");
+
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
@@ -61,6 +77,9 @@ const getExportdata = () => {
 }
 
 const setStepComplete = (stepId, isComplete) => {
+
+    console.log("BACKEND SRV - Setting step completeness: " + stepId + " - " + isComplete);
+
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
@@ -74,6 +93,9 @@ const login = async (username, password) => {
 }
 
 const createUser = (username, password, userRole) => {
+    
+    console.log("BACKEND SRV - Creating user: " + username);
+    
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
