@@ -350,22 +350,26 @@ const App = () => {
           body: {
             backgroundColor: "#98acdc",
           },
-          "*::-webkit-scrollbar": {
-            width: "0.4em",
+          "::-webkit-scrollbar": {
+            webkitOverflowScrolling: "auto",
+            width: "0.5em",
           },
-          "*::-webkit-scrollbar-thumb": {
-            backgroundColor: "rgba(0,0,0,.1)",
+          "::-webkit-scrollbar-track": {
+            webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+            backgroundColor: "rgba(0,0,0,0.1)",
+          },
+          "::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0,0,0,0.5)",
             outline: "1px solid slategrey",
           },
         }}
       />
       <AppBar
-        position="relative"
+        position="fixed"
         style={{
           backgroundColor: "#132F4D",
           color: "#fff",
           backgroundImage: `linear-gradient(to bottom, #132F4A, #132F4F)`,
-          opacity: 0.9,
         }}
       >
         <ToolBar
@@ -559,7 +563,7 @@ const App = () => {
             alignItems="center"
             spacing={3}
             sx={{
-              marginTop: "1rem",
+              marginTop: "80px",
               marginBottom: "5rem",
             }}
           >
@@ -610,6 +614,7 @@ const App = () => {
           turbineId={currentTurbine.id}
           turbineName={currentTurbine.turbineName}
           handleTurbineDeletion={(id) => handleDeletion(id)}
+          handleClose={() => setDeletionModalOpen(false)}
         />
       )}
 

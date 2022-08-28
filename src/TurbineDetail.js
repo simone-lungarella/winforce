@@ -27,7 +27,10 @@ const TurbineDetail = (props) => {
   return (
     <Box
       sx={{
-        padding: "2rem",
+        marginTop: "80px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        paddingBottom: "20px",
       }}
     >
       <Header title={turbineName + " - " + props.turbineMaster.turbineNumber} />
