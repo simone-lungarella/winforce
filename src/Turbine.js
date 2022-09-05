@@ -38,67 +38,103 @@ const Turbine = (props) => {
     new Date().getTime();
 
   return (
-    <Button
-      variant="contained"
-      color={
-        percentage === 100
-          ? "success"
-          : percentage < 80 && isOvertime
-          ? "error"
-          : "primary"
-      }
-      onClick={props.handleOpenDetail}
-      sx={{
-        width: 280,
-        height: 100,
-      }}
-    >
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
+    <React.Fragment>
+      <Button
+        variant="contained"
+        color={
+          percentage === 100
+            ? "success"
+            : percentage < 80 && isOvertime
+            ? "error"
+            : "primary"
+        }
+        onClick={props.handleOpenDetail}
+        sx={{
+          width: 280,
+          height: 100,
+        }}
       >
-        <Grid container direction="row">
-          <Grid item xs={2}>
+        <Grid container direction="row" justifyContent="left">
+          <Grid
+            item
+            sx={{
+              // Lock position
+              position: "absolute",
+              top: "5%",
+              left: "2%",
+              zIndex: 1,
+            }}
+          >
             {status === states.ok && (
-              <AutoModeIcon color="success" fontSize="large" />
+              <AutoModeIcon
+                color={percentage === 100 ? "secondary" : "success"}
+                sx={{
+                  bgcolor: "rgba(0, 0, 0, 0.04)",
+                  borderRadius: "50%",
+                  p: 0.5,
+                }}
+                fontSize="large"
+              />
             )}
             {status === states.warning && (
-              <WarningIcon color="warning" fontSize="large" />
+              <WarningIcon
+                color={percentage === 100 ? "secondary" : "warning"}
+                sx={{
+                  bgcolor: "rgba(0, 0, 0, 0.04)",
+                  p: 0.5,
+                }}
+                fontSize="large"
+              />
             )}
             {status === states.error && (
-              <ErrorIcon color="error" fontSize="large" />
+              <ErrorIcon
+                color={percentage === 100 ? "secondary" : "error"}
+                sx={{
+                  // Dark grey bg color
+                  bgcolor: "rgba(0, 0, 0, 0.04)",
+                  borderRadius: "50%",
+                  p: 0.5,
+                }}
+                fontSize="large"
+              />
             )}
           </Grid>
-          <Box p={2} />
+          <Box sx={{ flexGrow: 0.5 }} />
           <Grid item>
-            <Typography variant="button">
-              <b>
-                {props.turbine.turbineName} - {props.turbine.turbineNumber}
-              </b>
-            </Typography>
-            <Typography variant="body2"> {reachedStep}</Typography>
+            <Grid container direction="column" justifyContent="right">
+              <Typography
+                sx={{
+                  fontSize: 14,
+                  fontWeight: "bold",
+                  width: 200,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "wrap",
+                }}
+              >
+                <b>
+                  {props.turbine.turbineName} {props.turbine.turbineNumber}
+                  {" ("}
+                  {props.turbine.description}
+                  {")"}
+                </b>
+              </Typography>
+              <Typography variant="body2"> {reachedStep}</Typography>
+            </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ mr: 1, width: 200 }}>
-              <LinearProgress
-                color={percentage === 100 ? "secondary" : "success"}
-                variant="determinate"
-                value={percentage}
-              />
-            </Box>
-            <Box sx={{ minWidth: 35 }}>
-              <Typography variant="body2" color="text.primary">{`${Math.round(
-                percentage
-              )}%`}</Typography>
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </Button>
+      </Button>
+      <Box sx={{ mr: 1, width: 280 }}>
+        <LinearProgress
+          color={percentage === 100 ? "secondary" : "success"}
+          variant="determinate"
+          value={percentage}
+          sx={{
+            borderRadius: 5,
+          }}
+        />
+      </Box>
+    </React.Fragment>
   );
 };
 

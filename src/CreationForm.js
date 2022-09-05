@@ -25,6 +25,17 @@ const formStyle = {
   marginBottom: "3rem",
 };
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 300,
+    },
+  },
+};
+
 const defaultEvent = {
   turbineName: "",
   turbineNumber: "XXXX",
@@ -132,13 +143,17 @@ const CreationForm = (props) => {
           </Grid>
           <Grid item>
             <Select
-              style={{ width: 250, height: 50 }}
+              style={{
+                width: 250,
+                height: 50,
+              }}
               name="operation"
               value={formValues.operation}
               onChange={handleInputChange}
               multiple
               error={formValues.operation.length === 0}
               required
+              MenuProps={MenuProps}
             >
               <MenuItem key="1" value="Sostituzione Traversa">
                 Sost. Traversa
@@ -199,6 +214,9 @@ const CreationForm = (props) => {
               </MenuItem>
               <MenuItem key="20" value="Manutenzione ordinaria viabilità">
                 Manutenzione ordinaria viabilità
+              </MenuItem>
+              <MenuItem key="21" value="Attività Varie">
+                Attività Varie
               </MenuItem>
             </Select>
           </Grid>
