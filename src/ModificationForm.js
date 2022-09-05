@@ -176,7 +176,13 @@ const ModificationForm = (props) => {
               <MenuItem key="17" value="Ispezione RJ">
                 Ispezione RJ
               </MenuItem>
-              <MenuItem key="18" value="Manutenzione ordinaria viabilità">
+              <MenuItem key="18" value="Sostituzione Blade Bearing">
+                Sostituzione Blade Bearing
+              </MenuItem>
+              <MenuItem key="19" value="Sostituzione Main Bearing">
+                Sostituzione Main Bearing
+              </MenuItem>
+              <MenuItem key="20" value="Manutenzione ordinaria viabilità">
                 Manutenzione ordinaria viabilità
               </MenuItem>
             </Select>
