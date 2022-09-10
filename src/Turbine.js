@@ -1,7 +1,18 @@
 import AutoModeIcon from "@mui/icons-material/AutoMode";
+import ConstructionIcon from "@mui/icons-material/Construction";
 import ErrorIcon from "@mui/icons-material/Error";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import WarningIcon from "@mui/icons-material/Warning";
-import { Box, Button, Grid, LinearProgress, Typography } from "@mui/material";
+
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 const states = {
@@ -33,108 +44,138 @@ const Turbine = (props) => {
     status = states.error;
   }
 
-  const isOvertime =
-    props.turbine.permittingDate + 90 * 24 * 60 * 60 * 1000 >
-    new Date().getTime();
+  const [bgImage, setBgImage] = React.useState("./image/Turbina.png");
+
+  React.useEffect(() => {
+    if (
+      props.turbine.operation.includes("Riparazione pale") ||
+      props.turbine.operation.includes("Sostituzione Blade Bearing") ||
+      props.turbine.operation.includes("Sostituzione Main Bearing") ||
+      props.turbine.operation.includes("Sostituzione Pala RJ") ||
+      props.turbine.operation.includes("Sostituzione Pala discesa rotore")
+    ) {
+      setBgImage("./image/Pale.png");
+    } else if (
+      props.turbine.operation.includes("Sostituzione generatore") ||
+      props.turbine.operation.includes("Sostituzione Yaw Gear") ||
+      props.turbine.operation.includes("Sostituzione Yaw Gear") ||
+      props.turbine.operation.includes("Sostituzione Gearbox") || 
+      props.turbine.operation.includes("Ispezione RJ")
+    ) {
+      setBgImage("./image/Navicella.png");
+    } else if (
+      props.turbine.operation.includes("Pulizia Tubolare") ||
+      props.turbine.operation.includes("Sostituzione Albero lento")
+    ) {
+      setBgImage("./image/Tubolare.png");
+    } else if (
+      props.turbine.operation.includes("Sostituzione Stella HUB") ||
+      props.turbine.operation.includes("Serraggio bulloni nose cone") ||
+      props.turbine.operation.includes("Sostituzione cuscinetto") ||
+      props.turbine.operation.includes("Sostituzione Asta Pitch") ||
+      props.turbine.operation.includes("Sostituzione Main Bearing") ||
+      props.turbine.operation.includes("Sostituzione trafo") ||
+      props.turbine.operation.includes("Sostituzione Ralla")
+    ) {
+      setBgImage("./image/Hub.png");
+    } else if (props.turbine.operation.includes("Sostituzione IMS")) {
+      setBgImage("./image/Cabina.png");
+    } else {
+      setBgImage("./image/Turbina.png");
+    }
+  }, [props.turbine]);
+
+  // Calculating if the deadline is passed
+  let date = new Date(props.turbine.permittingDate);
+  date.setDate(date.getDate() + 90);
+  const isOvertime = new Date() > date;
 
   return (
-    <React.Fragment>
+    <Card
+      sx={{
+        width: 300,
+        backgroundColor:
+          percentage === 100
+            ? "secondary.main"
+            : percentage < 80 && isOvertime
+            ? "#f44336"
+            : "#555",
+        backgroundImage: `url(${require(`${bgImage}`)})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.5)",
+      }}
+    >
+      <CardContent>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: "bold",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "wrap",
+          }}
+          color="primary.contrastText"
+        >
+          <b>
+            {props.turbine.turbineName} {props.turbine.turbineNumber}
+          </b>
+        </Typography>
+        <Typography variant="overline" color="primary.contrastText">
+          {" "}
+          {reachedStep}
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            padding: { sm: 0, md: 1, lg: 0 },
+          }}
+        />
+        <Grid container direction="row" columnGap={2}>
+          <LocationOnIcon sx={{ color: "##000" }} />
+          <Typography variant="body2" color="primary.contrastText" gutterBottom>
+            {props.turbine.description}
+          </Typography>
+        </Grid>
+        <Grid container direction="row" columnGap={2}>
+          {status === states.ok && <AutoModeIcon sx={{ color: "##000" }} />}
+          {status === states.warning && <WarningIcon sx={{ color: "##000" }} />}
+          {status === states.error && <ErrorIcon sx={{ color: "##000" }} />}
+          <Typography variant="body2" color="primary.contrastText" gutterBottom>
+            {props.turbine.turbineState}
+          </Typography>
+        </Grid>
+        <Grid container direction="row" columnGap={2}>
+          <ConstructionIcon sx={{ color: "##000" }} />
+          <Typography variant="body2" color="primary.contrastText" gutterBottom>
+            {props.turbine.operation[0]}
+          </Typography>
+        </Grid>
+      </CardContent>
       <Button
         variant="contained"
-        color={
-          percentage === 100
-            ? "success"
-            : percentage < 80 && isOvertime
-            ? "error"
-            : "primary"
-        }
+        color="primary"
         onClick={props.handleOpenDetail}
         sx={{
-          width: 280,
-          height: 100,
+          width: "90%",
+          height: 50,
+          left: "5%",
+          mt: { xs: -1, sm: 0 },
         }}
       >
-        <Grid container direction="row" justifyContent="left">
-          <Grid
-            item
-            sx={{
-              // Lock position
-              position: "absolute",
-              top: "5%",
-              left: "2%",
-              zIndex: 1,
-            }}
-          >
-            {status === states.ok && (
-              <AutoModeIcon
-                color={percentage === 100 ? "secondary" : "success"}
-                sx={{
-                  bgcolor: "rgba(0, 0, 0, 0.04)",
-                  borderRadius: "50%",
-                  p: 0.5,
-                }}
-                fontSize="large"
-              />
-            )}
-            {status === states.warning && (
-              <WarningIcon
-                color={percentage === 100 ? "secondary" : "warning"}
-                sx={{
-                  bgcolor: "rgba(0, 0, 0, 0.04)",
-                  p: 0.5,
-                }}
-                fontSize="large"
-              />
-            )}
-            {status === states.error && (
-              <ErrorIcon
-                color={percentage === 100 ? "secondary" : "error"}
-                sx={{
-                  // Dark grey bg color
-                  bgcolor: "rgba(0, 0, 0, 0.04)",
-                  borderRadius: "50%",
-                  p: 0.5,
-                }}
-                fontSize="large"
-              />
-            )}
-          </Grid>
-          <Box sx={{ flexGrow: 0.5 }} />
-          <Grid item>
-            <Grid container direction="column" justifyContent="right">
-              <Typography
-                sx={{
-                  fontSize: 14,
-                  fontWeight: "bold",
-                  width: 200,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "wrap",
-                }}
-              >
-                <b>
-                  {props.turbine.turbineName} {props.turbine.turbineNumber}
-                  {" ("}
-                  {props.turbine.description}
-                  {")"}
-                </b>
-              </Typography>
-              <Typography variant="body2"> {reachedStep}</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
+        <Typography>DETTAGLI</Typography>
       </Button>
-      <Box sx={{ mr: 1, width: 280 }}>
+      <Box sx={{ mr: 1, width: "100%", mt: 1 }}>
         <LinearProgress
-          color={percentage === 100 ? "secondary" : "success"}
+          color={percentage === 100 ? "success" : "success"}
           variant="determinate"
           value={percentage}
           sx={{
-            borderRadius: 5,
+            height: 20,
           }}
         />
       </Box>
-    </React.Fragment>
+    </Card>
   );
 };
 

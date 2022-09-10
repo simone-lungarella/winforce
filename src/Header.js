@@ -5,7 +5,7 @@ const Header = (props) => {
     <Box
       sx={{
         width: "100%",
-        backgroundColor: "#98acdc",
+        backgroundColor: "backgroundColor",
         borderTop: "1px solid #e0f1f8",
         borderBottom: "1px solid #e0f1f8",
         boxShadow:
@@ -17,7 +17,7 @@ const Header = (props) => {
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
         overflow: "hidden",
-        color: "#ffffff",
+        color: "primary.contrastText",
       }}
     >
       <Typography
@@ -26,7 +26,7 @@ const Header = (props) => {
         sx={{
           fontSize: "2.5rem",
           fontWeight: "bold",
-          backgroundColor: "#98acdc",
+          color: "#000",
         }}
       >
         {" "}

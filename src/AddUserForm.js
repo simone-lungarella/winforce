@@ -46,7 +46,6 @@ const AddUserForm = (props) => {
       .catch((error) => {
         if (error.response?.status === 409) {
           const msg = "Username " + username + " già utilizzato";
-          console.log(msg);
           setErrorMsg(msg);
         } else {
           setErrorMsg("Errore durante la creazione");
