@@ -1,24 +1,32 @@
 {
   "files": {
-    "main.css": "/winforce/static/css/main.d7dc322e.css",
-    "main.js": "/winforce/static/js/main.10995415.js",
+    "main.css": "/winforce/static/css/main.11d6e4ba.css",
+    "main.js": "/winforce/static/js/main.bd8681dd.js",
     "static/js/787.0d6a95cf.chunk.js": "/winforce/static/js/787.0d6a95cf.chunk.js",
     "static/media/roboto-all-300-normal.woff": "/winforce/static/media/roboto-all-300-normal.168d6383e73339293ac3.woff",
+    "static/media/Turbina.png": "/winforce/static/media/Turbina.4f09168bc1f1d0af1c15.png",
+    "static/media/Hub.png": "/winforce/static/media/Hub.8e83e75dfe66bf939790.png",
+    "static/media/Navicella.png": "/winforce/static/media/Navicella.167bbd6d1acb72146836.png",
     "static/media/roboto-latin-300-normal.woff2": "/winforce/static/media/roboto-latin-300-normal.c48fb6765a9fcb00b330.woff2",
     "static/media/roboto-cyrillic-ext-300-normal.woff2": "/winforce/static/media/roboto-cyrillic-ext-300-normal.4777461b144e55145268.woff2",
+    "static/media/Cabina.png": "/winforce/static/media/Cabina.63f6f5cc15373f91a759.png",
+    "static/media/Pale.png": "/winforce/static/media/Pale.8e225ad4e87fde07cb51.png",
     "static/media/roboto-latin-ext-300-normal.woff2": "/winforce/static/media/roboto-latin-ext-300-normal.dc7dcec8e3f654e0ed63.woff2",
+    "static/media/Tubolare.png": "/winforce/static/media/Tubolare.b4e32d244cafd2ca2aa3.png",
     "static/media/roboto-cyrillic-300-normal.woff2": "/winforce/static/media/roboto-cyrillic-300-normal.1431d1cef06ad04f5458.woff2",
     "static/media/roboto-greek-300-normal.woff2": "/winforce/static/media/roboto-greek-300-normal.db2632771401f61463fe.woff2",
     "static/media/roboto-vietnamese-300-normal.woff2": "/winforce/static/media/roboto-vietnamese-300-normal.32fc45a3d1e8ea11fabc.woff2",
+    "static/media/Windfarms.svg": "/winforce/static/media/Windfarms.08ec800bc064fd03722e.svg",
+    "static/media/Logo.svg": "/winforce/static/media/Logo.e594b1803ab6284dba41e74af1a6e05c.svg",
+    "static/media/logo.svg": "/winforce/static/media/logo.e594b1803ab6284dba41.svg",
     "static/media/roboto-greek-ext-300-normal.woff2": "/winforce/static/media/roboto-greek-ext-300-normal.35b9d6be04b95f0f0530.woff2",
     "index.html": "/winforce/index.html",
-    "static/media/logo.svg": "/winforce/static/media/logo.6d96dc283377bf01142c65167024001e.svg",
-    "main.d7dc322e.css.map": "/winforce/static/css/main.d7dc322e.css.map",
-    "main.10995415.js.map": "/winforce/static/js/main.10995415.js.map",
+    "main.11d6e4ba.css.map": "/winforce/static/css/main.11d6e4ba.css.map",
+    "main.bd8681dd.js.map": "/winforce/static/js/main.bd8681dd.js.map",
     "787.0d6a95cf.chunk.js.map": "/winforce/static/js/787.0d6a95cf.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d7dc322e.css",
-    "static/js/main.10995415.js"
+    "static/css/main.11d6e4ba.css",
+    "static/js/main.bd8681dd.js"
   ]
 }
