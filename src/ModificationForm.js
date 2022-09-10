@@ -39,9 +39,11 @@ const ModificationForm = (props) => {
   const [formValues, setFormValues] = useState(props.turbine);
   const [dateEMValue, setEMDateValue] = useState(null);
   const [dateOCValue, setOCDateValue] = useState(null);
+  const [permittinDateValue, setPermittingDateValue] = useState(null);
 
   const [isEMOpen, setIsEMOpen] = useState(false);
   const [isOCOpen, setIsOCOpen] = useState(false);
+  const [isPermittingOpen, setIsPermittingOpen] = useState(false);
 
   useEffect(() => {
     setFormValues(props.turbine);
@@ -52,6 +54,10 @@ const ModificationForm = (props) => {
     if (props.turbine.startingDateOOCC != null) {
       setOCDateValue(props.turbine.startingDateOOCC);
     }
+
+    if (props.turbine.permittingDate != null) {
+      setPermittingDateValue(props.turbine.permittingDate);
+    }
   }, [props.turbine]);
 
   const handleInputChange = (e) => {
@@ -60,12 +66,14 @@ const ModificationForm = (props) => {
       ...formValues,
       [name]: value,
     });
-
-    formValues.startingDateEEMM = dateEMValue;
-    formValues.startingDateOOCC = dateOCValue;
   };
 
   const handleTurbineUpdate = () => {
+
+    formValues.startingDateEEMM = dateEMValue;
+    formValues.startingDateOOCC = dateOCValue;
+    formValues.permittingDate = permittinDateValue;
+
     props.onUpdatedWindfarm(formValues);
   };
 
@@ -305,6 +313,41 @@ const ModificationForm = (props) => {
               />
             </LocalizationProvider>
           </Grid>
+          <Grid item>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <MobileDatePicker
+                label="Attività Permitting"
+                value={permittinDateValue}
+                open={isPermittingOpen}
+                onOpen={() => {
+                  setIsPermittingOpen(true);
+                }}
+                onClose={() => {
+                  setIsPermittingOpen(false);
+                }}
+                onChange={setPermittingDateValue}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            edge="end"
+                            onClick={() => {
+                              setIsPermittingOpen(true);
+                            }}
+                          >
+                            <EventIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
         </Grid>
       </Box>
       <BottomNavigation
@@ -313,7 +356,7 @@ const ModificationForm = (props) => {
           bottom: 0,
           width: "100%",
           zIndex: 1,
-          backgroundColor: "#98acdc",
+          backgroundColor: "#85a99c",
           borderTop: "1px solid #e0f1f8",
           borderBottom: "1px solid #e0f1f8",
           boxShadow:
@@ -325,14 +368,14 @@ const ModificationForm = (props) => {
         <BottomNavigationAction
           label="back"
           onClick={props.handleClose}
-          icon={<ArrowBackIosIcon sx={{ fontSize: 46 }} color="primary" />}
+          icon={<ArrowBackIosIcon sx={{ fontSize: 32 }} color="primary" />}
         />
         <BottomNavigationAction
           label="edit"
           onClick={() => {
             handleTurbineUpdate();
           }}
-          icon={<SaveIcon sx={{ fontSize: 46 }} color="primary" />}
+          icon={<SaveIcon sx={{ fontSize: 32 }} color="primary" />}
         />
       </BottomNavigation>
     </React.Fragment>

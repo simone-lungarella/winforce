@@ -18,6 +18,7 @@ const TurbineDetail = (props) => {
   if (Array.isArray(props.stepList)) {
     orderedSteps = props.stepList.sort((a, b) => a.id - b.id);
   }
+  console.log(props.turbineMaster.permittingDate);
 
   let turbineName = props.turbineMaster.turbineName.toUpperCase();
   if (turbineName.length > 8) {

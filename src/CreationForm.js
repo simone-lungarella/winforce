@@ -46,17 +46,20 @@ const defaultEvent = {
   turbineState: "In marcia",
   startingDateEEMM: null,
   startingDateOOCC: null,
+  permittingDate: null,
 };
 
 const CreationForm = (props) => {
   const [formValues, setFormValues] = useState(defaultEvent);
   const [dateEMValue, setEMDateValue] = useState(null);
+  const [permittinDateValue, setPermittingDateValue] = useState(null);
   const [dateOCValue, setOCDateValue] = useState(
     new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
   );
 
   const [isEMOpen, setIsEMOpen] = useState(false);
   const [isOCOpen, setIsOCOpen] = useState(false);
+  const [isPermittingOpen, setIsPermittingOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -64,9 +67,6 @@ const CreationForm = (props) => {
       ...formValues,
       [name]: value,
     });
-
-    formValues.startingDateEEMM = dateEMValue;
-    formValues.startingDateOOCC = dateOCValue;
 
     if (name === "power") {
       if (value === "MEGAWATT") {
@@ -82,6 +82,11 @@ const CreationForm = (props) => {
   };
 
   const handleTurbineAdd = () => {
+
+    formValues.startingDateEEMM = dateEMValue;
+    formValues.startingDateOOCC = dateOCValue;
+    formValues.permittingDate = permittinDateValue;
+    
     props.updateNewTurbine(formValues);
   };
 
@@ -323,6 +328,41 @@ const CreationForm = (props) => {
               />
             </LocalizationProvider>
           </Grid>
+          <Grid item>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <MobileDatePicker
+                label="Attività Permitting"
+                value={permittinDateValue}
+                open={isPermittingOpen}
+                onOpen={() => {
+                  setIsPermittingOpen(true);
+                }}
+                onClose={() => {
+                  setIsPermittingOpen(false);
+                }}
+                onChange={setPermittingDateValue}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            edge="end"
+                            onClick={() => {
+                              setIsPermittingOpen(true);
+                            }}
+                          >
+                            <EventIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
         </Grid>
       </Box>
       <BottomNavigation
@@ -331,7 +371,7 @@ const CreationForm = (props) => {
           bottom: 0,
           width: "100%",
           zIndex: 1,
-          backgroundColor: "#98acdc",
+          backgroundColor: "bottomBarColor",
           borderTop: "1px solid #e0f1f8",
           borderBottom: "1px solid #e0f1f8",
           boxShadow:
@@ -343,7 +383,7 @@ const CreationForm = (props) => {
         <BottomNavigationAction
           label="back"
           onClick={props.handleClose}
-          icon={<ArrowBackIosIcon sx={{ fontSize: 46 }} color="primary" />}
+          icon={<ArrowBackIosIcon sx={{ fontSize: 32, color:"#000" }} />}
         />
         <BottomNavigationAction
           label="create"
@@ -355,7 +395,7 @@ const CreationForm = (props) => {
             formValues.description === "" ||
             formValues.operation.length === 0
           }
-          icon={<SaveIcon sx={{ fontSize: 42 }} color="primary" />}
+          icon={<SaveIcon sx={{ fontSize: 32, color:"#000" }} />}
         />
       </BottomNavigation>
     </React.Fragment>

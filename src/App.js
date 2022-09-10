@@ -8,8 +8,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "./logo.svg";
+import logo from "./Logo.svg";
 import ModificationForm from "./ModificationForm";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import {
   Alert,
@@ -24,10 +27,11 @@ import {
   ListItemIcon,
   ListItemText,
   Menu,
-  MenuItem, Popover,
+  MenuItem,
+  Popover,
   Snackbar,
   ThemeProvider,
-  Typography
+  Typography,
 } from "@mui/material";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import ToolBar from "@mui/material/Toolbar";
@@ -44,14 +48,14 @@ const theme = createTheme({
   palette: {
     primary: {
       light: "#757ce8",
-      main: "#4a7ec0",
-      dark: "#3c6baa",
+      main: "#2c6b2c", //#4a7ec0
+      dark: "#1e5b2c", //#3c6baa
       contrastText: "#fff",
     },
     secondary: {
       light: "#ff7961",
       main: "#39621d",
-      dark: "#ba000d",
+      dark: "#333",
       contrastText: "#000",
     },
     success: {
@@ -65,6 +69,15 @@ const theme = createTheme({
       main: "#f44336",
       dark: "#d32f2f",
       contrastText: "#000",
+    },
+    barColor: {
+      main: "#1a392c",
+    },
+    bottomBarColor: {
+      main: "#85a99c",
+    },
+    backgroundColor: {
+      main: "#cfded7",
     },
   },
   typography: {
@@ -117,6 +130,7 @@ const App = () => {
 
   // Snackbars
   const [isDeleted, setIsDeleted] = React.useState(false);
+  const [easterEgg, setEasterEgg] = React.useState(false);
   const [isAltered, setIsAltered] = React.useState(false);
   const [isCreated, setIsCreated] = React.useState(false);
   const [isExported, setIsExported] = React.useState(false);
@@ -348,7 +362,7 @@ const App = () => {
       <GlobalStyles
         styles={{
           body: {
-            backgroundColor: "#98acdc",
+            backgroundColor: "#fff",
           },
           "::-webkit-scrollbar": {
             webkitOverflowScrolling: "auto",
@@ -364,29 +378,35 @@ const App = () => {
           },
         }}
       />
-      <AppBar
-        position="fixed"
-        style={{
-          backgroundColor: "#132F4D",
-          color: "#fff",
-          backgroundImage: `linear-gradient(to bottom, #132F4A, #132F4F)`,
-        }}
-      >
+      <AppBar position="fixed" color="barColor">
         <ToolBar
           sx={{
             height: 80,
           }}
         >
-          {/* Logo app */}
-          <img
-            src={logo}
-            alt="logo"
-            style={{
-              position: "absolute",
-              width: "100px",
-              height: "100px",
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: "rotate(45deg)",
+              transition: "transform 1s ease-in-out",
+              "&:hover": {
+                transform: "rotate(360deg) scale(1.1)",
+              },
             }}
-          />
+          >
+            <IconButton onClick={() => setEasterEgg(true)}>
+              <img
+                src={logo}
+                alt="logo"
+                style={{
+                  height: 50,
+                  width: 50,
+                }}
+              />
+            </IconButton>
+          </Box>
 
           <Grid container direction="row" justifyContent={"center"}>
             <Grid item>
@@ -398,7 +418,11 @@ const App = () => {
                 disabled={!isAuthenticated}
               >
                 <ListItemText>
-                  <Typography variant="overline" sx={{ fontSize: 18 }}>
+                  <Typography
+                    color="primary.contrastText"
+                    variant="overline"
+                    sx={{ fontSize: 18 }}
+                  >
                     Logout
                   </Typography>
                 </ListItemText>
@@ -413,7 +437,11 @@ const App = () => {
                 }}
               >
                 <ListItemText>
-                  <Typography variant="overline" sx={{ fontSize: 18 }}>
+                  <Typography
+                    color="primary.contrastText"
+                    variant="overline"
+                    sx={{ fontSize: 18 }}
+                  >
                     Sign up
                   </Typography>
                 </ListItemText>
@@ -431,11 +459,13 @@ const App = () => {
               right: "0%",
               transform: "translate(-10%, -50%)",
               display: { xs: "flex", md: "none" },
-              fontSize: 48,
+              fontSize: 32,
             }}
           >
             <MenuIcon
-              color={isAuthenticated ? "success" : "error"}
+              sx={{
+                color: isAuthenticated ? "primary.contrastText" : "#f44336",
+              }}
               fontSize="inherit"
             />
           </IconButton>
@@ -500,9 +530,17 @@ const App = () => {
         />
       )}
       <Snackbar
-        open={isDeleted || isAltered || isCreated || isExported || userAdded}
+        open={
+          isDeleted ||
+          isAltered ||
+          isCreated ||
+          isExported ||
+          userAdded ||
+          easterEgg
+        }
         autoHideDuration={3000}
         onClose={() => {
+          setEasterEgg(false);
           setIsDeleted(false);
           setIsAltered(false);
           setIsCreated(false);
@@ -511,8 +549,10 @@ const App = () => {
         }}
         action={snackbarAction}
       >
+        {/* Custom alert with custom background */}
         <Alert
           onClose={() => {
+            setEasterEgg(false);
             setIsDeleted(false);
             setIsAltered(false);
             setIsCreated(false);
@@ -520,12 +560,19 @@ const App = () => {
             setUserAdded(false);
           }}
           severity={
-            isDeleted
-              ? "error"
-              : isAltered || isCreated || userAdded
+            isAltered || isCreated || userAdded || easterEgg
               ? "success"
+              : isDeleted
+              ? "error"
               : "info"
           }
+          iconMapping={{
+            success: <CheckCircleOutlineIcon fontSize="inherit" sx={{
+              color: "#5fa631",
+            }} />,
+            error: <ErrorOutlineIcon fontSize="inherit" />,
+            info: <InfoOutlinedIcon fontSize="inherit" />,
+          }}
         >
           {isDeleted
             ? "Intervento eliminato!"
@@ -535,7 +582,9 @@ const App = () => {
             ? "Intervento creato!"
             : isExported
             ? "Esportazione completata!"
-            : "Utente creato!"}
+            : userAdded
+            ? "Utente creato!"
+            : "Let's save the planet!"}
         </Alert>
       </Snackbar>
       {openModification && !consoleOpen && (
@@ -559,12 +608,12 @@ const App = () => {
         turbinesReady && (
           <Grid
             container
-            direction="column"
-            alignItems="center"
             spacing={3}
+            justifyContent="center"
             sx={{
-              marginTop: "80px",
-              marginBottom: "5rem",
+              marginTop: "3rem",
+              padding: "20px",
+              marginBottom: "3rem",
             }}
           >
             {turbines.map((turbine) => {
@@ -625,7 +674,7 @@ const App = () => {
             bottom: 0,
             width: "100%",
             zIndex: 1,
-            backgroundColor: "#98acdc",
+            backgroundColor: "bottomBarColor",
             borderTop: "1px solid #e0f1f8",
             borderBottom: "1px solid #e0f1f8",
             boxShadow:
@@ -640,7 +689,7 @@ const App = () => {
               onClick={() => {
                 handleBack();
               }}
-              icon={<ArrowBackIosIcon sx={{ fontSize: 46 }} color="primary" />}
+              icon={<ArrowBackIosIcon sx={{ fontSize: 32, color: "#000" }} />}
             />
           )}
           {!openCreation && !currentTurbine && !consoleOpen && (
@@ -652,14 +701,14 @@ const App = () => {
               }
               icon={
                 <DownloadIcon
-                  sx={{ fontSize: 48 }}
-                  color={
-                    isAuthenticated
+                  sx={{
+                    fontSize: 32,
+                    color: isAuthenticated
                       ? turbines && turbines.length > 0
-                        ? "primary"
-                        : "#fff"
-                      : "error"
-                  }
+                        ? "#000"
+                        : "primary.contrastText"
+                      : "#f44336",
+                  }}
                 />
               }
             />
@@ -674,8 +723,10 @@ const App = () => {
               }
               icon={
                 <AddCircleOutlineIcon
-                  sx={{ fontSize: 48 }}
-                  color={isAuthenticated ? "primary" : "error"}
+                  sx={{
+                    fontSize: 32,
+                    color: isAuthenticated ? "#000" : "#f44336",
+                  }}
                 />
               }
             />
@@ -684,16 +735,27 @@ const App = () => {
             <BottomNavigationAction
               label="delete"
               onClick={() => setDeletionModalOpen(true)}
-              icon={<DeleteIcon sx={{ fontSize: 42 }} color="primary" />}
+              icon={<DeleteIcon sx={{ fontSize: 42, color: "#000" }} />}
             />
           )}
           {currentTurbine && !openModification && (
             <BottomNavigationAction
+              disabled={currentTurbine.completedSteps === currentSteps.length}
               label="edit"
               onClick={() => {
                 setOpenModification(true);
               }}
-              icon={<EditIcon sx={{ fontSize: 46 }} color="primary" />}
+              icon={
+                <EditIcon
+                  sx={{
+                    fontSize: 32,
+                    color: "#000",
+                    // currentTurbine.completedSteps === currentSteps.length
+                    //     ? "#333"
+                    //     : "#000"
+                  }}
+                />
+              }
             />
           )}
           {!openCreation && !currentTurbine && !consoleOpen && (
@@ -702,7 +764,7 @@ const App = () => {
               onClick={() => {
                 window.location.reload(false);
               }}
-              icon={<CachedIcon color="primary" sx={{ fontSize: 48 }} />}
+              icon={<CachedIcon sx={{ fontSize: 32, color: "#000" }} />}
             />
           )}
         </BottomNavigation>
