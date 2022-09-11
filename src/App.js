@@ -611,9 +611,8 @@ const App = () => {
             spacing={3}
             justifyContent="center"
             sx={{
-              marginTop: "3rem",
-              padding: "20px",
-              marginBottom: "3rem",
+              marginTop: "4rem",
+              marginBottom: "4rem",
             }}
           >
             {turbines.map((turbine) => {

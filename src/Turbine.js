@@ -108,7 +108,7 @@ const Turbine = (props) => {
     >
       <CardContent>
         <Typography
-          variant="h5"
+          variant="h4"
           sx={{
             fontWeight: "bold",
             overflow: "hidden",
@@ -121,7 +121,11 @@ const Turbine = (props) => {
             {props.turbine.turbineName} {props.turbine.turbineNumber}
           </b>
         </Typography>
-        <Typography variant="overline" color="primary.contrastText">
+        <Typography variant="h6" color="primary.contrastText" 
+          sx={{
+            textTransform: "uppercase",
+          }}
+        >
           {" "}
           {reachedStep}
         </Typography>
