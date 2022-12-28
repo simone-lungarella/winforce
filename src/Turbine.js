@@ -86,9 +86,13 @@ const Turbine = (props) => {
   }, [props.turbine]);
 
   // Calculating if the deadline is passed
-  let date = new Date(props.turbine.permittingDate);
-  date.setDate(date.getDate() + 90);
-  const isOvertime = new Date() > date;
+  let date = null;
+  if (props.turbine.permittingDate != null) {
+    date = new Date(props.turbine.permittingDate);
+    date.setDate(date.getDate() + 90);
+  }
+
+  const isOvertime = date != null && new Date() > date;
 
   return (
     <Card

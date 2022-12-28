@@ -19,11 +19,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { default as React, useEffect, useState } from "react";
 import Header from "./Header";
 
-const formStyle = {
-  padding: "20px",
-  marginBottom: "3rem",
-};
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -40,24 +35,31 @@ const ModificationForm = (props) => {
   const [dateEMValue, setEMDateValue] = useState(null);
   const [dateOCValue, setOCDateValue] = useState(null);
   const [permittinDateValue, setPermittingDateValue] = useState(null);
-
+  const [prioNotificationValue, setPrioNotificationValue] = useState(null);
+  
   const [isEMOpen, setIsEMOpen] = useState(false);
   const [isOCOpen, setIsOCOpen] = useState(false);
   const [isPermittingOpen, setIsPermittingOpen] = useState(false);
-
+  const [isPrioNotificationOpen, setIsPrioNotificationOpen] = useState(false);
+  
   useEffect(() => {
     setFormValues(props.turbine);
-    if (props.turbine.startingDateEEMM != null) {
+    if (props.turbine != null && props.turbine.startingDateEEMM != null) {
       setEMDateValue(props.turbine.startingDateEEMM);
     }
 
-    if (props.turbine.startingDateOOCC != null) {
+    if (props.turbine != null && props.turbine.startingDateOOCC != null) {
       setOCDateValue(props.turbine.startingDateOOCC);
     }
 
-    if (props.turbine.permittingDate != null) {
+    if (props.turbine != null && props.turbine.permittingDate != null) {
       setPermittingDateValue(props.turbine.permittingDate);
     }
+
+    if (props.turbine != null && props.turbine.priorNotification != null) {
+      setPrioNotificationValue(props.turbine.priorNotification);
+    }
+
   }, [props.turbine]);
 
   const handleInputChange = (e) => {
@@ -73,6 +75,7 @@ const ModificationForm = (props) => {
     formValues.startingDateEEMM = dateEMValue;
     formValues.startingDateOOCC = dateOCValue;
     formValues.permittingDate = permittinDateValue;
+    formValues.prioNotificationDate = prioNotificationValue;
 
     props.onUpdatedWindfarm(formValues);
   };
@@ -85,10 +88,14 @@ const ModificationForm = (props) => {
         }}
       />
       <Header title="MODIFICA" />
-      <Box sx={formStyle}>
+      <Box sx={{
+        margin: "3rem",
+        marginBottom: "5rem",
+        display: "flex",
+      }}>
         <Box pt={3} />
-        <Grid container direction="column" alignItems="center" rowSpacing={2}>
-          <Grid item>
+        <Grid container rowSpacing={4} alignItems="center" justify="center" alignContent="center" textAlign="center">
+          <Grid item xs={12} md={6} lg={4} >
             <TextField
               style={{ width: 180, height: 50 }}
               required
@@ -110,7 +117,7 @@ const ModificationForm = (props) => {
               onChange={handleInputChange}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={6} lg={4}>
             <TextField
               style={{ width: 250, height: 50 }}
               required
@@ -123,7 +130,7 @@ const ModificationForm = (props) => {
               onChange={handleInputChange}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={6} lg={4}>
             <TextField
               style={{ width: 250, height: 50 }}
               id="odl-number-mod"
@@ -134,9 +141,9 @@ const ModificationForm = (props) => {
               onChange={handleInputChange}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={6} lg={4}>
             <Select
-              style={{ width: 250, height: 50 }}
+              style={{ width: 250, height: 50, textAlign: "left" }}
               name="operation"
               value={formValues.operation}
               onChange={handleInputChange}
@@ -210,9 +217,9 @@ const ModificationForm = (props) => {
               </MenuItem>
             </Select>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={6} lg={4}>
             <Select
-              style={{ width: 250, height: 50 }}
+              style={{ width: 250, height: 50, textAlign: "left" }}
               name="turbineState"
               value={formValues.turbineState}
               onChange={handleInputChange}
@@ -228,9 +235,9 @@ const ModificationForm = (props) => {
               </MenuItem>
             </Select>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={6} lg={4}>
             <Select
-              style={{ width: 250, height: 50 }}
+              style={{ width: 250, height: 50, textAlign: "left" }}
               name="power"
               value={formValues.power}
               onChange={handleInputChange}
@@ -243,7 +250,77 @@ const ModificationForm = (props) => {
               </MenuItem>
             </Select>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={6} lg={4}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <MobileDatePicker
+                label="Notifica preliminare"
+                value={prioNotificationValue}
+                open={isPrioNotificationOpen}
+                onOpen={() => {
+                  setIsPrioNotificationOpen(true);
+                }}
+                onClose={() => {
+                  setIsPrioNotificationOpen(false);
+                }}
+                onChange={setPrioNotificationValue}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            edge="end"
+                            onClick={() => {
+                              setIsPrioNotificationOpen(true);
+                            }}
+                          >
+                            <EventIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <MobileDatePicker
+                label="Attività Permitting"
+                value={permittinDateValue}
+                open={isPermittingOpen}
+                onOpen={() => {
+                  setIsPermittingOpen(true);
+                }}
+                onClose={() => {
+                  setIsPermittingOpen(false);
+                }}
+                onChange={setPermittingDateValue}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            edge="end"
+                            onClick={() => {
+                              setIsPermittingOpen(true);
+                            }}
+                          >
+                            <EventIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
                 label="Avvio attività OOCC"
@@ -278,7 +355,7 @@ const ModificationForm = (props) => {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
                 label="Avvio attività EEMM"
@@ -301,41 +378,6 @@ const ModificationForm = (props) => {
                             edge="end"
                             onClick={() => {
                               setIsEMOpen(true);
-                            }}
-                          >
-                            <EventIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <MobileDatePicker
-                label="Attività Permitting"
-                value={permittinDateValue}
-                open={isPermittingOpen}
-                onOpen={() => {
-                  setIsPermittingOpen(true);
-                }}
-                onClose={() => {
-                  setIsPermittingOpen(false);
-                }}
-                onChange={setPermittingDateValue}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            edge="end"
-                            onClick={() => {
-                              setIsPermittingOpen(true);
                             }}
                           >
                             <EventIcon />

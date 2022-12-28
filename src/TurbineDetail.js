@@ -66,11 +66,27 @@ const TurbineDetail = (props) => {
             </Typography>
           </Grid>
           <Grid item xs={6}>
+            <Typography variant="overline"> Notifica Preliminare </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            {props.turbineMaster.priorNotification && (
+              <Typography variant="body1" sx={{ textAlign: "right" }}>
+                {" "}
+                {props.turbineMaster.priorNotification}{" "}
+              </Typography>
+            )}
+            {!props.turbineMaster.priorNotification && (
+              <Typography variant="body1" sx={{ textAlign: "right" }}>
+                Non assegnato
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={6}>
             <Typography variant="overline"> Inizio att. EEMM </Typography>
           </Grid>
           <Grid item xs={6}>
             {props.turbineMaster.startingDateEEMM && (
-              <Typography variant="h6" sx={{ textAlign: "right" }}>
+              <Typography variant="body1" sx={{ textAlign: "right" }}>
                 {" "}
                 {props.turbineMaster.startingDateEEMM}{" "}
               </Typography>

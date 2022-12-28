@@ -8,7 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import MenuIcon from "@mui/icons-material/Menu";
-import logo from "./Logo.svg";
+import logo from "./logo.svg";
 import ModificationForm from "./ModificationForm";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -87,6 +87,15 @@ const theme = createTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     fontWeightBold: 700,
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 400,
+      md: 660,
+      lg: 1200,
+      xl: 1920,
+    },
   },
 });
 
@@ -274,6 +283,9 @@ const App = () => {
     setIsAltered(true);
     setIsLoading(true);
     setOpenModification(false);
+    setCurrentTurbine(null);
+    setCurrentSteps([]);
+
     eventService
       .alterTurbine(updateTurbine)
       .then((response) => {
@@ -281,8 +293,6 @@ const App = () => {
           setTurbines(
             turbines.map((t) => (t.id === updateTurbine.id ? updateTurbine : t))
           );
-          setCurrentTurbine(null);
-          setCurrentSteps([]);
         }
       })
       .catch(() => {
@@ -676,8 +686,7 @@ const App = () => {
             backgroundColor: "bottomBarColor",
             borderTop: "1px solid #e0f1f8",
             borderBottom: "1px solid #e0f1f8",
-            boxShadow:
-              "0px -1px 0px 0px rgba(0,0,0,0.2), 0px 1px 0px 0px rgba(0,0,0,0.14), 0px 2px 0px 0px rgba(0,0,0,0.12)",
+            boxShadow: "0px -1px 0px 0px rgba(0,0,0,0.2), 0px 1px 0px 0px rgba(0,0,0,0.14), 0px 2px 0px 0px rgba(0,0,0,0.12)",
             padding: "0px",
             margin: "0px",
           }}
@@ -748,10 +757,7 @@ const App = () => {
                 <EditIcon
                   sx={{
                     fontSize: 32,
-                    color: "#000",
-                    // currentTurbine.completedSteps === currentSteps.length
-                    //     ? "#333"
-                    //     : "#000"
+                    color: "#000"
                   }}
                 />
               }
