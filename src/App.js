@@ -13,8 +13,12 @@ import ModificationForm from "./ModificationForm";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
   AppBar,
   BottomNavigationAction,
@@ -108,6 +112,9 @@ const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorMenuEl, setAnchorMenuEl] = React.useState(null);
 
+  const [oldTurbines, setOldTurbines] = useState([]);
+  const [newTurbines, setNewTurbines] = useState([]);
+
   // Retrieve token from local storage
   useEffect(() => {
     const localToken = window.localStorage.getItem("token");
@@ -120,7 +127,13 @@ const App = () => {
         .getTurbines()
         .then((response) => {
           setTurbines(response.data);
+          setOldTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+          setNewTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
+
           setTurbinesReady(true);
+
+          console.log("OLD:", oldTurbines);
+          console.log("NEW", newTurbines);
         })
         .catch((error) => {
           console.log(error);
@@ -166,6 +179,9 @@ const App = () => {
         (turbine) => turbine.id.toString() !== turbineId.toString()
       )
     );
+    setNewTurbines(turbines.filter((turbine) => turbine.id.toString() !== turbineId.toString()).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
+    setOldTurbines(turbines.filter((turbine) => turbine.id.toString() !== turbineId.toString()).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+
     setIsDeleted(true);
     setCurrentTurbine(null);
     setDeletionModalOpen(false);
@@ -181,6 +197,9 @@ const App = () => {
         .getTurbines()
         .then((response) => {
           setTurbines(response.data);
+          setOldTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+          setNewTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
+
           setTurbinesReady(true);
         })
         .catch((error) => {
@@ -232,12 +251,16 @@ const App = () => {
 
   // Existing windfarms
   const [turbines, setTurbines] = useState([]);
+
   useEffect(() => {
     if (isAuthenticated) {
       eventService
         .getTurbines()
         .then((response) => {
           setTurbines(response.data);
+          setOldTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+          setNewTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
+
           setTurbinesReady(true);
         })
         .catch((error) => {
@@ -270,6 +293,8 @@ const App = () => {
       if (response.status === 200) {
         eventService.getTurbines().then((turbineResponse) => {
           setTurbines(turbineResponse.data);
+          setOldTurbines(turbineResponse.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+          setNewTurbines(turbineResponse.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
         });
         eventService.getSteps().then((stepsResponse) => {
           setSteps(stepsResponse.data);
@@ -293,6 +318,9 @@ const App = () => {
           setTurbines(
             turbines.map((t) => (t.id === updateTurbine.id ? updateTurbine : t))
           );
+
+          setOldTurbines(turbines.map((t) => (t.id === updateTurbine.id ? updateTurbine : t)).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+          setNewTurbines(turbines.map((t) => (t.id === updateTurbine.id ? updateTurbine : t)).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
         }
       })
       .catch(() => {
@@ -337,6 +365,9 @@ const App = () => {
           : t
       )
     );
+
+    setOldTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps + 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+    setNewTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps + 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
   };
 
   const handleStepIncomplete = (stepId) => {
@@ -356,6 +387,9 @@ const App = () => {
           : t
       )
     );
+
+    setOldTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps - 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
+    setNewTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps - 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
   };
 
   // The turbine with minor completedSteps should be on top
@@ -573,8 +607,8 @@ const App = () => {
             isAltered || isCreated || userAdded || easterEgg
               ? "success"
               : isDeleted
-              ? "error"
-              : "info"
+                ? "error"
+                : "info"
           }
           iconMapping={{
             success: <CheckCircleOutlineIcon fontSize="inherit" sx={{
@@ -587,14 +621,14 @@ const App = () => {
           {isDeleted
             ? "Intervento eliminato!"
             : isAltered
-            ? "Intervento modificato!"
-            : isCreated
-            ? "Intervento creato!"
-            : isExported
-            ? "Esportazione completata!"
-            : userAdded
-            ? "Utente creato!"
-            : "Let's save the planet!"}
+              ? "Intervento modificato!"
+              : isCreated
+                ? "Intervento creato!"
+                : isExported
+                  ? "Esportazione completata!"
+                  : userAdded
+                    ? "Utente creato!"
+                    : "Let's save the planet!"}
         </Alert>
       </Snackbar>
       {openModification && !consoleOpen && (
@@ -616,34 +650,115 @@ const App = () => {
         !currentTurbine &&
         isAuthenticated &&
         turbinesReady && (
+
           <Grid
             container
             spacing={3}
             justifyContent="center"
             sx={{
-              marginTop: "4rem",
-              marginBottom: "4rem",
+              marginTop: "2rem",
+              marginBottom: "2rem",
             }}
           >
-            {turbines.map((turbine) => {
-              const turbineSteps = steps.filter(
-                (step) => step.eventId === turbine.id
-              );
-              return (
-                <Grid item key={turbine.id}>
-                  <Turbine
-                    turbine={turbine}
-                    steps={turbineSteps}
-                    completeStep={handleStepComplete}
-                    incompleteStep={handleStepIncomplete}
-                    handleOpenDetail={() => {
-                      setCurrentTurbine(turbine);
-                      setCurrentSteps(turbineSteps);
-                    }}
-                  />
-                </Grid>
-              );
-            })}
+            <Grid item xs={12} md={12} lg={12}>
+              <Grid
+                container
+                spacing={3}
+                justifyContent="center"
+                sx={{
+                  marginTop: "4rem",
+                  marginBottom: "4rem",
+                }}
+              >
+                {newTurbines.length === 0 && (
+                  <Typography variant="overline" sx={{ textAlign: "center" }}>
+                    Nessuna turbina nell'anno corrente
+                  </Typography>
+                )}
+                {newTurbines.length !== 0 && newTurbines.map((turbine) => {
+                  const turbineSteps = steps.filter(
+                    (step) => step.eventId === turbine.id
+                  );
+                  return (
+                    <Grid item key={turbine.id} >
+                      <Turbine
+                        turbine={turbine}
+                        steps={turbineSteps}
+                        completeStep={handleStepComplete}
+                        incompleteStep={handleStepIncomplete}
+                        handleOpenDetail={() => {
+                          setCurrentTurbine(turbine);
+                          setCurrentSteps(turbineSteps);
+                        }}
+                      />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "2rem",
+                  marginBottom: "4rem",
+                }}
+              >
+
+                <Accordion
+                  sx={{
+                    width: "90%",
+                    maxWidth: "1000px",
+                    backgroundColor: "#f5f5f5",
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography variant="h6">Anni precedenti al {new Date().getFullYear()}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Grid
+                      container
+                      spacing={3}
+                      justifyContent="center"
+                      sx={{
+                        marginTop: "4rem",
+                        marginBottom: "4rem",
+                      }}
+                    >
+                      {oldTurbines.length === 0 && (
+                        <Typography variant="overline" sx={{ textAlign: "center" }}>
+                          Nessuna turbina negli anni precedenti
+                        </Typography>
+                      )}
+                      {oldTurbines.length !== 0 && oldTurbines.map((turbine) => {
+                        const turbineSteps = steps.filter(
+                          (step) => step.eventId === turbine.id
+                        );
+                        return (
+                          <Grid item key={turbine.id} >
+                            <Turbine
+                              turbine={turbine}
+                              steps={turbineSteps}
+                              completeStep={handleStepComplete}
+                              incompleteStep={handleStepIncomplete}
+                              handleOpenDetail={() => {
+                                setCurrentTurbine(turbine);
+                                setCurrentSteps(turbineSteps);
+                              }}
+                            />
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
+                  </AccordionDetails>
+                </Accordion>
+              </Box>
+            </Grid>
           </Grid>
         )}
       <Popover
