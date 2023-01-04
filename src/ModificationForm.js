@@ -36,12 +36,12 @@ const ModificationForm = (props) => {
   const [dateOCValue, setOCDateValue] = useState(null);
   const [permittinDateValue, setPermittingDateValue] = useState(null);
   const [prioNotificationValue, setPrioNotificationValue] = useState(null);
-  
+
   const [isEMOpen, setIsEMOpen] = useState(false);
   const [isOCOpen, setIsOCOpen] = useState(false);
   const [isPermittingOpen, setIsPermittingOpen] = useState(false);
   const [isPrioNotificationOpen, setIsPrioNotificationOpen] = useState(false);
-  
+
   useEffect(() => {
     setFormValues(props.turbine);
     if (props.turbine != null && props.turbine.startingDateEEMM != null) {
@@ -215,6 +215,9 @@ const ModificationForm = (props) => {
               <MenuItem key="21" value="Attività Varie">
                 Attività Varie
               </MenuItem>
+              <MenuItem key="22" value="Bonifica Ambientale">
+                Bonifica Ambientale
+              </MenuItem>
             </Select>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
@@ -253,6 +256,7 @@ const ModificationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Notifica preliminare"
                 value={prioNotificationValue}
                 open={isPrioNotificationOpen}
@@ -288,6 +292,7 @@ const ModificationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Attività Permitting"
                 value={permittinDateValue}
                 open={isPermittingOpen}
@@ -323,6 +328,7 @@ const ModificationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Avvio attività OOCC"
                 value={dateOCValue}
                 open={isOCOpen}
@@ -358,6 +364,7 @@ const ModificationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Avvio attività EEMM"
                 value={dateEMValue}
                 open={isEMOpen}

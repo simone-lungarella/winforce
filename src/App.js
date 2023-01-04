@@ -114,6 +114,7 @@ const App = () => {
 
   const [oldTurbines, setOldTurbines] = useState([]);
   const [newTurbines, setNewTurbines] = useState([]);
+  const [closedTurbines, setClosedTurbines] = useState([]);
 
   // Retrieve token from local storage
   useEffect(() => {
@@ -131,9 +132,16 @@ const App = () => {
           setNewTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
 
           setTurbinesReady(true);
+        })
+        .catch((error) => {
+          console.log(error);
+          setTurbinesReady(false);
+        });
 
-          console.log("OLD:", oldTurbines);
-          console.log("NEW", newTurbines);
+      eventService
+        .getCompleteTurbines()
+        .then((response) => {
+          setClosedTurbines(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -672,7 +680,7 @@ const App = () => {
               >
                 {newTurbines.length === 0 && (
                   <Typography variant="overline" sx={{ textAlign: "center" }}>
-                    Nessuna turbina nell'anno corrente
+                    Nessun cantiere nell'anno corrente
                   </Typography>
                 )}
                 {newTurbines.length !== 0 && newTurbines.map((turbine) => {
@@ -699,17 +707,16 @@ const App = () => {
             <Grid item xs={12} md={12} lg={12}>
               <Box
                 sx={{
-                  display: "flex",
+                  display: "flex-column",
                   justifyContent: "center",
                   marginTop: "2rem",
                   marginBottom: "4rem",
+                  marginX: "2rem",
                 }}
               >
 
                 <Accordion
                   sx={{
-                    width: "90%",
-                    maxWidth: "1000px",
                     backgroundColor: "#f5f5f5",
                   }}
                 >
@@ -732,10 +739,59 @@ const App = () => {
                     >
                       {oldTurbines.length === 0 && (
                         <Typography variant="overline" sx={{ textAlign: "center" }}>
-                          Nessuna turbina negli anni precedenti
+                          Nessun cantiere negli anni precedenti
                         </Typography>
                       )}
                       {oldTurbines.length !== 0 && oldTurbines.map((turbine) => {
+                        const turbineSteps = steps.filter(
+                          (step) => step.eventId === turbine.id
+                        );
+                        return (
+                          <Grid item key={turbine.id} >
+                            <Turbine
+                              turbine={turbine}
+                              steps={turbineSteps}
+                              completeStep={handleStepComplete}
+                              incompleteStep={handleStepIncomplete}
+                              handleOpenDetail={() => {
+                                setCurrentTurbine(turbine);
+                                setCurrentSteps(turbineSteps);
+                              }}
+                            />
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion
+                  sx={{
+                    mt: 2,
+                    backgroundColor: "#f5f5f5",
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header">
+                    <Typography variant="h6">Cantieri chiusi</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Grid
+                      container
+                      spacing={3}
+                      justifyContent="center"
+                      sx={{
+                        marginTop: "4rem",
+                        marginBottom: "4rem",
+                      }}
+                    >
+                      {closedTurbines.length === 0 && (
+                        <Typography variant="overline" sx={{ textAlign: "center" }}>
+                          Nessun cantiere completato
+                        </Typography>
+                      )}
+                      {closedTurbines.length !== 0 && closedTurbines.map((turbine) => {
                         const turbineSteps = steps.filter(
                           (step) => step.eventId === turbine.id
                         );

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = "https://dockyard-handler.herokuapp.com/v1.0.0/";
+const baseUrl = "https://dockyard-handler.herokuapp.com";
 
 let token = null
 
@@ -18,7 +18,18 @@ const getTurbines = () => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.get(baseUrl + 'events', config);
+    return axios.get("/v1.0.0/" + baseUrl + 'events', config);
+}
+
+const getCompleteTurbines = () => {
+
+    console.log("BACKEND SRV - Retrieving all completed turbines");
+
+    const config = {
+        headers: { Authorization: 'bearer ' + token },
+    }
+
+    return axios.get("/v1.0.0/" + baseUrl + 'events/completed', config);
 }
 
 const addTurbine = (turbineData) => {
@@ -29,7 +40,7 @@ const addTurbine = (turbineData) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.post(baseUrl + 'event', turbineData, config);
+    return axios.post("/v1.0.0/" + baseUrl + 'event', turbineData, config);
 }
 
 const alterTurbine = (turbineData) => {
@@ -40,18 +51,18 @@ const alterTurbine = (turbineData) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.put(baseUrl + 'event', turbineData, config);
+    return axios.put("/v1.0.0/" + baseUrl + 'event', turbineData, config);
 }
 
 const deleteTurbine = (turbineId) => {
-    
+
     console.log("BACKEND SRV - Deleting turbine: " + turbineId);
 
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.delete(baseUrl + "event?eventId=" + turbineId, config);
+    return axios.delete("/v1.0.0/" + baseUrl + "event?eventId=" + turbineId, config);
 }
 
 const getSteps = () => {
@@ -62,7 +73,7 @@ const getSteps = () => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.get(baseUrl + 'steps', config);
+    return axios.get("/v1.0.0/" + baseUrl + 'steps', config);
 }
 
 const getExportdata = () => {
@@ -73,7 +84,7 @@ const getExportdata = () => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.get(baseUrl + 'events/csv', config);
+    return axios.get("/v1.0.0/" + baseUrl + 'events/csv', config);
 }
 
 const setStepComplete = (stepId, isComplete) => {
@@ -84,27 +95,28 @@ const setStepComplete = (stepId, isComplete) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.put(baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, null, config);
+    return axios.put("/v1.0.0/" + baseUrl + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, null, config);
 }
 
 const login = async (username, password) => {
 
-    return axios.get("https://dockyard-handler.herokuapp.com/login?username=" + username + "&password=" + password);
+    return axios.get(baseUrl + "/login?username=" + username + "&password=" + password);
 }
 
 const createUser = (username, password, userRole) => {
-    
+
     console.log("BACKEND SRV - Creating user: " + username);
-    
+
     const config = {
         headers: { Authorization: 'bearer ' + token },
     }
-    
-    return axios.post(baseUrl + "registration/user", { username: username, password: password, userRole: userRole }, config);
+
+    return axios.post("/v1.0.0/" + baseUrl + "registration/user", { username: username, password: password, userRole: userRole }, config);
 }
 
 const appService = {
     getTurbines: getTurbines,
+    getCompleteTurbines: getCompleteTurbines,
     getSteps: getSteps,
     addTurbine: addTurbine,
     setStepComplete: setStepComplete,

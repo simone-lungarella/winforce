@@ -85,7 +85,7 @@ const CreationForm = (props) => {
     formValues.startingDateOOCC = dateOCValue;
     formValues.permittingDate = permittinDateValue;
     formValues.priorNotification = prioNotificationValue;
-    
+
     props.updateNewTurbine(formValues);
   };
 
@@ -227,6 +227,9 @@ const CreationForm = (props) => {
               <MenuItem key="21" value="Attività Varie">
                 Attività Varie
               </MenuItem>
+              <MenuItem key="22" value="Bonifica Ambientale">
+                Bonifica Ambientale
+              </MenuItem>
             </Select>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
@@ -265,6 +268,7 @@ const CreationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Notifica preliminare"
                 value={prioNotificationValue}
                 open={isPrioNotificationOpen}
@@ -300,6 +304,7 @@ const CreationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Attività Permitting"
                 value={permittinDateValue}
                 open={isPermittingOpen}
@@ -335,6 +340,7 @@ const CreationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Avvio attività OOCC"
                 value={dateOCValue}
                 open={isOCOpen}
@@ -370,6 +376,7 @@ const CreationForm = (props) => {
           <Grid item xs={12} md={6} lg={4}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <MobileDatePicker
+                toolbarFormat="dd/MM/yyyy"
                 label="Avvio attività EEMM"
                 value={dateEMValue}
                 open={isEMOpen}
@@ -402,7 +409,7 @@ const CreationForm = (props) => {
               />
             </LocalizationProvider>
           </Grid>
-          
+
         </Grid>
       </Box>
       <BottomNavigation
@@ -423,7 +430,7 @@ const CreationForm = (props) => {
         <BottomNavigationAction
           label="back"
           onClick={props.handleClose}
-          icon={<ArrowBackIosIcon sx={{ fontSize: 32, color:"#000" }} />}
+          icon={<ArrowBackIosIcon sx={{ fontSize: 32, color: "#000" }} />}
         />
         <BottomNavigationAction
           label="create"
@@ -435,7 +442,7 @@ const CreationForm = (props) => {
             formValues.description === "" ||
             formValues.operation.length === 0
           }
-          icon={<SaveIcon sx={{ fontSize: 32, color:"#000" }} />}
+          icon={<SaveIcon sx={{ fontSize: 32, color: "#000" }} />}
         />
       </BottomNavigation>
     </React.Fragment>
