@@ -646,13 +646,13 @@ const App = () => {
                   marginBottom: "4rem",
                 }}
               >
-                {turbines.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()).length === 0 && (
+                {/* {turbines.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()).length === 0 && (
                   <Typography variant="overline" sx={{ textAlign: "center" }}>
                     Nessun cantiere nell'anno corrente
                   </Typography>
-                )}
-                {turbines.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()).length !== 0 &&
-                  turbines.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()).map((turbine) => {
+                )} */}
+                {turbines.length !== 0 &&
+                  turbines.map((turbine) => {
                     const turbineSteps = steps.filter(
                       (step) => step.eventId === turbine.id
                     );
