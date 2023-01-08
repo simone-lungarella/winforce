@@ -112,8 +112,6 @@ const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorMenuEl, setAnchorMenuEl] = React.useState(null);
 
-  const [oldTurbines, setOldTurbines] = useState([]);
-  const [newTurbines, setNewTurbines] = useState([]);
   const [closedTurbines, setClosedTurbines] = useState([]);
 
   // Retrieve token from local storage
@@ -128,9 +126,6 @@ const App = () => {
         .getTurbines()
         .then((response) => {
           setTurbines(response.data);
-          setOldTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
-          setNewTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
-
           setTurbinesReady(true);
         })
         .catch((error) => {
@@ -187,8 +182,6 @@ const App = () => {
         (turbine) => turbine.id.toString() !== turbineId.toString()
       )
     );
-    setNewTurbines(turbines.filter((turbine) => turbine.id.toString() !== turbineId.toString()).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
-    setOldTurbines(turbines.filter((turbine) => turbine.id.toString() !== turbineId.toString()).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
 
     setIsDeleted(true);
     setCurrentTurbine(null);
@@ -205,8 +198,6 @@ const App = () => {
         .getTurbines()
         .then((response) => {
           setTurbines(response.data);
-          setOldTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
-          setNewTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
 
           setTurbinesReady(true);
         })
@@ -266,8 +257,6 @@ const App = () => {
         .getTurbines()
         .then((response) => {
           setTurbines(response.data);
-          setOldTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
-          setNewTurbines(response.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
 
           setTurbinesReady(true);
         })
@@ -301,8 +290,6 @@ const App = () => {
       if (response.status === 200) {
         eventService.getTurbines().then((turbineResponse) => {
           setTurbines(turbineResponse.data);
-          setOldTurbines(turbineResponse.data.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
-          setNewTurbines(turbineResponse.data.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
         });
         eventService.getSteps().then((stepsResponse) => {
           setSteps(stepsResponse.data);
@@ -327,8 +314,6 @@ const App = () => {
             turbines.map((t) => (t.id === updateTurbine.id ? updateTurbine : t))
           );
 
-          setOldTurbines(turbines.map((t) => (t.id === updateTurbine.id ? updateTurbine : t)).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
-          setNewTurbines(turbines.map((t) => (t.id === updateTurbine.id ? updateTurbine : t)).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
         }
       })
       .catch(() => {
@@ -373,9 +358,6 @@ const App = () => {
           : t
       )
     );
-
-    setOldTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps + 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
-    setNewTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps + 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
   };
 
   const handleStepIncomplete = (stepId) => {
@@ -396,8 +378,6 @@ const App = () => {
       )
     );
 
-    setOldTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps - 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()));
-    setNewTurbines(turbines.map((t) => t.id.toString() === updatedStep.eventId.toString() ? { ...t, completedSteps: t.completedSteps - 1 } : t).filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()));
   };
 
   // The turbine with minor completedSteps should be on top
@@ -678,30 +658,31 @@ const App = () => {
                   marginBottom: "4rem",
                 }}
               >
-                {newTurbines.length === 0 && (
+                {turbines.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()).length === 0 && (
                   <Typography variant="overline" sx={{ textAlign: "center" }}>
                     Nessun cantiere nell'anno corrente
                   </Typography>
                 )}
-                {newTurbines.length !== 0 && newTurbines.map((turbine) => {
-                  const turbineSteps = steps.filter(
-                    (step) => step.eventId === turbine.id
-                  );
-                  return (
-                    <Grid item key={turbine.id} >
-                      <Turbine
-                        turbine={turbine}
-                        steps={turbineSteps}
-                        completeStep={handleStepComplete}
-                        incompleteStep={handleStepIncomplete}
-                        handleOpenDetail={() => {
-                          setCurrentTurbine(turbine);
-                          setCurrentSteps(turbineSteps);
-                        }}
-                      />
-                    </Grid>
-                  );
-                })}
+                {turbines.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()).length !== 0 &&
+                  turbines.filter((t) => new Date(t.creationDate).getFullYear() === new Date().getFullYear()).map((turbine) => {
+                    const turbineSteps = steps.filter(
+                      (step) => step.eventId === turbine.id
+                    );
+                    return (
+                      <Grid item key={turbine.id} >
+                        <Turbine
+                          turbine={turbine}
+                          steps={turbineSteps}
+                          completeStep={handleStepComplete}
+                          incompleteStep={handleStepIncomplete}
+                          handleOpenDetail={() => {
+                            setCurrentTurbine(turbine);
+                            setCurrentSteps(turbineSteps);
+                          }}
+                        />
+                      </Grid>
+                    );
+                  })}
               </Grid>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
@@ -737,30 +718,31 @@ const App = () => {
                         marginBottom: "4rem",
                       }}
                     >
-                      {oldTurbines.length === 0 && (
+                      {turbines.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()).length === 0 && (
                         <Typography variant="overline" sx={{ textAlign: "center" }}>
                           Nessun cantiere negli anni precedenti
                         </Typography>
                       )}
-                      {oldTurbines.length !== 0 && oldTurbines.map((turbine) => {
-                        const turbineSteps = steps.filter(
-                          (step) => step.eventId === turbine.id
-                        );
-                        return (
-                          <Grid item key={turbine.id} >
-                            <Turbine
-                              turbine={turbine}
-                              steps={turbineSteps}
-                              completeStep={handleStepComplete}
-                              incompleteStep={handleStepIncomplete}
-                              handleOpenDetail={() => {
-                                setCurrentTurbine(turbine);
-                                setCurrentSteps(turbineSteps);
-                              }}
-                            />
-                          </Grid>
-                        );
-                      })}
+                      {turbines.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()).length !== 0 &&
+                        turbines.filter((t) => new Date(t.creationDate).getFullYear() !== new Date().getFullYear()).map((turbine) => {
+                          const turbineSteps = steps.filter(
+                            (step) => step.eventId === turbine.id
+                          );
+                          return (
+                            <Grid item key={turbine.id} >
+                              <Turbine
+                                turbine={turbine}
+                                steps={turbineSteps}
+                                completeStep={handleStepComplete}
+                                incompleteStep={handleStepIncomplete}
+                                handleOpenDetail={() => {
+                                  setCurrentTurbine(turbine);
+                                  setCurrentSteps(turbineSteps);
+                                }}
+                              />
+                            </Grid>
+                          );
+                        })}
                     </Grid>
                   </AccordionDetails>
                 </Accordion>

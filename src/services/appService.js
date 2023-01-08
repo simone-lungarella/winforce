@@ -1,4 +1,5 @@
 import axios from 'axios';
+// const baseUrl = "http://localhost:8080";
 const baseUrl = "https://dockyard-handler.herokuapp.com";
 
 let token = null
@@ -18,7 +19,7 @@ const getTurbines = () => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.get(baseUrl + "/v1.0.0/" + 'events', config);
+    return axios.get(baseUrl + '/v1.0.0/events', config);
 }
 
 const getCompleteTurbines = () => {
@@ -29,7 +30,7 @@ const getCompleteTurbines = () => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.get(baseUrl + "/v1.0.0/" + 'events/completed', config);
+    return axios.get(baseUrl + '/v1.0.0/events/completed', config);
 }
 
 const addTurbine = (turbineData) => {
@@ -40,7 +41,7 @@ const addTurbine = (turbineData) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.post(baseUrl + "/v1.0.0/" + 'event', turbineData, config);
+    return axios.post(baseUrl + '/v1.0.0/event', turbineData, config);
 }
 
 const alterTurbine = (turbineData) => {
@@ -51,7 +52,7 @@ const alterTurbine = (turbineData) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.put(baseUrl + "/v1.0.0/" + 'event', turbineData, config);
+    return axios.put(baseUrl + '/v1.0.0/event', turbineData, config);
 }
 
 const deleteTurbine = (turbineId) => {
@@ -62,7 +63,7 @@ const deleteTurbine = (turbineId) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.delete(baseUrl + "/v1.0.0/" + "event?eventId=" + turbineId, config);
+    return axios.delete(baseUrl + "/v1.0.0/event?eventId=" + turbineId, config);
 }
 
 const getSteps = () => {
@@ -73,7 +74,7 @@ const getSteps = () => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.get(baseUrl + "/v1.0.0/" + 'steps', config);
+    return axios.get(baseUrl + '/v1.0.0/steps', config);
 }
 
 const getExportdata = () => {
@@ -84,7 +85,7 @@ const getExportdata = () => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.get(baseUrl + "/v1.0.0/" + 'events/csv', config);
+    return axios.get(baseUrl + '/v1.0.0/events/csv', config);
 }
 
 const setStepComplete = (stepId, isComplete) => {
@@ -95,7 +96,7 @@ const setStepComplete = (stepId, isComplete) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.put(baseUrl + "/v1.0.0/" + "step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, null, config);
+    return axios.put(baseUrl + "/v1.0.0/step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, null, config);
 }
 
 const login = async (username, password) => {
@@ -111,7 +112,7 @@ const createUser = (username, password, userRole) => {
         headers: { Authorization: 'bearer ' + token },
     }
 
-    return axios.post(baseUrl + "/v1.0.0/" + "registration/user", { username: username, password: password, userRole: userRole }, config);
+    return axios.post(baseUrl + "/v1.0.0/registration/user", { username: username, password: password, userRole: userRole }, config);
 }
 
 const appService = {
