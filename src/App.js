@@ -112,8 +112,6 @@ const App = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorMenuEl, setAnchorMenuEl] = React.useState(null);
 
-  const [closedTurbines, setClosedTurbines] = useState([]);
-
   // Retrieve token from local storage
   useEffect(() => {
     const localToken = window.localStorage.getItem("token");
@@ -127,16 +125,6 @@ const App = () => {
         .then((response) => {
           setTurbines(response.data);
           setTurbinesReady(true);
-        })
-        .catch((error) => {
-          console.log(error);
-          setTurbinesReady(false);
-        });
-
-      eventService
-        .getCompleteTurbines()
-        .then((response) => {
-          setClosedTurbines(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -743,55 +731,6 @@ const App = () => {
                             </Grid>
                           );
                         })}
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion
-                  sx={{
-                    mt: 2,
-                    backgroundColor: "#f5f5f5",
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header">
-                    <Typography variant="h6">Cantieri chiusi</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid
-                      container
-                      spacing={3}
-                      justifyContent="center"
-                      sx={{
-                        marginTop: "4rem",
-                        marginBottom: "4rem",
-                      }}
-                    >
-                      {closedTurbines.length === 0 && (
-                        <Typography variant="overline" sx={{ textAlign: "center" }}>
-                          Nessun cantiere completato
-                        </Typography>
-                      )}
-                      {closedTurbines.length !== 0 && closedTurbines.map((turbine) => {
-                        const turbineSteps = steps.filter(
-                          (step) => step.eventId === turbine.id
-                        );
-                        return (
-                          <Grid item key={turbine.id} >
-                            <Turbine
-                              turbine={turbine}
-                              steps={turbineSteps}
-                              completeStep={handleStepComplete}
-                              incompleteStep={handleStepIncomplete}
-                              handleOpenDetail={() => {
-                                setCurrentTurbine(turbine);
-                                setCurrentSteps(turbineSteps);
-                              }}
-                            />
-                          </Grid>
-                        );
-                      })}
                     </Grid>
                   </AccordionDetails>
                 </Accordion>
