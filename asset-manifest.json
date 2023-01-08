@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/winforce/static/css/main.0006d10c.css",
-    "main.js": "/winforce/static/js/main.02dedb6d.js",
+    "main.js": "/winforce/static/js/main.8c43aae8.js",
     "static/js/496.1706b2f3.chunk.js": "/winforce/static/js/496.1706b2f3.chunk.js",
     "static/media/roboto-all-300-normal.woff": "/winforce/static/media/roboto-all-300-normal.168d6383e73339293ac3.woff",
     "static/media/Turbina.png": "/winforce/static/media/Turbina.4f09168bc1f1d0af1c15.png",
@@ -20,11 +20,11 @@
     "static/media/roboto-greek-ext-300-normal.woff2": "/winforce/static/media/roboto-greek-ext-300-normal.35b9d6be04b95f0f0530.woff2",
     "index.html": "/winforce/index.html",
     "main.0006d10c.css.map": "/winforce/static/css/main.0006d10c.css.map",
-    "main.02dedb6d.js.map": "/winforce/static/js/main.02dedb6d.js.map",
+    "main.8c43aae8.js.map": "/winforce/static/js/main.8c43aae8.js.map",
     "496.1706b2f3.chunk.js.map": "/winforce/static/js/496.1706b2f3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0006d10c.css",
-    "static/js/main.02dedb6d.js"
+    "static/js/main.8c43aae8.js"
   ]
 }
