@@ -1,7 +1,11 @@
 <script>
   import { slide } from "svelte/transition";
+  import { onMount } from "svelte";
+  import { TurbineStore } from "../stores/TurbineStore.js";
+  import { createEventDispatcher } from "svelte";
 
-  export let turbine = {
+  export let turbineId = 0;
+  let turbine = {
     id: 0,
     turbineName: "",
     turbineNumber: "",
@@ -12,47 +16,94 @@
     creationDate: "",
     turbineState: "",
     completedSteps: 0,
+    startingDateEEMM: "",
     startingDateOOCC: "",
+    priorNotification: "",
     mailSent: false,
   };
 
-  function redirectToTurbinePage() {
-    const turbineId = 1160;
-    window.location.href = `/${turbineId}/index.html`;
-  }
+  onMount(() => {
+    TurbineStore.subscribe((turbines) => {
+      turbine = turbines.find((turbine) => turbine.id === turbineId);
+    });
+  });
+
+  const dispatch = createEventDispatcher();
+
+  const handleDetailClose = () => {
+    dispatch("closeDetails");
+  };
 </script>
 
 <div
   in:slide={{ duration: 1000 }}
-  class="w-full bg-gray-800 h-32 md:h-20 px-4 my-4 rounded-sm shadow-md grid grid-flow-col hover:grid-flow-row content-center hover:ring-2 ring-amber-500 transition duration-300 ease-in-out transform hover:h-48 hover:content-start group"
+  class="absolute w-5/6 top-0 transform translate-y-1/4 bg-gray-800 rounded border-2 border-gray-800 ring-2 ring-gray-500 p-4
+  backdrop-filter backdrop-blur-md bg-opacity-10 text-white font-mono text-2xl"
 >
-  <h1 class="text-white font-mono h-full font-bold text-4xl group-hover:mt-5">
-    {turbine.turbineName}
-  </h1>
-  <div class="hidden group-hover:flex mt-5">
-    <ul>
-      <li class="text-white font-mono h-full font-bold text-xl">
-        {turbine.description}
-      </li>
-      <li class="text-white font-mono h-full">
-        {turbine.creationDate}
-      </li>
-    </ul>
-  </div>
-
-  <div class="absolute top-0 right-0 mr-5 md:mr-9 mt-5">
-    <div class="flex flex-col md:flex-row gap-2 md:gap-0">
+  <div class="w-full h-20 grid grid-cols-2 items-start">
+    <h1 class="font-mono font-bold text-4xl">
+      {turbine.turbineName} -
+      <span class="text-2xl">{turbine.description}</span>
+    </h1>
+    <div class="flex justify-end">
       <button
-        class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-l"
-        on:click|preventDefault={redirectToTurbinePage}
+        class="text-red-500 font-bold py-2 px-4 hover:scale-110 hover:shadow-sm"
+        on:click={handleDetailClose}
       >
-        Ispeziona
-      </button>
-      <button
-        class="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-r"
-      >
-        Elimina
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-x"
+          ><line x1="18" y1="6" x2="6" y2="18" /><line
+            x1="6"
+            y1="6"
+            x2="18"
+            y2="18"
+          /></svg
+        >
       </button>
     </div>
   </div>
+
+  <div class="w-full grid grid-cols-1 items-start">
+    <p class="prose font-mono text-white">
+      Creazione: <span>{turbine.creationDate}</span>
+    </p>
+    <p class="prose font-mono text-white">
+      Stato turbina: <span>{turbine.turbineState}</span>
+    </p>
+  </div>
+  <div
+    class="grid grid-cols-1 items-start md:w-1/2 lg:w-1/3 border rounded-sm mt-5 p-4 bg-gray-700"
+  >
+    <h1 class="font-mono font-bold text-xl mb-3">Tracciamento eventi</h1>
+    <p class="prose font-mono text-white">
+      Invio notifica: <span class="font-extralight"
+        >{turbine.priorNotification || "____/__/__"}</span
+      >
+    </p>
+    <p class="prose font-mono text-white">
+      Inizio ATT EEMM: <span class="font-extralight"
+        >{turbine.startingDateEEMM || "____/__/__"}</span
+      >
+    </p>
+    <p class="prose font-mono text-white">
+      Inizio ATT OOCC: <span class="font-extralight"
+        >{turbine.startingDateOOCC || "____/__/__"}</span
+      >
+    </p>
+  </div>
+  <p class="prose font-mono text-white mt-10">Operazioni:</p>
+  <ul class="mt-2">
+    {#each turbine.operation as operation}
+      <li class="text-sm list-disc ml-5 font-bold uppercase">{operation}</li>
+    {/each}
+  </ul>
 </div>

@@ -1,24 +1,36 @@
 <script>
-  import Turbine from "../components/Turbine.svelte";
+  import TurbinePreview from "../components/TurbinePreview.svelte";
   import { slide } from "svelte/transition";
   import { TurbineStore } from "../stores/TurbineStore.js";
+  import Turbine from "../components/Turbine.svelte";
+
+  let isDetailOpen = false;
+  let turbineId = 0;
+  const handleDetailOpening = (event) => {
+    turbineId = event.detail;
+    window.scrollTo(0, 0);
+    isDetailOpen = true;
+  };
+
+  const handleDetailClosing = () => {
+    isDetailOpen = false;
+  };
 
   let searchKey = "";
   let year = new Date().getFullYear().toString();
 
   $: filteredTurbines = $TurbineStore.filter(
     (turbine) =>
-      turbine.turbineName.toLowerCase().includes(searchKey.toLowerCase()) &&
+      (turbine.description.toLowerCase().includes(searchKey.toLowerCase()) ||
+        turbine.turbineName.toLowerCase().includes(searchKey.toLowerCase())) &&
       turbine.creationDate.includes(year)
   );
 
   $: numberOfTurbines = filteredTurbines.length;
 </script>
 
-<div transition:slide={{ duration: 200 }}>
-  <section class="mt-20">
-    <!-- Title -->
-
+<div transition:slide={{ duration: 200 }} class="mt-16">
+  <section class="mt-5">
     <div class="flex flex-col md:flex-row gap-2">
       <input
         class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-amber-400 focus:shadow-outline"
@@ -40,7 +52,7 @@
         class="hidden md:flex justify-end w-full text-end text-2xl font-bold font-mono"
       >
         <div
-          class="rounded-full w-20 bg-gray-700 items-center content-center place-content-center grid"
+          class="rounded-full w-20 items-center content-center place-content-center grid"
         >
           <p><span class="text-gray-200">#</span>{numberOfTurbines}</p>
         </div>
@@ -52,7 +64,7 @@
 
   <section>
     {#each filteredTurbines as turbine (turbine.id)}
-      <Turbine {turbine} />
+      <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
     {/each}
     {#if filteredTurbines.length === 0}
       <div class="grid place-content-center">
@@ -60,6 +72,10 @@
           Nessuna turbina trovata
         </h1>
       </div>
+    {/if}
+
+    {#if isDetailOpen}
+      <Turbine {turbineId} on:closeDetails={handleDetailClosing} />
     {/if}
   </section>
 </div>
