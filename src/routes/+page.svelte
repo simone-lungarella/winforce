@@ -1,15 +1,22 @@
 <script>
   import TurbinePreview from "../components/TurbinePreview.svelte";
   import { slide } from "svelte/transition";
-  import { TurbineStore } from "../stores/TurbineStore.js";
+  import { windfarms, remove } from "../stores/TurbineStore.js";
   import Turbine from "../components/Turbine.svelte";
+  import DeletionModal from "../components/utils/DeletionModal.svelte";
 
   let isDetailOpen = false;
   let turbineId = 0;
+
   const handleDetailOpening = (event) => {
     turbineId = event.detail;
-    window.scrollTo(0, 0);
     isDetailOpen = true;
+  };
+
+  let isDeletionModalOpen = false;
+  const handleDeletion = () => {
+    isDeletionModalOpen = false;
+    remove(turbineId);
   };
 
   const handleDetailClosing = () => {
@@ -19,18 +26,21 @@
   let searchKey = "";
   let year = new Date().getFullYear().toString();
 
-  $: filteredTurbines = $TurbineStore.filter(
+  $: filteredTurbines = $windfarms.filter(
     (turbine) =>
       (turbine.description.toLowerCase().includes(searchKey.toLowerCase()) ||
-        turbine.turbineName.toLowerCase().includes(searchKey.toLowerCase())) &&
+        turbine.turbineName.toLowerCase().includes(searchKey.toLowerCase()) ||
+        turbine.turbineNumber
+          .toLowerCase()
+          .includes(searchKey.toLowerCase())) &&
       turbine.creationDate.includes(year)
   );
 
   $: numberOfTurbines = filteredTurbines.length;
 </script>
 
-<div transition:slide={{ duration: 200 }} class="mt-16">
-  <section class="mt-5">
+<div transition:slide={{ duration: 200 }} class="md:mt-16">
+  <section class="mt-5 md:ml-5">
     <div class="flex flex-col md:flex-row gap-2">
       <input
         class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-amber-400 focus:shadow-outline"
@@ -62,9 +72,18 @@
     <div class="h-1 w-3/4 bg-gray-800 rounded-full my-8 mx-auto" />
   </section>
 
-  <section>
+  <section
+    class="overflow-y-scroll overflow-x-hidden max-h-[24rem] md:max-h-[36rem] md:p-4 scrollbar-none"
+  >
     {#each filteredTurbines as turbine (turbine.id)}
-      <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
+      <TurbinePreview
+        {turbine}
+        on:showDetails={handleDetailOpening}
+        on:deleteTurbine={(event) => {
+          turbineId = event.detail;
+          isDeletionModalOpen = true;
+        }}
+      />
     {/each}
     {#if filteredTurbines.length === 0}
       <div class="grid place-content-center">
@@ -75,7 +94,19 @@
     {/if}
 
     {#if isDetailOpen}
-      <Turbine {turbineId} on:closeDetails={handleDetailClosing} />
+      <div
+        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 z-50"
+      >
+        <Turbine {turbineId} on:closeDetails={handleDetailClosing} />
+      </div>
+    {/if}
+    {#if isDeletionModalOpen}
+      <DeletionModal
+        on:confirm={handleDeletion}
+        on:cancel={() => {
+          isDeletionModalOpen = false;
+        }}
+      />
     {/if}
   </section>
 </div>
