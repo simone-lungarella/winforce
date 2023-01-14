@@ -95,7 +95,9 @@
 
     {#if isDetailOpen}
       <div
-        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 z-50"
+        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75"
+        on:click={handleDetailClosing}
+        on:keydown={handleDetailClosing}
       >
         <Turbine {turbineId} on:closeDetails={handleDetailClosing} />
       </div>
