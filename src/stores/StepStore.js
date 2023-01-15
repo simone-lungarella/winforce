@@ -66,6 +66,23 @@ let steps = writable([
     }
 ]);
 
+
+/**
+ * @param {number} stepId
+ */
+function setStepComplete(stepId) {
+    steps.update(items => {
+        const updatedItems = items.map(item => {
+            if (item.id === stepId) {
+                return { ...item, complete: true };
+            }
+            return item;
+        });
+        return updatedItems;
+    });
+}
+
 export {
     steps,
+    setStepComplete
 }

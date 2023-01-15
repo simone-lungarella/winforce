@@ -1,0 +1,63 @@
+<script>
+  export let turbine;
+
+  let areEventsVisible = false;
+</script>
+
+<button
+  class="grid place-content-start gap-2 grid-flow-col items-center font-bold mb-3 bg-gray-600 p-3 rounded-sm
+          hover:bg-gray-700 hover:shadow-sm hover:border border-amber-400 w-full"
+  on:click|preventDefault={() => (areEventsVisible = !areEventsVisible)}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="feather feather-clock"
+    ><circle cx="12" cy="12" r="10" /><polyline
+      points="12 6 12 12 16 14"
+    /></svg
+  >
+  <h1 class="font-mono text-xl">Tracciamento eventi</h1>
+</button>
+{#if areEventsVisible}
+  <div class="p-2 mb-2">
+    <p class="prose font-mono text-white">
+      Invio notifica: <span class="font-extralight"
+        >{turbine.priorNotification || "____/__/__"}</span
+      >
+    </p>
+    <p class="prose font-mono text-white">
+      Inizio ATT EEMM: <span class="font-extralight"
+        >{turbine.startingDateEEMM !== null
+          ? turbine.startingDateEEMM
+              .slice(5, 10)
+              .split("-")
+              .reverse()
+              .join("/") +
+            "/" +
+            turbine.startingDateEEMM.slice(0, 4)
+          : "____/__/__"}</span
+      >
+    </p>
+    <p class="prose font-mono text-white">
+      Inizio ATT OOCC: <span class="font-extralight"
+        >{turbine.startingDateOOCC !== null
+          ? turbine.startingDateOOCC
+              .slice(5, 10)
+              .split("-")
+              .reverse()
+              .join("/") +
+            "/" +
+            turbine.startingDateOOCC.slice(0, 4)
+          : "____/__/__"}</span
+      >
+    </p>
+  </div>
+{/if}

@@ -25,11 +25,11 @@ let windfarms = writable([
         "odlNumber": 2394955,
         "power": "KILOWATT",
         "operation": [
-            "Sostituzione generatore"
+            "Sostituzione generatore",
         ],
         "creationDate": "03-01-2023 13:03",
         "turbineState": "Ferma",
-        "completedSteps": 1,
+        "completedSteps": 4,
         "startingDateEEMM": "2023-01-03",
         "startingDateOOCC": "2023-01-04",
         "permittingDate": "2023-01-01",
@@ -47,7 +47,7 @@ let windfarms = writable([
         ],
         "creationDate": "03-01-2023 13:23",
         "turbineState": "In marcia",
-        "completedSteps": 1,
+        "completedSteps": 7,
         "startingDateOOCC": "2023-01-11",
         "mailSent": false
     },

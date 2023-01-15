@@ -1,31 +1,7 @@
 <script>
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
 
   let mobileMenuOpen = false;
-  let headerClasses = "bg-gray-900 md:fixed w-full top-0";
-
-  // Hide header on scroll down
-  let prevScrollpos = 0;
-  const handleScroll = () => {
-    let currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
-      headerClasses =
-        "bg-gray-900 md:fixed w-full top-0 shadow-2xl transition duration-500 ease-in-out transform md:translate-y-0";
-    } else {
-      headerClasses =
-        "bg-gray-900 md:fixed w-full top-0 shadow-2xl transition duration-500 ease-in-out transform md:-translate-y-full";
-    }
-
-    // If is at top, remove shadow
-    if (currentScrollPos === 0) {
-      headerClasses = "bg-gray-900 md:fixed w-full top-0";
-    }
-    prevScrollpos = currentScrollPos;
-  };
-
-  onMount(() => {
-    window.addEventListener("scroll", handleScroll);
-  });
 
   const handleMobileMenuOpen = () => {
     mobileMenuOpen = !mobileMenuOpen;
@@ -40,7 +16,7 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<header class={headerClasses}>
+<header class="bg-gray-900 md:fixed w-full top-0">
   <div class="flex justify-end items-center w-full h-20">
     <nav>
       <ul class="gap-2 hidden md:flex mr-10" aria-label="Navigation">
@@ -84,7 +60,9 @@
     </div>
   </div>
   {#if mobileMenuOpen}
-    <div class="bg-gray-600/75 w-3/4 absolute h-full top-0 right-0 shadow-2xl">
+    <div
+      class="bg-gray-600/75 w-3/4 absolute h-full top-0 right-0 shadow-2xl z-50"
+    >
       <div class="flex flex-row-reverse">
         <button
           class="items-center px-3 py-8 rounded text-amber-300"
