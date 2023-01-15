@@ -5,17 +5,9 @@
 
   export let turbine;
 
-  let reachedStep = {
-    id: 0,
-    eventId: 0,
-    name: "Sopralluogo",
-    description: "",
-    complete: false,
-  };
+  let reachedStep = $steps[turbine.completedSteps];
 
   onMount(() => {
-    reachedStep = $steps[turbine.completedSteps];
-
     setTimeout(() => {
       scrollToReachedStep();
     }, 1500);

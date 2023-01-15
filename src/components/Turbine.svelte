@@ -1,6 +1,5 @@
 <script>
   import { slide } from "svelte/transition";
-  import { onMount } from "svelte";
   import { windfarms } from "../stores/TurbineStore.js";
   import { createEventDispatcher } from "svelte";
   import EventsButton from "./utils/EventsButton.svelte";
@@ -9,28 +8,7 @@
 
   export let turbineId = 0;
 
-  let turbine = {
-    id: 0,
-    turbineName: "",
-    turbineNumber: "",
-    description: "",
-    odlNumber: 0,
-    power: "KILOWATT",
-    operation: [],
-    creationDate: "",
-    turbineState: "",
-    completedSteps: 0,
-    startingDateEEMM: "",
-    startingDateOOCC: "",
-    priorNotification: "",
-    mailSent: false,
-  };
-
-  onMount(() => {
-    windfarms.subscribe((turbines) => {
-      turbine = turbines.find((turbine) => turbine.id === turbineId);
-    });
-  });
+  let turbine = $windfarms.find((turbine) => turbine.id === turbineId);
 
   const dispatch = createEventDispatcher();
 

@@ -14,12 +14,13 @@
 const Step = {
     1: "Sopralluogo",
     2: "Redazione report",
-    3: "Notifica preliminare",
-    4: "Permitting",
-    5: "Fine attività OOCC",
-    6: "Fine attività EEMM",
-    7: "Smontaggio piazzola",
-    8: "Chiusura permitting"
+    3: "CME/ODC",
+    4: "Notifica preliminare",
+    5: "Permitting",
+    6: "Fine attività OOCC",
+    7: "Fine attività EEMM",
+    8: "Smontaggio piazzola",
+    9: "Chiusura permitting"
 };
 
 
