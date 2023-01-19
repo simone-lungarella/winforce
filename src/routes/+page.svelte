@@ -95,7 +95,7 @@
 
     {#if isDetailOpen}
       <div
-        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75"
+        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
         on:click={handleDetailClosing}
         on:keydown={handleDetailClosing}
       >
@@ -103,12 +103,22 @@
       </div>
     {/if}
     {#if isDeletionModalOpen}
-      <DeletionModal
-        on:confirm={handleDeletion}
-        on:cancel={() => {
+      <div
+        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
+        on:click={() => {
           isDeletionModalOpen = false;
         }}
-      />
+        on:keydown={() => {
+          isDeletionModalOpen = false;
+        }}
+      >
+        <DeletionModal
+          on:confirm={handleDeletion}
+          on:cancel={() => {
+            isDeletionModalOpen = false;
+          }}
+        />
+      </div>
     {/if}
   </section>
 </div>
