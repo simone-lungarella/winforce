@@ -1,5 +1,5 @@
 <script>
-  import { slide } from "svelte/transition";
+  import { fade, slide } from "svelte/transition";
   import Operation from "../../enum/Operation";
   import SelectionModal from "../../components/utils/SelectionModal.svelte";
   import { onMount } from "svelte";
@@ -59,7 +59,10 @@
   {/if}
   <form>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-black overflow-y-scroll md:overflow-auto p-3 h-[30rem] md:h-full scrollbar-none"
+      in:fade={{ duration: 150 }}
+      out:fade={{ duration: 50 }}
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-black overflow-y-scroll md:overflow-auto p-5 h-[25.1rem] md:h-full 
+         ring-2 ring-gray-400 rounded scrollbar-none bg-black/25"
     >
       <input
         class="input"
@@ -139,19 +142,34 @@
         placeHolder="Data concessione"
         required
       />
-      <input
-        class="input"
-        type="text"
-        value={windfarm.priorNotification}
-        placeHolder="Data notifica"
-        required
-      />
     </div>
+    <div class="h-1 bg-gray-300 rounded-full w-3/4 m-auto my-4" />
 
-    <div class="flex flex-row mt-5 gap-2 justify-center">
-      <button class="bg-green-500 hover:bg-green-600 py-2 px-4 rounded w-24"
-        >Crea</button
+    <div class="flex flex-row mt-10 gap-2 justify-center">
+      <button
+        class="font-bold font-mono bg-green-500 py-2 px-4 rounded w-24 flex flex-row gap-1
+        hover:bg-green-600 hover:scale-105"
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-plus"
+          ><line x1="12" y1="5" x2="12" y2="19" /><line
+            x1="5"
+            y1="12"
+            x2="19"
+            y2="12"
+          /></svg
+        >
+        Crea
+      </button>
     </div>
   </form>
 </div>

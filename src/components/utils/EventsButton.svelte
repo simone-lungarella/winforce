@@ -35,28 +35,12 @@
     </p>
     <p class="prose font-mono text-white">
       Inizio ATT EEMM: <span class="font-extralight"
-        >{turbine.startingDateEEMM !== null
-          ? turbine.startingDateEEMM
-              .slice(5, 10)
-              .split("-")
-              .reverse()
-              .join("/") +
-            "/" +
-            turbine.startingDateEEMM.slice(0, 4)
-          : "____/__/__"}</span
+        >{turbine.startingDateEEMM || "____/__/__"}</span
       >
     </p>
     <p class="prose font-mono text-white">
       Inizio ATT OOCC: <span class="font-extralight"
-        >{turbine.startingDateOOCC !== null
-          ? turbine.startingDateOOCC
-              .slice(5, 10)
-              .split("-")
-              .reverse()
-              .join("/") +
-            "/" +
-            turbine.startingDateOOCC.slice(0, 4)
-          : "____/__/__"}</span
+        >{turbine.startingDateOOCC || "____/__/__"}</span
       >
     </p>
   </div>

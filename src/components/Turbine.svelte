@@ -67,7 +67,7 @@
     <div class="col-span-1">
       <p class="prose font-mono text-white">
         Creazione: <span>
-          {turbine.creationDate.slice(0, 10).split("-").join("/")}
+          {turbine.creationDate}
         </span>
       </p>
       <p class="prose font-mono text-white">

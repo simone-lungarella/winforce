@@ -47,12 +47,12 @@
 
   <div class="flex flex-row mt-5 gap-2 justify-center">
     <button
-      class="bg-green-500 hover:bg-green-600 py-2 px-4 rounded w-24"
+      class="font-bold font-mono bg-green-500 hover:bg-green-600 py-2 px-4 rounded w-24"
       on:click={confirm}>Conferma</button
     >
 
     <button
-      class="bg-red-500 hover:bg-red-600 py-2 px-4 rounded w-24"
+      class="font-bold font-mono bg-red-500 hover:bg-red-600 py-2 px-4 rounded w-24"
       on:click={cancel}>Chiudi</button
     >
   </div>
