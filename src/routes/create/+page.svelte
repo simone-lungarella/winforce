@@ -3,13 +3,15 @@
   import Operation from "../../enum/Operation";
   import SelectionModal from "../../components/utils/SelectionModal.svelte";
   import { onMount } from "svelte";
+  import PowerSwitch from "../../components/utils/PowerSwitch.svelte";
+  import StateSwitch from "../../components/utils/StateSwitch.svelte";
 
   let windfarm = {
     turbineName: "",
-    turbineNumber: "XXXX",
+    turbineNumber: "",
     description: "",
-    odlNumber: 0,
-    power: "MEGAWATT",
+    odlNumber: null,
+    power: "KILOWATT",
     operation: [],
     turbineState: "In marcia",
     startingDateEEMM: null,
@@ -30,7 +32,10 @@
   });
 </script>
 
-<div transition:slide={{ duration: 200 }} class="md:mt-16">
+<div
+  transition:slide={{ duration: 200 }}
+  class="md:mt-8 overflow-y-scroll scrollbar-none h-screen pb-24"
+>
   {#if isOperationSelectOpen}
     <div
       class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
@@ -57,91 +62,115 @@
       />
     </div>
   {/if}
-  <form>
+  <form class="lg:mx-32 overflow-y-scroll scrollbar-none">
     <div
       in:fade={{ duration: 150 }}
       out:fade={{ duration: 50 }}
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-black overflow-y-scroll md:overflow-auto p-5 h-[25.1rem] md:h-full 
-         ring-2 ring-gray-400 rounded scrollbar-none bg-black/25"
+      class="grid grid-cols-1 md:grid-cols-2 gap-4 text-black overflow-y-scroll md:overflow-auto p-1 md:p-5 h-[25.1rem] md:h-full scrollbar-none"
     >
-      <input
-        class="input"
-        type="text"
-        value={windfarm.turbineName}
-        placeHolder="Aerogeneratore"
-        required
-      />
-      <input
-        class="input"
-        type="text"
-        value={windfarm.turbineNumber}
-        placeHolder="Numero"
-        required
-      />
-      <input
-        class="input"
-        type="text"
-        value={windfarm.description}
-        placeHolder="Descrizione"
-        required
-      />
-      <input
-        class="input"
-        type="number"
-        value={windfarm.odlNumber}
-        placeHolder="Numero ODL"
-        required
-      />
-      <select class="select">
-        <option>MEGAWATT</option>
-        <option>KILOWATT</option>
-      </select>
-
-      <div>
-        <button
-          type="button"
-          class="input hover:bg-gray-200 text-start transition ease-in-out"
-          on:click={() => {
-            isOperationSelectOpen = !isOperationSelectOpen;
-          }}
-        >
+      <div class="bg-gray-800 p-5 col-span-full rounded ring-2 ring-gray-500">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-full">
           <input
-            class="w-full"
-            value={windfarm.operation.length > 0
-              ? windfarm.operation.join(", ")
-              : ""}
-            disabled
-            placeholder="Operazioni"
+            class="input"
+            type="text"
+            value={windfarm.turbineName}
+            placeHolder="Aerogeneratore"
+            required
           />
-        </button>
+          <input
+            class="input"
+            type="text"
+            value={windfarm.turbineNumber}
+            placeHolder="Numero turbina"
+            required
+          />
+          <input
+            class="input"
+            type="text"
+            value={windfarm.description}
+            placeHolder="Descrizione"
+            required
+          />
+          <input
+            class="input"
+            type="number"
+            value={windfarm.odlNumber}
+            placeHolder="Numero ODL"
+          />
+        </div>
+
+        <div class="col-span-full mt-5">
+          <button
+            type="button"
+            class="input hover:bg-gray-200 text-start transition ease-in-out"
+            on:click={() => {
+              isOperationSelectOpen = !isOperationSelectOpen;
+            }}
+          >
+            <input
+              class="w-full"
+              value={windfarm.operation.length > 0
+                ? windfarm.operation.join(", ")
+                : ""}
+              disabled
+              placeholder="Operazioni"
+            />
+          </button>
+        </div>
+        <div class="col-span-full mt-5">
+          <PowerSwitch on:change={(event) => (windfarm.power = event.detail)} />
+        </div>
       </div>
 
-      <select class="select">
-        <option>In Marcia</option>
-        <option>Limitata</option>
-        <option>Ferma</option>
-      </select>
-      <input
-        class="input"
-        type="date"
-        value={windfarm.startingDateEEMM}
-        placeHolder="Data inizio EEMM"
-        required
+      <div
+        class="h-1 bg-gray-300 rounded-full m-auto my-4 w-full col-span-full"
       />
-      <input
-        class="input"
-        type="date"
-        value={windfarm.startingDateOOCC}
-        placeHolder="Data inizio OOCC"
-        required
-      />
-      <input
-        class="input"
-        type="date"
-        value={windfarm.permittingDate}
-        placeHolder="Data concessione"
-        required
-      />
+
+      <div class="flex flex-col gap-3 bg-gray-800 p-5 col-span-full rounded ring-2 ring-gray-500">
+        <div class="col-span-full">
+          <StateSwitch
+            on:change={(event) => (windfarm.turbineState = event.detail)}
+          />
+        </div>
+
+        <div>
+          <label for="dateEEMM" class="font-mono text-white">
+            Data Inizio EEMM
+          </label>
+          <input
+            id="dateEEMM"
+            class="input"
+            type="date"
+            value={windfarm.startingDateEEMM}
+            placeHolder="Data inizio EEMM"
+            required
+          />
+        </div>
+        <div>
+          <label for="dateEEMM" class="font-mono text-white">
+            Data Inizio OOCC
+          </label>
+          <input
+            class="input"
+            type="date"
+            value={windfarm.startingDateOOCC}
+            placeHolder="Data inizio OOCC"
+            required
+          />
+        </div>
+        <div>
+          <label for="dateEEMM" class="font-mono text-white">
+            Data Permitting
+          </label>
+          <input
+            class="input"
+            type="date"
+            value={windfarm.permittingDate}
+            placeHolder="Data concessione"
+            required
+          />
+        </div>
+      </div>
     </div>
     <div class="h-1 bg-gray-300 rounded-full w-3/4 m-auto my-4" />
 
