@@ -18,21 +18,36 @@ let windfarms = writable([
         "mailSent": false
     },
     {
-        "id": 1160,
-        "turbineName": "RO09",
-        "turbineNumber": "2061",
-        "description": "Roseto Valfortore",
-        "odlNumber": 2394955,
+        "id": 1205,
+        "turbineName": "CA44",
+        "turbineNumber": "23008",
+        "description": "Carlentini",
+        "odlNumber": 2395296,
         "power": "KILOWATT",
         "operation": [
-            "Sostituzione generatore",
+            "Sostituzione generatore"
         ],
-        "creationDate": "03-01-2023 13:03",
+        "creationDate": "17-01-2023 09:19",
         "turbineState": "Ferma",
+        "completedSteps": 0,
+        "startingDateOOCC": "2023-01-19",
+        "mailSent": false
+    },
+    {
+        "id": 1214,
+        "turbineName": "LC42",
+        "turbineNumber": "23006",
+        "description": "Lacedonia",
+        "odlNumber": 2446931,
+        "power": "KILOWATT",
+        "operation": [
+            "Sostituzione Asta Pitch"
+        ],
+        "creationDate": "17-01-2023 09:28",
+        "turbineState": "In marcia",
+        "priorNotification": "2023-01-19",
         "completedSteps": 4,
-        "startingDateEEMM": "2023-01-03",
-        "startingDateOOCC": "2023-01-04",
-        "permittingDate": "2023-01-01",
+        "startingDateOOCC": "2023-01-19",
         "mailSent": false
     },
     {
@@ -47,8 +62,27 @@ let windfarms = writable([
         ],
         "creationDate": "03-01-2023 13:23",
         "turbineState": "In marcia",
-        "completedSteps": 7,
+        "completedSteps": 1,
         "startingDateOOCC": "2023-01-11",
+        "mailSent": false
+    },
+    {
+        "id": 1160,
+        "turbineName": "RO09",
+        "turbineNumber": "2061",
+        "description": "Roseto Valfortore",
+        "odlNumber": 2394955,
+        "power": "KILOWATT",
+        "operation": [
+            "Sostituzione generatore"
+        ],
+        "creationDate": "03-01-2023 13:03",
+        "turbineState": "Ferma",
+        "completedSteps": 2,
+        "startingDateEEMM": "2023-01-03",
+        "startingDateOOCC": "2023-01-04",
+        "completionDateEEMM": "2023-01-17",
+        "permittingDate": "2023-01-01",
         "mailSent": false
     },
     {
@@ -102,7 +136,7 @@ let windfarms = writable([
     {
         "id": 927,
         "turbineName": "MC05",
-        "turbineNumber": "XXXX",
+        "turbineNumber": "2057",
         "description": "Macchia",
         "odlNumber": 2445094,
         "power": "KILOWATT",

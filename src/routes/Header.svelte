@@ -22,16 +22,11 @@
       <ul class="gap-2 hidden md:flex mr-10" aria-label="Navigation">
         <li>
           <div class="item">
-            <a href="/" class="text-white hover:text-amber-300">Home</a>
-          </div>
-        </li>
-        <li>
-          <div class="item">
             <a
-              href="/create"
-              class="text-white hover:text-amber-300 disabled:text-amber-900"
-              >Crea</a
-            >
+              href="/"
+              class="text-white hover:text-amber-300 flex flex-row gap-2 items-center"
+              >Esci
+            </a>
           </div>
         </li>
       </ul>
@@ -87,16 +82,14 @@
         <ul class="gap-2 flex mr-10 flex-col p-4" aria-label="Navigation">
           <li>
             <div class="item">
-              <a href="/" class="text-white hover:text-amber-300">Home</a>
+              <a href="/windfarms" class="text-white hover:text-amber-300"
+                >Home</a
+              >
             </div>
           </li>
           <li>
             <div class="item">
-              <a
-                href="/create"
-                class="text-white hover:text-amber-300"
-                on:click={handleMobileMenuClose}>Crea</a
-              >
+              <a href="/" class="text-white hover:text-amber-300">Esci</a>
             </div>
           </li>
         </ul>

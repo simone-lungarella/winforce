@@ -23,7 +23,7 @@
 <div
   in:slide={{ duration: 300 }}
   class="bg-gray-800 rounded border-2 border-gray-800 ring-2 ring-gray-500 p-4 overflow-y-hidden w-80 md:w-96
-    backdrop-filter backdrop-blur-md bg-opacity-75 text-white font-mono absolute top-5 transform left-1/2 -translate-x-1/2 z-50"
+    backdrop-filter backdrop-blur-md bg-opacity-75 text-white font-mono absolute top-16 transform left-1/2 -translate-x-1/2 z-50"
   on:click={handleClickEvent}
   on:keydown={handleClickEvent}
 >

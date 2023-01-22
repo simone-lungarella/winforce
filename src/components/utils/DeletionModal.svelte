@@ -25,11 +25,11 @@
   on:click={handleClickEvent}
   on:keydown={handleClickEvent}
 >
-  <p class="font-bold text-xl">
+  <p class="font-bold text-lg">
     L'eliminazione è irreversibile, sei sicuro di voler procedere?
   </p>
 
-  <div class="flex justify-end mt-5">
+  <div class="flex justify-end mt-5 text-sm">
     <button
       class="bg-red-500 hover:bg-red-600 py-2 px-4 rounded"
       on:click={cancel}>Annulla</button
