@@ -82,13 +82,6 @@
         <ul class="gap-2 flex mr-10 flex-col p-4" aria-label="Navigation">
           <li>
             <div class="item">
-              <a href="/windfarms" class="text-white hover:text-amber-300"
-                >Home</a
-              >
-            </div>
-          </li>
-          <li>
-            <div class="item">
               <a href="/" class="text-white hover:text-amber-300">Esci</a>
             </div>
           </li>

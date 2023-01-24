@@ -1,26 +1,35 @@
 <script>
   import { onMount } from "svelte";
   import { fade, slide } from "svelte/transition";
-  import { steps, setStepComplete } from "../../stores/StepStore.js";
+  import { getSteps, setStepComplete } from "../../stores/StepService.js";
 
+  /**
+   * @type { any }
+   */
   export let turbine;
 
-  let reachedStep = $steps[turbine.completedSteps];
+  let steps = [];
+  let reachedStep = 0;
 
   onMount(() => {
+    getSteps(turbine.id).then((data) => {
+      steps = data;
+      reachedStep = steps[turbine.completedSteps];
+    });
+
     setTimeout(() => {
       scrollToReachedStep();
     }, 1500);
   });
 
   const handleStepUpdate = (stepId) => {
-    setStepComplete(stepId);
-
-    turbine.completedSteps += 1;
-    if (turbine.completedSteps < 9) {
-      reachedStep = $steps[turbine.completedSteps];
-    }
-    scrollToReachedStep();
+    setStepComplete(stepId).then(() => {
+      turbine.completedSteps += 1;
+      if (turbine.completedSteps < 9) {
+        reachedStep = steps[turbine.completedSteps];
+      }
+      scrollToReachedStep();
+    });
   };
 
   function scrollToReachedStep() {
@@ -85,46 +94,50 @@
     id="stepsContainer"
     class="grid grid-cols-7 md:p-5 text-lg text-left overflow-scroll h-32 md:h-64 gap-2 scrollbar-none shadow-md mt-5 items-center"
   >
-    {#each $steps as step (step.id)}
-      <div
-        class="col-span-7 relative grid grid-cols-7 hover:bg-gray-700/60 transition duration-500 ease-in-out p-3 hover:border hover:shadow-md hover:border-amber-200 items-center rounded-sm"
-      >
-        <input
-          type="checkbox"
-          class="col-span-1 h-5 w-5 border-gray-300 rounded accent-green-600 disabled:cursor-not-allowed"
-          disabled={step.name !== reachedStep.name && !step.complete}
-          checked={step.complete}
-          on:click={() => handleStepUpdate(step.id)}
-        />
-        <div class="col-span-6 text-left">
-          <p>
-            {step.name}
-          </p>
-        </div>
-        {#if step.complete}
-          <div
-            in:slide={{ delay: 1200, duration: 1000 }}
-            class="absolute h-full w-full bg-gray-600 bg-opacity-70 flex items-center justify-end p-5 rounded-sm hover:text-green-400 gap-2 backdrop-filter backdrop-blur-md"
-          >
-            <p class="font-bold uppercase">Completato</p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="feather feather-check-circle text-green-500"
-            >
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
+    {#await steps}
+      <div class="col-span-7 text-center">Loading...</div>
+    {:then steps}
+      {#each steps as step (step.id)}
+        <div
+          class="col-span-7 relative grid grid-cols-7 hover:bg-gray-700/60 transition duration-500 ease-in-out p-3 hover:border hover:shadow-md hover:border-amber-200 items-center rounded-sm"
+        >
+          <input
+            type="checkbox"
+            class="col-span-1 h-5 w-5 border-gray-300 rounded accent-green-600 disabled:cursor-not-allowed"
+            disabled={step.name !== reachedStep.name && !step.complete}
+            checked={step.complete}
+            on:click={() => handleStepUpdate(step.id)}
+          />
+          <div class="col-span-6 text-left">
+            <p>
+              {step.name}
+            </p>
           </div>
-        {/if}
-      </div>
-    {/each}
+          {#if step.complete}
+            <div
+              in:slide={{ delay: 1200, duration: 1000 }}
+              class="absolute h-full w-full bg-gray-600 bg-opacity-70 flex items-center justify-end p-5 rounded-sm hover:text-green-400 gap-2 backdrop-filter backdrop-blur-md"
+            >
+              <p class="font-bold uppercase">Completato</p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-check-circle text-green-500"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+          {/if}
+        </div>
+      {/each}
+    {/await}
   </div>
 </div>

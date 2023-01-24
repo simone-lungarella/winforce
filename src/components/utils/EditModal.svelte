@@ -1,24 +1,23 @@
 <script>
   import EditForm from "../EditForm.svelte";
-  import { windfarms } from "../../stores/TurbineStore.js";
   import { createEventDispatcher } from "svelte";
 
-  /**
-   * @type {number}
-   */
-  export let turbineId;
-
-  let windfarm = {};
-
-  if (turbineId !== 0) {
-    windfarm = $windfarms.find((turbine) => turbine.id === turbineId);
-  }
+  export let turbine;
 
   const dispatch = createEventDispatcher();
 
   const handleClose = () => {
     dispatch("close");
   };
+
+  const handleUpdate = () => {
+    dispatch("updated");
+  };
 </script>
 
-<EditForm {windfarm} isEditMode={true} on:close={handleClose} />
+<EditForm
+  windfarm={turbine}
+  isEditMode={true}
+  on:close={handleClose}
+  on:updated={handleUpdate}
+/>

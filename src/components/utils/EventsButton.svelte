@@ -29,7 +29,7 @@
 {#if areEventsVisible}
   <div class="p-2 mb-2">
     <p class="prose font-mono text-white">
-      Invio notifica: <span class="font-extralight"
+      Valdit&agrave; notifica: <span class="font-extralight"
         >{turbine.priorNotification || "____/__/__"}</span
       >
     </p>

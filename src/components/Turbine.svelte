@@ -1,15 +1,28 @@
 <script>
   import { slide } from "svelte/transition";
-  import { windfarms, remove } from "../stores/TurbineStore.js";
   import { createEventDispatcher } from "svelte";
   import EventsButton from "./utils/EventsButton.svelte";
   import OperationsButton from "./utils/OperationsButton.svelte";
   import StepList from "./utils/StepList.svelte";
   import DeletionModal from "./utils/DeletionModal.svelte";
+  import { deleteWindfarm } from "../stores/TurbineService";
 
-  export let turbineId = 0;
-
-  let turbine = $windfarms.find((turbine) => turbine.id === turbineId);
+  export let turbine = {
+    id: 0,
+    turbineName: "",
+    turbineNumber: "",
+    description: "",
+    odlNumber: 0,
+    power: "KILOWATT",
+    operation: [],
+    creationDate: "",
+    turbineState: "",
+    completedSteps: 0,
+    startingDateOOCC: "",
+    permittingDate: "",
+    priorNotification: "",
+    mailSent: false,
+  };
 
   const dispatch = createEventDispatcher();
 
@@ -18,13 +31,15 @@
   };
 
   const handleEditMode = () => {
-    dispatch("editMode", turbineId);
+    dispatch("editMode", turbine.id);
   };
 
   let isDeletionModalOpen = false;
   const handleDeletion = () => {
     isDeletionModalOpen = false;
-    remove(turbineId);
+    deleteWindfarm(turbine.id).then(() => {
+      dispatch("deleted");
+    });
   };
 </script>
 
@@ -150,6 +165,11 @@
       <p class="prose font-mono text-white">
         Stato turbina: <span>{turbine.turbineState}</span>
       </p>
+      {#if turbine.permittingDate !== undefined}
+        <p class="prose font-mono text-white">
+          Valdit&agrave; permitting: <span>{turbine.permittingDate}</span>
+        </p>
+      {/if}
       <div class="w-full md:w-3/4 mt-5">
         <EventsButton {turbine} />
         <OperationsButton {turbine} />

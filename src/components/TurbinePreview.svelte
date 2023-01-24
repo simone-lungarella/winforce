@@ -85,7 +85,7 @@
 
       <!-- Manca odl number e turbineNumber su mobile -->
 
-      {#if turbine.odlNumber !== 0}
+      {#if turbine.odlNumber !== undefined && turbine.odlNumber !== 0}
         <p class="hidden md:group-hover:flex justify-end mr-5 col-span-1">
           ODL:&nbsp;<span class="text-amber-400">{turbine.odlNumber}</span>
         </p>

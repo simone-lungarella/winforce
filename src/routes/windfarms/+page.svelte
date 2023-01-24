@@ -1,16 +1,30 @@
 <script>
   import TurbinePreview from "../../components/TurbinePreview.svelte";
   import { slide } from "svelte/transition";
-  import { windfarms } from "../../stores/TurbineStore.js";
+  import { getWindfarms } from "../../stores/TurbineService.js";
   import Turbine from "../../components/Turbine.svelte";
   import EditModal from "../../components/utils/EditModal.svelte";
   import CreateModal from "../../components/utils/CreateModal.svelte";
+  import { onMount } from "svelte";
 
   let isDetailOpen = false;
-  let turbineId = 0;
+  let turbine = {};
+
+  /**
+   * @type {any[]}
+   */
+  let loadedWindfarms = [];
+
+  onMount(() => {
+    getWindfarms().then((data) => {
+      loadedWindfarms = data;
+    });
+  });
 
   const handleDetailOpening = (event) => {
-    turbineId = event.detail;
+    const turbineId = event.detail;
+    turbine = loadedWindfarms.find((turbine) => turbine.id === turbineId);
+
     isDetailOpen = true;
     isEditModelOpen = false;
   };
@@ -19,11 +33,29 @@
     isDetailOpen = false;
     isEditModelOpen = false;
     isCreateModelOpen = false;
+
+    // Update windfarms, might have been changed some steps
+    getWindfarms().then((data) => {
+      loadedWindfarms = data;
+    });
+  };
+
+  const handleDeletion = () => {
+    isDetailOpen = false;
+    isEditModelOpen = false;
+    isCreateModelOpen = false;
+
+    // Update windfarms, might have been changed
+    getWindfarms().then((data) => {
+      loadedWindfarms = data;
+    });
   };
 
   let isEditModelOpen = false;
   const handleEditModalOpening = (event) => {
-    turbineId = event.detail;
+    const turbineId = event.detail;
+    turbine = loadedWindfarms.find((turbine) => turbine.id === turbineId);
+
     isDetailOpen = false;
     isEditModelOpen = true;
   };
@@ -35,10 +67,34 @@
     isEditModelOpen = false;
   };
 
+  const handleCreation = () => {
+    isCreateModelOpen = false;
+    isDetailOpen = false;
+    isEditModelOpen = false;
+
+    // Update windfarms, might have been changed
+    getWindfarms().then((data) => {
+      console.log("Updating with: ", data);
+      loadedWindfarms = data;
+    });
+  };
+
+  const handleUpdate = () => {
+    isCreateModelOpen = false;
+    isDetailOpen = false;
+    isEditModelOpen = false;
+
+    // Update windfarms, might have been changed
+    getWindfarms().then((data) => {
+      console.log("Updating with: ", data);
+      loadedWindfarms = data;
+    });
+  };
+
   let searchKey = "";
   let year = new Date().getFullYear().toString();
 
-  $: filteredTurbines = $windfarms.filter(
+  $: filteredTurbines = loadedWindfarms.filter(
     (turbine) =>
       (turbine.description.toLowerCase().includes(searchKey.toLowerCase()) ||
         turbine.turbineName.toLowerCase().includes(searchKey.toLowerCase()) ||
@@ -105,9 +161,24 @@
   <section
     class="max-h-[24rem] md:max-h-[36rem] md:p-4 overflow-y-scroll overflow-x-hidden scrollbar-none snap-mandatory snap-y"
   >
-    {#each filteredTurbines as turbine (turbine.id)}
-      <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
-    {/each}
+    {#await filteredTurbines}
+      <div class="flex flex-col items-center justify-center h-full">
+        <div
+          class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"
+        />
+        <p class="text-2xl font-bold font-mono">Caricamento...</p>
+      </div>
+    {:then filteredTurbines}
+      {#each filteredTurbines as turbine (turbine.id)}
+        <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
+      {/each}
+    {:catch error}
+      <div class="flex flex-col items-center justify-center h-full">
+        <p class="text-2xl font-bold font-mono">
+          Errore nel caricamento: {error}
+        </p>
+      </div>
+    {/await}
 
     {#if isDetailOpen}
       <div
@@ -116,9 +187,10 @@
         on:keydown={handleModalClosing}
       >
         <Turbine
-          {turbineId}
+          {turbine}
           on:closeDetails={handleModalClosing}
           on:editMode={handleEditModalOpening}
+          on:deleted={handleDeletion}
         />
       </div>
     {/if}
@@ -128,7 +200,11 @@
         on:click={handleModalClosing}
         on:keydown={handleModalClosing}
       >
-        <EditModal {turbineId} on:close={() => (isEditModelOpen = false)} />
+        <EditModal
+          {turbine}
+          on:close={() => (isEditModelOpen = false)}
+          on:updated={handleUpdate}
+        />
       </div>
     {/if}
     {#if isCreateModelOpen}
@@ -137,7 +213,10 @@
         on:click={handleModalClosing}
         on:keydown={handleModalClosing}
       >
-        <CreateModal on:close={() => (isCreateModelOpen = false)} />
+        <CreateModal
+          on:close={() => (isCreateModelOpen = false)}
+          on:created={handleCreation}
+        />
       </div>
     {/if}
   </section>

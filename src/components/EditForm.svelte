@@ -6,6 +6,7 @@
   import PowerSwitch from "../components/utils/PowerSwitch.svelte";
   import StateSwitch from "../components/utils/StateSwitch.svelte";
   import { createEventDispatcher } from "svelte";
+  import { createWindfarm, updateWindfarm } from "../stores/TurbineService";
 
   export let isEditMode = false;
   export let windfarm = {
@@ -62,11 +63,31 @@
   const handleFormClosing = () => {
     dispatch("close");
   };
+
+  const handleFormSubmit = () => {
+    if (isEditMode) {
+      updateWindfarm(windfarm).then((response) => {
+        if (response !== undefined && response.status === 200) {
+          dispatch("updated");
+        } else {
+          // TODO Handle error
+        }
+      });
+    } else {
+      createWindfarm(windfarm).then((response) => {
+        if (response !== undefined && response.status === 200) {
+          dispatch("created");
+        } else {
+          // TODO Handle error
+        }
+      });
+    }
+  };
 </script>
 
 <div
   transition:slide={{ duration: 200 }}
-  class="h-full w-full flex flex-col items-center justify-center md:min-h-screen scrollbar-none overflow-x-hidden border"
+  class="h-full w-full flex flex-col items-center justify-center md:min-h-screen scrollbar-none overflow-x-hidden"
 >
   {#if isOperationSelectOpen}
     <div
@@ -283,7 +304,10 @@
           >
             Annulla
           </button>
-          <button class="font-bold font-mono bg-green-500 py-2 rounded w-24">
+          <button
+            class="font-bold font-mono bg-green-500 py-2 rounded w-24"
+            on:click={handleFormSubmit}
+          >
             <p>{isEditMode ? "Modifica" : "Crea"}</p>
           </button>
         </div>
