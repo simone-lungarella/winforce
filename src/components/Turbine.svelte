@@ -43,8 +43,6 @@
   };
 </script>
 
-<!-- TODO: Non smantellare flag su dettaglio, creazione e modifica -->
-<!-- TODO: Aggiungere in dettagli data permitting -->
 <div
   in:slide={{ duration: 1000 }}
   class="bg-gray-800 rounded border-2 border-gray-800 ring-2 ring-gray-400 p-4 backdrop-filter backdrop-blur-sm bg-opacity-75 text-white font-mono text-2xl 
@@ -54,8 +52,10 @@
 >
   <div class="w-full h-20 grid grid-cols-2 items-start">
     <h1 class="font-mono font-bold text-2xl md:text-4xl">
-      {turbine.turbineName} -
-      <span>{turbine.turbineNumber}</span>
+      {turbine.turbineName}
+      {#if turbine.turbineNumber}
+        <span> - {turbine.turbineNumber}</span>
+      {/if}
     </h1>
     <div class="flex flex-row justify-end">
       <div class="grid grid-cols-6">
@@ -168,6 +168,11 @@
       {#if turbine.permittingDate !== undefined}
         <p class="prose font-mono text-white">
           Valdit&agrave; permitting: <span>{turbine.permittingDate}</span>
+        </p>
+      {/if}
+      {#if turbine.priorNotification !== undefined}
+        <p class="prose font-mono text-white">
+          Valdit&agrave; notifica: <span>{turbine.priorNotification}</span>
         </p>
       {/if}
       <div class="w-full md:w-3/4 mt-5">

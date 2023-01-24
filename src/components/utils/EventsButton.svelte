@@ -29,11 +29,6 @@
 {#if areEventsVisible}
   <div class="p-2 mb-2">
     <p class="prose font-mono text-white">
-      Valdit&agrave; notifica: <span class="font-extralight"
-        >{turbine.priorNotification || "____/__/__"}</span
-      >
-    </p>
-    <p class="prose font-mono text-white">
       Inizio ATT EEMM: <span class="font-extralight"
         >{turbine.startingDateEEMM || "____/__/__"}</span
       >

@@ -188,7 +188,7 @@
             />
           </button>
         </div>
-        <div class="col-span-full mt-14">
+        <div class="col-span-full mt-auto">
           <PowerSwitch on:change={(event) => (windfarm.power = event.detail)} />
         </div>
       </div>
@@ -230,11 +230,14 @@
               ? windfarm.startingDateOOCC
               : ""}
             placeHolder="Data inizio OOCC"
+            on:change={(event) => {
+              windfarm.startingDateOOCC = event.target.value;
+            }}
           />
         </div>
         <div>
           <label for="dateEEMM" class="font-mono text-white">
-            Data Permitting
+            Validit&agrave; permitting
           </label>
           <input
             class="input"
@@ -242,7 +245,26 @@
             value={windfarm.permittingDate !== undefined
               ? windfarm.permittingDate
               : ""}
-            placeHolder="Data concessione"
+            placeHolder="Validità permitting"
+            on:change={(event) => {
+              windfarm.permittingDate = event.target.value;
+            }}
+          />
+        </div>
+        <div>
+          <label for="dateEEMM" class="font-mono text-white">
+            Validit&agrave; notifica
+          </label>
+          <input
+            class="input"
+            type="date"
+            value={windfarm.priorNotification !== undefined
+              ? windfarm.priorNotification
+              : ""}
+            placeHolder="Validità notifica"
+            on:change={(event) => {
+              windfarm.priorNotification = event.target.value;
+            }}
           />
         </div>
       </div>

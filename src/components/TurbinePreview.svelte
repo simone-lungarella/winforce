@@ -49,7 +49,9 @@
     <div class="grid grid-cols-1 md:grid-cols-2 text-white font-mono gap-4">
       <h1 class="font-bold text-4xl mt-5 col-span-1 md:col-span-2">
         {turbine.turbineName}
-        <span class="hidden md:inline-block"> - {turbine.turbineNumber}</span>
+        {#if turbine.turbineNumber}
+          <span class="hidden md:inline-block"> - {turbine.turbineNumber}</span>
+        {/if}
       </h1>
 
       <span class="col-span-2 md:col-span-1 font-bold flex">{reachedStep}</span>

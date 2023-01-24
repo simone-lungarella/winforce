@@ -57,7 +57,24 @@ export async function updateWindfarm(windfarm) {
             headers: { Authorization: "bearer " + token },
         };
 
+        console.log("Updating windfarm: " + JSON.stringify(windfarm));
+
         return await axios.put(baseUrl + "/event", windfarm, config);
+    } else {
+        // TODO: Handle this
+        console.log("Token not found in local storage");
+    }
+}
+
+export async function getExportData() {
+    if (typeof localStorage !== 'undefined') {
+        const token = localStorage.getItem("token");
+
+        const config = {
+            headers: { Authorization: "bearer " + token },
+        };
+
+        return await axios.get(baseUrl + "/events/csv", config);
     } else {
         // TODO: Handle this
         console.log("Token not found in local storage");

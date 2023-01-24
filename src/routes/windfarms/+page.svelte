@@ -1,11 +1,11 @@
 <script>
   import TurbinePreview from "../../components/TurbinePreview.svelte";
   import { slide } from "svelte/transition";
-  import { getWindfarms } from "../../stores/TurbineService.js";
+  import { getWindfarms, getExportData } from "../../stores/TurbineService.js";
   import Turbine from "../../components/Turbine.svelte";
   import EditModal from "../../components/utils/EditModal.svelte";
   import CreateModal from "../../components/utils/CreateModal.svelte";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
 
   let isDetailOpen = false;
   let turbine = {};
@@ -30,22 +30,16 @@
   };
 
   const handleModalClosing = () => {
-    isDetailOpen = false;
-    isEditModelOpen = false;
-    isCreateModelOpen = false;
-
     // Update windfarms, might have been changed some steps
     getWindfarms().then((data) => {
       loadedWindfarms = data;
+      isDetailOpen = false;
     });
   };
 
   const handleDeletion = () => {
     isDetailOpen = false;
-    isEditModelOpen = false;
-    isCreateModelOpen = false;
 
-    // Update windfarms, might have been changed
     getWindfarms().then((data) => {
       loadedWindfarms = data;
     });
@@ -80,14 +74,21 @@
   };
 
   const handleUpdate = () => {
-    isCreateModelOpen = false;
-    isDetailOpen = false;
-    isEditModelOpen = false;
-
     // Update windfarms, might have been changed
     getWindfarms().then((data) => {
-      console.log("Updating with: ", data);
       loadedWindfarms = data;
+      isEditModelOpen = false;
+    });
+  };
+
+  const downloadCsv = () => {
+    getExportData().then((response) => {
+      const blob = new Blob([response.data], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "export.csv";
+      link.click();
     });
   };
 
@@ -134,29 +135,58 @@
 
   <div class="flex flex-row justify-between items-center my-4 mx-4 md:mx-6">
     <p class="font-mono text-lg">{numberOfTurbines} risultati</p>
-    <button
-      class="bg-green-500 rounded p-2 ring-2 ring-gray-300 hover:bg-green-400 hover:ring-gray-200 group"
-      on:click={handleCreateModalOpening}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="22"
-        height="22"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="feather feather-plus group-hover:rotate-90 transition-all duration-300 ease-in-out"
-        ><line x1="12" y1="5" x2="12" y2="19" /><line
-          x1="5"
-          y1="12"
-          x2="19"
-          y2="12"
-        /></svg
+    <div class="justify-end flex flex-row gap-4">
+      <button
+        class="bg-blue-500 rounded p-2 ring-2 ring-gray-300 hover:bg-blue-400 hover:ring-gray-200 group"
+        on:click={downloadCsv}
       >
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-file-text group-hover:rotate-12 group-hover:transition-transform group-hover:duration-500"
+          ><path
+            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+          /><polyline points="14 2 14 8 20 8" /><line
+            x1="16"
+            y1="13"
+            x2="8"
+            y2="13"
+          /><line x1="16" y1="17" x2="8" y2="17" /><polyline
+            points="10 9 9 9 8 9"
+          /></svg
+        >
+      </button>
+      <button
+        class="bg-green-500 rounded p-2 ring-2 ring-gray-300 hover:bg-green-400 hover:ring-gray-200 group"
+        on:click={handleCreateModalOpening}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-plus group-hover:rotate-90 transition-all duration-300 ease-in-out"
+          ><line x1="12" y1="5" x2="12" y2="19" /><line
+            x1="5"
+            y1="12"
+            x2="19"
+            y2="12"
+          /></svg
+        >
+      </button>
+    </div>
   </div>
   <section
     class="max-h-[24rem] md:max-h-[36rem] md:p-4 overflow-y-scroll overflow-x-hidden scrollbar-none snap-mandatory snap-y"
