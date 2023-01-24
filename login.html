@@ -10,9 +10,10 @@
 		<link rel="modulepreload" href="./_app/immutable/chunks/index-c557abc7.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-0718abc6.js">
 		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-1dc8d03d.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_page.svelte-ce7ca622.js">
-		<link rel="modulepreload" href="./_app/immutable/modules/pages/_page.js-dc85b7cd.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/_page-fca24c55.js"><title>Winforce</title><!-- HEAD_svelte-1xjwigd_START --><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/png" href="/favicon.png"><!-- HEAD_svelte-1xjwigd_END -->
+		<link rel="modulepreload" href="./_app/immutable/components/pages/login/_page.svelte-08235a70.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/axios-67252f11.js">
+		<link rel="modulepreload" href="./_app/immutable/modules/pages/login/_page.js-94291217.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/_page-da46b06b.js"><title>Winforce</title><!-- HEAD_svelte-1xjwigd_START --><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/png" href="/favicon.png"><!-- HEAD_svelte-1xjwigd_END -->
   </head>
   <body data-sveltekit-preload-data="hover">
     <div style="display: contents">
@@ -26,19 +27,25 @@
   
 </header>
 
-<body class="bg-gray-900 text-white p-4 mb-32 overflow-y-hidden "></body>
+<body class="bg-gray-900 text-white p-4 mb-32 overflow-y-hidden "><div class="flex flex-col items-center justify-center md:min-h-screen mt-32 md:mt-0">
+  <form class="md:w-1/2 flex flex-col gap-3 bg-gray-800 p-5 rounded ring-2 ring-gray-500 font-mono"><div class="flex flex-col"><label for="username">Username</label>
+      <input type="username" name="username" id="username" placeholder="Username" class="border border-gray-300 rounded-md p-2 text-black"></div>
+    <div class="flex flex-col"><label for="password">Password</label>
+      <input type="password" name="password" id="password" placeholder="Password" class="border border-gray-300 rounded-md p-2 text-black"></div>
+    <div class="flex flex-col"><button type="submit" class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 transition duration-200">Login</button>
+      <div class="text-red-500"></div></div></form></div></body>
 
 
-		<script type="module" data-sveltekit-hydrate="zjflxx">
+		<script type="module" data-sveltekit-hydrate="1m35u3c">
 			import { start } from "./_app/immutable/start-3d821242.js";
 
 			start({
 				env: {},
 				paths: {"base":"","assets":""},
-				target: document.querySelector('[data-sveltekit-hydrate="zjflxx"]').parentNode,
+				target: document.querySelector('[data-sveltekit-hydrate="1m35u3c"]').parentNode,
 				version: "1674545942815",
 				hydrate: {
-					node_ids: [0, 2],
+					node_ids: [0, 3],
 					data: [null,null],
 					form: null
 				}
