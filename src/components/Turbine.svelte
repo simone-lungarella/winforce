@@ -5,7 +5,7 @@
   import OperationsButton from "./utils/OperationsButton.svelte";
   import StepList from "./utils/StepList.svelte";
   import DeletionModal from "./utils/DeletionModal.svelte";
-  import { deleteWindfarm } from "../stores/TurbineService";
+  import { deleteWindfarm } from "../services/TurbineService";
 
   export let turbine = {
     id: 0,
@@ -44,9 +44,9 @@
 </script>
 
 <div
-  in:slide={{ duration: 1000 }}
+  in:slide={{ duration: 150 }}
   class="bg-gray-800 rounded border-2 border-gray-800 ring-2 ring-gray-400 p-4 backdrop-filter backdrop-blur-sm bg-opacity-75 text-white font-mono text-2xl 
-  fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 z-50 h-[32rem] overflow-y-scroll scrollbar-none md:h-auto md:min-h-[28rem]"
+  fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 md:w-auto z-50 h-[32rem] overflow-y-scroll scrollbar-none md:h-auto md:min-h-[28rem]"
   on:click|stopPropagation
   on:keydown|stopPropagation
 >

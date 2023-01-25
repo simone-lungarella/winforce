@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-  <title>Winforce</title>
+  <title>Task Manager Wind</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" href="/favicon.png" />
 </svelte:head>

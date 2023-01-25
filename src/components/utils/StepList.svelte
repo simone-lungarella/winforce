@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { fade, slide } from "svelte/transition";
-  import { getSteps, setStepComplete } from "../../stores/StepService.js";
+  import { getSteps, setStepComplete } from "../../services/StepService.js";
 
   /**
    * @type { any }
@@ -9,12 +9,11 @@
   export let turbine;
 
   let steps = [];
-  let reachedStep = 0;
+  $: reachedStep = steps[turbine.completedSteps];
 
   onMount(() => {
     getSteps(turbine.id).then((data) => {
       steps = data;
-      reachedStep = steps[turbine.completedSteps];
     });
 
     setTimeout(() => {
@@ -22,13 +21,15 @@
     }, 1500);
   });
 
-  const handleStepUpdate = (stepId) => {
-    setStepComplete(stepId).then(() => {
-      turbine.completedSteps += 1;
-      if (turbine.completedSteps < 9) {
-        reachedStep = steps[turbine.completedSteps];
-      }
-      scrollToReachedStep();
+  const handleStepUpdate = (stepId, isComplete) => {
+    setStepComplete(stepId, isComplete).then(() => {
+      getSteps(turbine.id).then((data) => {
+        steps = data;
+        isComplete
+          ? (turbine.completedSteps += 1)
+          : (turbine.completedSteps -= 1);
+        scrollToReachedStep();
+      });
     });
   };
 
@@ -99,23 +100,25 @@
     {:then steps}
       {#each steps as step (step.id)}
         <div
-          class="col-span-7 relative grid grid-cols-7 hover:bg-gray-700/60 transition duration-500 ease-in-out p-3 hover:border hover:shadow-md hover:border-amber-200 items-center rounded-sm"
+          class="col-span-7 relative grid grid-cols-7 hover:bg-gray-700/60 transition duration-500 ease-in-out p-3 hover:border hover:shadow-md hover:border-blue-200 items-center rounded-sm"
         >
           <input
             type="checkbox"
-            class="col-span-1 h-5 w-5 border-gray-300 rounded accent-green-600 disabled:cursor-not-allowed"
-            disabled={step.name !== reachedStep.name && !step.complete}
+            class="col-span-1 h-5 w-5 border-gray-300 rounded accent-green-600 cursor-pointer disabled:cursor-not-allowed"
+            disabled={reachedStep &&
+              step.name !== reachedStep.name &&
+              !step.complete &&
+              !(steps.indexOf(step) === steps.indexOf(reachedStep) - 1)}
             checked={step.complete}
-            on:click={() => handleStepUpdate(step.id)}
+            on:click={() => handleStepUpdate(step.id, !step.complete)}
           />
           <div class="col-span-6 text-left">
             <p>
               {step.name}
             </p>
           </div>
-          {#if step.complete}
+          {#if step.complete && !(steps.indexOf(step) === steps.indexOf(reachedStep) - 1)}
             <div
-              in:slide={{ delay: 1200, duration: 1000 }}
               class="absolute h-full w-full bg-gray-600 bg-opacity-70 flex items-center justify-end p-5 rounded-sm hover:text-green-400 gap-2 backdrop-filter backdrop-blur-md"
             >
               <p class="font-bold uppercase">Completato</p>

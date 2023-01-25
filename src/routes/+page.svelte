@@ -6,12 +6,12 @@
     if (typeof localStorage !== "undefined") {
       const token = localStorage.getItem("token");
       if (!token) {
-        window.location.href = "/login";
+        window.location.href = "./login";
       } else {
-        window.location.href = "/windfarms";
+        window.location.href = "./windfarms";
       }
     } else {
-      window.location.href = "/login";
+      window.location.href = "./login";
     }
   });
 </script>

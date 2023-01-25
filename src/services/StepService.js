@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://localhost:8080/v1.0.0";
+const baseUrl = "https://dockyard-handler.herokuapp.com/v1.0.0";
 
 /**
  * @param {number} eventId
@@ -22,7 +22,11 @@ export async function getSteps(eventId) {
     }
 }
 
-export async function setStepComplete(stepId) {
+/**
+ * @param {string} stepId
+ * @param {boolean} [isComplete]
+ */
+export async function setStepComplete(stepId, isComplete) {
 
     if (typeof localStorage !== 'undefined') {
         const token = localStorage.getItem("token");
@@ -31,7 +35,7 @@ export async function setStepComplete(stepId) {
             headers: { Authorization: "bearer " + token },
         };
 
-        return await axios.put(baseUrl + "/step/complete?stepId=" + stepId + "&isCompleted=" + true, null, config);
+        return await axios.put(baseUrl + "/step/complete?stepId=" + stepId + "&isCompleted=" + isComplete, null, config);
     } else {
         // TODO: Handle this
         console.log("Token not found in local storage");

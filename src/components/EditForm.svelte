@@ -1,12 +1,12 @@
 <script>
-  import { fade, slide } from "svelte/transition";
+  import { slide } from "svelte/transition";
   import Operation from "../enum/Operation";
   import SelectionModal from "../components/utils/SelectionModal.svelte";
   import { onMount } from "svelte";
   import PowerSwitch from "../components/utils/PowerSwitch.svelte";
   import StateSwitch from "../components/utils/StateSwitch.svelte";
   import { createEventDispatcher } from "svelte";
-  import { createWindfarm, updateWindfarm } from "../stores/TurbineService";
+  import { createWindfarm, updateWindfarm } from "../services/TurbineService";
 
   export let isEditMode = false;
   export let windfarm = {
@@ -86,8 +86,9 @@
 </script>
 
 <div
-  transition:slide={{ duration: 200 }}
   class="h-full w-full flex flex-col items-center justify-center md:min-h-screen scrollbar-none overflow-x-hidden"
+  on:click={handleFormClosing}
+  on:keydown={handleFormClosing}
 >
   {#if isOperationSelectOpen}
     <div
@@ -118,7 +119,7 @@
   <form>
     <!-- Div container -->
     <div
-      transition:fade={{ duration: 150 }}
+      transition:slide={{ duration: 150 }}
       id="scrollable"
       class="flex flex-row gap-5 text-black p-2 w-[19rem] md:w-[32.5rem] scrollbar-none overflow-scroll snap-x snap-mandatory"
       on:click|stopPropagation
@@ -343,9 +344,7 @@
     >
       <input
         type="checkbox"
-        class={currentActiveIndex === 0
-          ? "dot bg-amber-400"
-          : "dot bg-gray-300"}
+        class={currentActiveIndex === 0 ? "dot bg-blue-400" : "dot bg-gray-300"}
         on:change={() => {
           currentActiveIndex = 0;
           scrollByOffset();
@@ -353,9 +352,7 @@
       />
       <input
         type="checkbox"
-        class={currentActiveIndex === 1
-          ? "dot bg-amber-400"
-          : "dot bg-gray-300"}
+        class={currentActiveIndex === 1 ? "dot bg-blue-400" : "dot bg-gray-300"}
         on:change={() => {
           currentActiveIndex = 1;
           scrollByOffset();
@@ -363,9 +360,7 @@
       />
       <input
         type="checkbox"
-        class={currentActiveIndex === 2
-          ? "dot bg-amber-400"
-          : "dot bg-gray-300"}
+        class={currentActiveIndex === 2 ? "dot bg-blue-400" : "dot bg-gray-300"}
         on:change={() => {
           currentActiveIndex = 2;
           scrollByOffset();
@@ -377,6 +372,6 @@
 
 <style>
   .dot {
-    @apply appearance-none rounded-full w-3 h-3 cursor-pointer hover:ring-2 hover:ring-amber-400;
+    @apply appearance-none rounded-full w-3 h-3 cursor-pointer hover:ring-2 hover:ring-blue-400;
   }
 </style>

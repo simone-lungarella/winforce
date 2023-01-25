@@ -1,5 +1,5 @@
 <script>
-  import { slide } from "svelte/transition";
+  import { fade, slide } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -10,7 +10,7 @@
   };
 </script>
 
-<div in:slide={{ duration: 300, delay: 300 }} class="p-4 h-full">
+<div in:fade={{ duration: 300 }} class="p-4 h-full">
   <div
     class="flex flex-row justify-center gap-4 font-bold font-mono h-full w-[13rem] md:w-[27rem]"
   >

@@ -21,7 +21,7 @@
     mailSent: false,
   };
 
-  let reachedStep = Step[turbine.completedSteps + 1];
+  $: reachedStep = Step[turbine.completedSteps + 1];
 
   let reachedStepDate = null;
   onMount(() => {
@@ -39,12 +39,10 @@
   };
 </script>
 
-<!-- TODO: Display permitting: validità permitting e validità notifica con data a fianco già nella preview -->
-
 <div class="snap-start pt-1">
   <div
     in:slide={{ duration: 1000 }}
-    class="bg-gray-800 md:h-32 px-4 my-3 mx-2 md:mx-0 rounded-sm shadow-md content-center hover:ring-2 ring-amber-500 transition duration-300 ease-in-out transform h-auto pb-5 md:hover:h-48 hover:content-start group"
+    class="bg-gray-800 md:h-32 px-4 my-3 hover:mx-2 md:hover:mx-0 rounded-sm shadow-md content-center hover:ring-2 ring-blue-500 transition duration-300 ease-in-out transform h-auto pb-5 md:hover:h-48 hover:content-start group"
   >
     <div class="grid grid-cols-1 md:grid-cols-2 text-white font-mono gap-4">
       <h1 class="font-bold text-4xl mt-5 col-span-1 md:col-span-2">
@@ -54,7 +52,13 @@
         {/if}
       </h1>
 
-      <span class="col-span-2 md:col-span-1 font-bold flex">{reachedStep}</span>
+      {#if reachedStep}
+        <span class="col-span-2 md:col-span-1 font-bold flex"
+          >{reachedStep}</span
+        >
+      {:else}
+        <span class="col-span-2 md:col-span-1 font-bold flex">Completato</span>
+      {/if}
 
       {#if reachedStepDate !== null && reachedStepDate !== undefined}
         <span class="col-span-2 md:col-span-1 flex md:justify-end md:mr-5"
@@ -89,7 +93,7 @@
 
       {#if turbine.odlNumber !== undefined && turbine.odlNumber !== 0}
         <p class="hidden md:group-hover:flex justify-end mr-5 col-span-1">
-          ODL:&nbsp;<span class="text-amber-400">{turbine.odlNumber}</span>
+          ODL:&nbsp;<span class="text-blue-400">{turbine.odlNumber}</span>
         </p>
       {:else}
         <div class="hidden md:flex col-span-2 md:col-span-1" />

@@ -6,7 +6,7 @@
 
 <button
   class="grid place-content-start gap-2 grid-flow-col items-center font-bold mb-3 bg-gray-600 p-3 rounded-sm
-          hover:bg-gray-700 hover:shadow-sm hover:border border-amber-400 w-full"
+          hover:bg-gray-700 hover:shadow-sm hover:border border-blue-400 w-full"
   on:click|preventDefault={() => (areOperationsVisible = !areOperationsVisible)}
 >
   <svg

@@ -1,7 +1,10 @@
 <script>
   import TurbinePreview from "../../components/TurbinePreview.svelte";
   import { slide } from "svelte/transition";
-  import { getWindfarms, getExportData } from "../../stores/TurbineService.js";
+  import {
+    getWindfarms,
+    getExportData,
+  } from "../../services/TurbineService.js";
   import Turbine from "../../components/Turbine.svelte";
   import EditModal from "../../components/utils/EditModal.svelte";
   import CreateModal from "../../components/utils/CreateModal.svelte";
@@ -82,14 +85,16 @@
   };
 
   const downloadCsv = () => {
-    getExportData().then((response) => {
-      const blob = new Blob([response.data], { type: "text/csv" });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "export.csv";
-      link.click();
-    });
+    if (loadedWindfarms.length > 0) {
+      getExportData().then((response) => {
+        const blob = new Blob([response.data], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "export.csv";
+        link.click();
+      });
+    }
   };
 
   let searchKey = "";
@@ -112,7 +117,7 @@
   <section class="mt-5 md:ml-5">
     <div class="flex flex-col md:flex-row gap-2">
       <input
-        class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-amber-400 focus:shadow-outline"
+        class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
         type="text"
         id="turbineName"
         name="turbineName"
@@ -120,7 +125,7 @@
         bind:value={searchKey}
       />
       <input
-        class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-amber-400 focus:shadow-outline"
+        class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
         type="text"
         id="turbineName"
         name="turbineName"
@@ -133,11 +138,15 @@
     </div>
   </section>
 
-  <div class="flex flex-row justify-between items-center my-4 mx-4 md:mx-6">
+  <div
+    class="flex flex-row justify-between items-center mt-6 mb-4 mx-1 md:mx-6"
+  >
     <p class="font-mono text-lg">{numberOfTurbines} risultati</p>
     <div class="justify-end flex flex-row gap-4">
       <button
-        class="bg-blue-500 rounded p-2 ring-2 ring-gray-300 hover:bg-blue-400 hover:ring-gray-200 group"
+        class="bg-blue-500 rounded p-2 ring-2 ring-gray-300 hover:bg-blue-400 hover:ring-gray-200 group
+        disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={loadedWindfarms.length === 0}
         on:click={downloadCsv}
       >
         <svg
