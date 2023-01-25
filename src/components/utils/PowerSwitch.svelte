@@ -71,6 +71,6 @@
 
 <style>
   .button {
-    @apply flex flex-row bg-gray-200 rounded gap-2 items-center p-2 hover:bg-gray-300 w-32 max-w-xl h-12 justify-center;
+    @apply flex flex-row bg-gray-200 rounded gap-2 items-center p-2 hover:bg-gray-300 w-28 md:w-32 max-w-xl h-12 justify-center;
   }
 </style>

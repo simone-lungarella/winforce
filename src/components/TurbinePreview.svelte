@@ -2,7 +2,6 @@
   import { slide } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
   import Step from "../enum/Step";
-  import { onMount } from "svelte";
 
   export let turbine = {
     id: 0,
@@ -22,15 +21,12 @@
   };
 
   $: reachedStep = Step[turbine.completedSteps + 1];
-
-  let reachedStepDate = null;
-  onMount(() => {
-    if (reachedStep === Step[4]) {
-      reachedStepDate = turbine.priorNotification;
-    } else if (reachedStep === Step[5]) {
-      reachedStepDate = turbine.permittingDate;
-    }
-  });
+  $: reachedStepDate =
+    reachedStep === Step[3]
+      ? turbine.priorNotification
+      : reachedStep === Step[4]
+      ? turbine.permittingDate
+      : null;
 
   const dispatch = createEventDispatcher();
 
