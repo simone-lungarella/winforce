@@ -46,7 +46,7 @@
 <div
   in:slide={{ duration: 150 }}
   class="bg-gray-800 rounded border-2 border-gray-800 ring-2 ring-gray-400 p-4 backdrop-filter backdrop-blur-sm bg-opacity-75 text-white font-mono text-2xl 
-  fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 md:w-auto z-50 h-[32rem] overflow-y-scroll scrollbar-none md:h-auto md:min-h-[28rem]"
+  fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 md:min-w-min md:max-w-4xl z-50 h-[32rem] overflow-y-scroll scrollbar-none md:h-auto md:min-h-[28rem]"
   on:click|stopPropagation
   on:keydown|stopPropagation
 >
@@ -155,7 +155,9 @@
     </div>
   </div>
 
-  <div class="w-full grid grid-cols-1 md:grid-cols-2 items-start">
+  <div
+    class="w-full grid grid-cols-1 md:grid-cols-2 items-start gap-0 md:gap-4"
+  >
     <div class="col-span-1">
       <p class="prose font-mono text-white">
         Creazione: <span>
@@ -175,7 +177,7 @@
           Valdit&agrave; notifica: <span>{turbine.priorNotification}</span>
         </p>
       {/if}
-      <div class="w-full md:w-3/4 mt-5">
+      <div class="w-full mt-5">
         <EventsButton {turbine} />
         <OperationsButton {turbine} />
       </div>

@@ -1,12 +1,8 @@
 {
-  "homepage": "https://simone-lungarella.github.io/winforce-2",
-  "name": "winforce",
-  "version": "0.0.1",
+  "homepage": "https://simone-lungarella.github.io/winforce2.0",
+  "name": "task-manager-wind",
+  "version": "0.9.0",
   "private": false,
-  "author": {
-    "name": "Simone Lungarella",
-    "email": "simonelungarella@gmail.com"
-  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
