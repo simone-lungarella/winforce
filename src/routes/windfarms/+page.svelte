@@ -200,24 +200,20 @@
   <section
     class="max-h-[24rem] md:max-h-[36rem] md:p-4 overflow-y-scroll overflow-x-hidden scrollbar-none snap-mandatory snap-y"
   >
-    {#await filteredTurbines}
-      <div class="flex flex-col items-center justify-center h-full">
+    {#if loadedWindfarms.length === 0}
+      <div
+        class="flex flex-col items-center justify-center h-full w-full mt-24"
+      >
         <div
-          class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"
+          class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-300 border"
         />
-        <p class="text-2xl font-bold font-mono">Caricamento...</p>
+        <p class="mt-4 text-xl font-bold">Caricamento in corso...</p>
       </div>
-    {:then filteredTurbines}
+    {:else}
       {#each filteredTurbines as turbine (turbine.id)}
         <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
       {/each}
-    {:catch error}
-      <div class="flex flex-col items-center justify-center h-full">
-        <p class="text-2xl font-bold font-mono">
-          Errore nel caricamento: {error}
-        </p>
-      </div>
-    {/await}
+    {/if}
 
     {#if isDetailOpen}
       <div
