@@ -207,7 +207,7 @@
         <div
           class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-300 border"
         />
-        <p class="mt-4 text-xl font-bold">Caricamento in corso...</p>
+        <p class="mt-4 text-xl font-bold font-mono">Caricamento in corso...</p>
       </div>
     {:else}
       {#each filteredTurbines as turbine (turbine.id)}
