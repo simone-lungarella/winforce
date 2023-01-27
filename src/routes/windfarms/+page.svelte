@@ -8,7 +8,7 @@
   import Turbine from "../../components/Turbine.svelte";
   import EditModal from "../../components/utils/EditModal.svelte";
   import CreateModal from "../../components/utils/CreateModal.svelte";
-  import { onMount, tick } from "svelte";
+  import { onMount } from "svelte";
 
   let isDetailOpen = false;
   let turbine = {};
@@ -99,6 +99,7 @@
 
   let searchKey = "";
   let year = new Date().getFullYear().toString();
+  let includeCompleted = false;
 
   $: filteredTurbines = loadedWindfarms.filter(
     (turbine) =>
@@ -107,7 +108,8 @@
         turbine.turbineNumber
           .toLowerCase()
           .includes(searchKey.toLowerCase())) &&
-      turbine.creationDate.includes(year)
+      turbine.creationDate.includes(year) &&
+      (includeCompleted || !turbine.completionDate)
   );
 
   $: numberOfTurbines = filteredTurbines.length;
@@ -115,7 +117,16 @@
 
 <div transition:slide={{ duration: 200 }} class="md:mt-16">
   <section class="mt-5 md:ml-5">
-    <div class="flex flex-col md:flex-row gap-2">
+    <div class="flex flex-col md:flex-row gap-3 md:items-center">
+      <input
+        id="completed-checkbox"
+        type="checkbox"
+        class="large-checkbox p-5
+        hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:ring-2 focus:shadow-outline hover:cursor-pointer
+          hover:shadow-md hover:ring-2 ring-blue-400 hover:ring-offset-2 hover:ring-offset-gray-800
+        "
+        bind:checked={includeCompleted}
+      />
       <input
         class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
         type="text"
@@ -131,9 +142,6 @@
         name="turbineName"
         placeholder="Anno"
         bind:value={year}
-      />
-      <div
-        class="hidden md:flex justify-end w-full text-end text-2xl font-bold font-mono"
       />
     </div>
   </section>

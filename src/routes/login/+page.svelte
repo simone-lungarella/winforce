@@ -25,45 +25,42 @@
   }
 </script>
 
-<div
-  class="flex flex-col items-center justify-center md:min-h-screen mt-32 md:mt-0"
->
-  <!-- Login form -->
-  <form class="w-11/12 md:w-1/3 flex flex-col gap-3 p-5 rounded font-mono">
-    <div class="flex flex-col">
-      <label for="username">Username</label>
-      <input
-        type="username"
-        name="username"
-        id="username"
-        placeholder="Username"
-        class="border border-gray-300 rounded-md p-2 text-black"
-      />
-    </div>
-    <div class="flex flex-col">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Password"
-        class="border border-gray-300 rounded-md p-2 text-black"
-      />
-    </div>
-    {#if errorMessage}
-      <div class="text-red-500">{errorMessage}</div>
-    {/if}
-    <div class="flex flex-col">
+<div class="h-screen">
+  <div class="flex flex-col items-center justify-center h-3/4">
+    <!-- Login form -->
+    <form class="w-11/12 md:w-1/3 flex flex-col gap-3 p-5 rounded font-mono">
+      <div class="flex flex-col">
+        <label for="username">Username</label>
+        <input
+          type="username"
+          name="username"
+          id="username"
+          placeholder="Username"
+          class="ring-2 ring-gray-300 rounded-md p-2 text-black"
+        />
+      </div>
+      <div class="flex flex-col">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          class="ring-2 ring-gray-300 rounded-md p-2 text-black"
+        />
+      </div>
+      {#if errorMessage}
+        <div class="text-red-500">{errorMessage}</div>
+      {/if}
       <button
         type="submit"
         class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 transition duration-200"
-        on:click={(event) => {
-          event.preventDefault();
+        on:click|preventDefault={(event) => {
           handleLogin(event);
         }}
       >
         Login</button
       >
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

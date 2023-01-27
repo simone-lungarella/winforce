@@ -13,7 +13,7 @@ export async function getWindfarms() {
             headers: { Authorization: "bearer " + token },
         };
 
-        const response = await axios.get(baseUrl + "/events", config);
+        const response = await axios.get(baseUrl + "/events?includeCompleted=true", config);
         return await response.data;
     } else {
         // TODO: Handle this
