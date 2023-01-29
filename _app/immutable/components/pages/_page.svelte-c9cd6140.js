@@ -1,0 +1,1 @@
+import{S as n,i as t,s as a,o as i}from"../../chunks/index-6db6588e.js";function s(e){return i(()=>{typeof localStorage<"u"&&localStorage.getItem("token")?window.location.href="./windfarms":window.location.href="./login"}),[]}class r extends n{constructor(o){super(),t(this,o,s,null,a,{})}}export{r as default};
