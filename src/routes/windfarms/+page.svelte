@@ -99,7 +99,8 @@
 
   let searchKey = "";
   let year = new Date().getFullYear().toString();
-  let includeCompleted = false;
+  // Options are: ALL, ONLY_INCOMPLETE, ONLY_COMPLETED, ALL
+  let listType = "ONLY_INCOMPLETE";
 
   $: filteredTurbines = loadedWindfarms.filter(
     (turbine) =>
@@ -109,7 +110,9 @@
           .toLowerCase()
           .includes(searchKey.toLowerCase())) &&
       turbine.creationDate.includes(year) &&
-      (includeCompleted || !turbine.completionDate)
+      (listType === "ALL" ||
+        (listType === "ONLY_INCOMPLETE" && !turbine.completionDate) ||
+        (listType === "ONLY_COMPLETED" && turbine.completionDate))
   );
 
   $: numberOfTurbines = filteredTurbines.length;
@@ -117,16 +120,7 @@
 
 <div transition:slide={{ duration: 200 }} class="md:mt-16">
   <section class="mt-5 md:ml-5">
-    <div class="flex flex-col md:flex-row gap-3 md:items-center">
-      <input
-        id="completed-checkbox"
-        type="checkbox"
-        class="large-checkbox p-5
-        hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:ring-2 focus:shadow-outline hover:cursor-pointer
-          hover:shadow-md hover:ring-2 ring-blue-400 hover:ring-offset-2 hover:ring-offset-gray-800
-        "
-        bind:checked={includeCompleted}
-      />
+    <div class="flex flex-col md:flex-row gap-3 md:items-center font-mono">
       <input
         class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
         type="text"
@@ -143,6 +137,27 @@
         placeholder="Anno"
         bind:value={year}
       />
+      <div class="relative">
+        <select
+          class="w-full min-w-1/2 min-w-[12rem] appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none hover:ring-2 ring-blue-400 focus:shadow-outline hover:cursor-pointer"
+          bind:value={listType}
+        >
+          <option value="ALL">Tutte</option>
+          <option value="ONLY_INCOMPLETE">In corso</option>
+          <option value="ONLY_COMPLETED">Cantieri chiusi</option>
+        </select>
+        <div class="absolute top-2 right-2 font-bold">
+          <svg
+            class="w-6 h-6 text-white fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M7.293 7.293a1 1 0 0 1 1.414 0L12 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z"
+            />
+          </svg>
+        </div>
+      </div>
     </div>
   </section>
 
