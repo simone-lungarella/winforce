@@ -28,7 +28,7 @@
 </button>
 {#if areOperationsVisible}
   <div class="p-2">
-    <ul class="prose font-mono text-white">
+    <ul class="font-mono text-white text-lg">
       {#each turbine.operation as operation}
         <li class="text-sm list-disc ml-5 font-bold uppercase">
           {operation}

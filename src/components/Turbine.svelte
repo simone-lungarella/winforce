@@ -159,21 +159,21 @@
     class="w-full grid grid-cols-1 md:grid-cols-2 items-start gap-0 md:gap-4"
   >
     <div class="col-span-1">
-      <p class="prose font-mono text-white">
+      <p class="font-mono text-white text-lg">
         Creazione: <span>
           {turbine.creationDate}
         </span>
       </p>
-      <p class="prose font-mono text-white">
+      <p class="font-mono text-white text-lg">
         Stato turbina: <span>{turbine.turbineState}</span>
       </p>
       {#if turbine.permittingDate !== undefined}
-        <p class="prose font-mono text-white">
+        <p class="font-mono text-white text-lg">
           Valdit&agrave; permitting: <span>{turbine.permittingDate}</span>
         </p>
       {/if}
       {#if turbine.priorNotification !== undefined}
-        <p class="prose font-mono text-white">
+        <p class="font-mono text-white text-lg">
           Valdit&agrave; notifica: <span>{turbine.priorNotification}</span>
         </p>
       {/if}

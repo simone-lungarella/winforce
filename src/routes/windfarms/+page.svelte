@@ -221,7 +221,7 @@
     </div>
   </div>
   <section
-    class="max-h-[24rem] md:max-h-[36rem] md:p-4 overflow-y-scroll overflow-x-hidden scrollbar-none snap-mandatory snap-y"
+    class="max-h-[18rem] md:max-h-[32rem] md:p-4 overflow-y-scroll scrollable pr-5"
   >
     {#if loadedWindfarms.length === 0}
       <div
@@ -279,3 +279,24 @@
     {/if}
   </section>
 </div>
+
+<style>
+  .scrollable {
+    scrollbar-width: thin;
+    scrollbar-color: #60a5fa;
+    scroll-behavior: smooth;
+  }
+
+  .scrollable::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollable::-webkit-scrollbar-track {
+    background: #4b5563;
+  }
+
+  .scrollable::-webkit-scrollbar-thumb {
+    background-color: #60a5fa;
+    border-radius: 8px;
+  }
+</style>

@@ -28,12 +28,12 @@
 </button>
 {#if areEventsVisible}
   <div class="p-2 mb-2">
-    <p class="prose font-mono text-white">
+    <p class="font-mono text-white text-lg">
       Inizio ATT EEMM: <span class="font-extralight"
         >{turbine.startingDateEEMM || "____/__/__"}</span
       >
     </p>
-    <p class="prose font-mono text-white">
+    <p class="font-mono text-white text-lg">
       Inizio ATT OOCC: <span class="font-extralight"
         >{turbine.startingDateOOCC || "____/__/__"}</span
       >
