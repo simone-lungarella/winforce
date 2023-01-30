@@ -47,7 +47,9 @@ const Operation = {
     19: "Sostituzione Main Bearing",
     20: "Manutenzione ordinaria viabilità",
     21: "Attività Varie",
-    22: "Bonifica Ambientale"
+    22: "Bonifica Ambientale",
+    23: "Sostituzione Pala",
+    24: "Sostituzione Pitch Gear"
 };
 
 
