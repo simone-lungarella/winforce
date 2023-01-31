@@ -20,7 +20,11 @@
     mailSent: false,
   };
 
-  $: reachedStep = Step[turbine.completedSteps + 1];
+  // If creation date year is 2022 the reached step is Step[turbine.completedSteps + 2] else is + 1
+  $: reachedStep = turbine.creationDate.includes("2022")
+    ? Step[turbine.completedSteps + 2]
+    : Step[turbine.completedSteps + 1];
+
   $: reachedStepDate =
     reachedStep === Step[3]
       ? turbine.priorNotification

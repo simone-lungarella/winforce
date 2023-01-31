@@ -2,7 +2,7 @@
   import "../app.css";
   import Header from "./Header.svelte";
 
-  let bodyStyle = "bg-gray-900 text-white p-4 mb-32 ";
+  let bodyStyle = "bg-gray-900 text-white p-4 mb-32 overflow-y-hidden ";
   const handleMenuToggle = (/** @type {{ detail: any; }} */ event) => {
     event.detail
       ? (bodyStyle += " blur-sm")
