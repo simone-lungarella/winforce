@@ -98,9 +98,9 @@
   };
 
   let searchKey = "";
-  let year = new Date().getFullYear().toString();
+  let year = "";
   // Options are: ALL, ONLY_INCOMPLETE, ONLY_COMPLETED, ALL
-  let listType = "ONLY_INCOMPLETE";
+  let listType = "ALL";
 
   $: filteredTurbines = loadedWindfarms.filter(
     (turbine) =>
