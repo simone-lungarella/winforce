@@ -22,7 +22,7 @@
 </script>
 
 <header class="bg-gray-900 w-full">
-  <div class="flex items-center w-full h-20 justify-between">
+  <div class="flex items-center w-full h-10 justify-between">
     <h1 class="ml-5 md:ml-10 text-2xl font-mono font-extrabold">
       <span class={isMenuOpen ? "blur-sm" : ""}>Task Manager Wind</span>
     </h1>

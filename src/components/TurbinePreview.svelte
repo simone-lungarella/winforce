@@ -32,6 +32,13 @@
       ? turbine.permittingDate
       : null;
 
+  // Expiring date is permittingDate + 90 days formatted in dd-MM-yyyy
+  $: expiringDate = turbine.permittingDate
+    ? new Date(
+        new Date(turbine.permittingDate).getTime() + 90 * 24 * 60 * 60 * 1000
+      ).toLocaleDateString("it-IT")
+    : null;
+
   const dispatch = createEventDispatcher();
 
   const handleDetailsOpening = () => {
@@ -42,33 +49,41 @@
 <div class="snap-start pt-1">
   <div
     in:slide={{ duration: 1000 }}
-    class="bg-gray-800 md:h-32 px-4 my-3 hover:mx-2 md:hover:mx-0 rounded-sm shadow-md content-center hover:ring-2 ring-blue-500 transition duration-300 ease-in-out transform h-auto pb-5 md:hover:h-48 hover:content-start group"
+    class="bg-gray-800 px-4 my-2 mx-2 md:mx-0 rounded-sm shadow-md hover:ring-2 ring-blue-500 transition duration-300 ease-in-out transform h-auto md:h-56 pb-5 content-start group"
   >
-    <div class="grid grid-cols-1 md:grid-cols-2 text-white font-mono gap-4">
-      <h1 class="font-bold text-4xl mt-5 col-span-1 md:col-span-2">
+    <div class="grid grid-cols-1 text-white font-mono gap-3">
+      <h1 class="font-bold text-4xl mt-3 col-span-1 md:col-span-2">
         {turbine.turbineName}
         {#if turbine.turbineNumber}
           <span class="hidden md:inline-block"> - {turbine.turbineNumber}</span>
         {/if}
       </h1>
 
-      {#if reachedStep}
-        <span class="col-span-2 md:col-span-1 font-bold flex"
-          >{reachedStep}</span
-        >
-      {:else}
-        <span class="col-span-2 md:col-span-1 font-bold flex">Completato</span>
-      {/if}
+      <div class="flex flex-col gap-1">
+        <div class="flex bg-gray-600 h-7 rounded-sm overflow-hidden">
+          <div
+            class="bg-blue-500 h-full transition duration-300 ease-in-out transform"
+            style="width: {turbine.completedSteps * 12.5}%"
+          />
+          {#if reachedStep}
+            <span class="absolute font-bold text-lg flex px-1"
+              >{reachedStep}</span
+            >
+          {:else}
+            <span class="absolute font-bold text-lg flex px-1"
+              >Cantiere chiuso</span
+            >
+          {/if}
+        </div>
+      </div>
 
       {#if reachedStepDate !== null && reachedStepDate !== undefined}
-        <span class="col-span-2 md:col-span-1 flex md:justify-end md:mr-5"
-          >{reachedStepDate}</span
-        >
+        <span class="flex md:justify-end md:mr-5">{reachedStepDate}</span>
       {:else}
-        <div class="hidden md:flex col-span-2 md:col-span-1" />
+        <div class="hidden md:flex" />
       {/if}
 
-      <div class="col-span-2 md:col-span-1 hidden group-hover:flex gap-2">
+      <div class="flex gap-2 -mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -79,7 +94,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="feather feather-map-pin col-span-1"
+          class="feather feather-map-pin"
           ><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle
             cx="12"
             cy="10"
@@ -89,17 +104,15 @@
         <span>{turbine.description}</span>
       </div>
 
-      <!-- Manca odl number e turbineNumber su mobile -->
-
       {#if turbine.odlNumber !== undefined && turbine.odlNumber !== 0}
-        <p class="hidden md:group-hover:flex justify-end mr-5 col-span-1">
+        <p class="flex justify-end mr-5">
           ODL:&nbsp;<span class="text-blue-400">{turbine.odlNumber}</span>
         </p>
       {:else}
-        <div class="hidden md:flex col-span-2 md:col-span-1" />
+        <div class="hidden md:flex col-span-2" />
       {/if}
 
-      <div class="hidden group-hover:flex gap-2">
+      <div class="flex gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -115,15 +128,20 @@
             d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
           /><rect x="8" y="2" width="8" height="4" rx="1" ry="1" /></svg
         >
-        <span class="col-span-2 md:col-span-1 hidden group-hover:flex"
-          >{turbine.operation[0]}</span
-        >
+        <span class="flex">{turbine.operation[0]}</span>
       </div>
 
-      <span
-        class="col-span-2 md:col-span-1 hidden group-hover:flex md:justify-end md:mr-5 font-bold"
-        >{turbine.turbineState}</span
-      >
+      <span class="flex md:justify-end font-bold">{turbine.turbineState}</span>
+      <span class="font-mono hidden md:flex">Scadenza cantiere: </span>
+      <span class="font-mono flex md:hidden">Scadenza: </span>
+      {#if expiringDate}
+        <span class="font-mono font-bold text-end">{expiringDate}</span>
+      {:else}
+        <span class="font-mono font-bold text-end hidden md:flex"
+          >Non disponibile</span
+        >
+        <span class="font-mono font-bold text-end flex md:hidden">N/A</span>
+      {/if}
     </div>
 
     <div class="absolute top-0 right-0 mr-5 mt-5">

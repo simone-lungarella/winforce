@@ -118,7 +118,7 @@
   $: numberOfTurbines = filteredTurbines.length;
 </script>
 
-<div transition:slide={{ duration: 200 }} class="md:mt-16">
+<div transition:slide={{ duration: 200 }}>
   <section class="mt-5 md:ml-5">
     <div class="flex flex-col md:flex-row gap-3 md:items-center font-mono">
       <input
@@ -221,7 +221,7 @@
     </div>
   </div>
   <section
-    class="max-h-[18rem] md:max-h-[32rem] md:p-4 overflow-y-scroll scrollable pr-5"
+    class="max-h-[18rem] md:min-h-[37rem] md:max-h-[37rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm"
   >
     {#if loadedWindfarms.length === 0}
       <div
@@ -233,9 +233,11 @@
         <p class="mt-4 text-xl font-bold font-mono">Caricamento in corso...</p>
       </div>
     {:else}
-      {#each filteredTurbines as turbine (turbine.id)}
-        <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
-      {/each}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {#each filteredTurbines as turbine (turbine.id)}
+          <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
+        {/each}
+      </div>
     {/if}
 
     {#if isDetailOpen}
