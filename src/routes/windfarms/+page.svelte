@@ -221,7 +221,7 @@
     </div>
   </div>
   <section
-    class="max-h-[18rem] md:min-h-[37rem] md:max-h-[37rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm"
+    class="min-h-[20rem] max-h-[20rem] md:min-h-[37rem] md:max-h-[37rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm"
   >
     {#if loadedWindfarms.length === 0}
       <div

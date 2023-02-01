@@ -39,11 +39,19 @@
       ).toLocaleDateString("it-IT")
     : null;
 
+  $: mainOperation = turbine.operation[0]
+    ? turbine.operation[0].length > 16
+      ? turbine.operation[0].substring(0, 14) + "..."
+      : turbine.operation[0]
+    : "";
+
   const dispatch = createEventDispatcher();
 
   const handleDetailsOpening = () => {
     dispatch("showDetails", turbine.id);
   };
+
+  let tooltipOperation = false;
 </script>
 
 <div class="snap-start pt-1">
@@ -105,14 +113,20 @@
       </div>
 
       {#if turbine.odlNumber !== undefined && turbine.odlNumber !== 0}
-        <p class="flex justify-end mr-5">
+        <p class="flex md:justify-end">
           ODL:&nbsp;<span class="text-blue-400">{turbine.odlNumber}</span>
         </p>
       {:else}
         <div class="hidden md:flex col-span-2" />
       {/if}
 
-      <div class="flex gap-2">
+      <div
+        class="flex gap-2"
+        on:mouseover={() => (tooltipOperation = true)}
+        on:focus={() => (tooltipOperation = true)}
+        on:mouseleave={() => (tooltipOperation = false)}
+        on:focusout={() => (tooltipOperation = false)}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -128,19 +142,34 @@
             d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
           /><rect x="8" y="2" width="8" height="4" rx="1" ry="1" /></svg
         >
-        <span class="flex">{turbine.operation[0]}</span>
+        {#if tooltipOperation}
+          <div
+            on:mouseover={() => (tooltipOperation = true)}
+            on:focus={() => (tooltipOperation = true)}
+            on:mouseleave={() => (tooltipOperation = false)}
+            on:focusout={() => (tooltipOperation = false)}
+            class="absolute z-10 bg-gray-400 text-white rounded-sm shadow-md p-2 left-10 cursor-default"
+          >
+            <p>{turbine.operation[0]}</p>
+          </div>
+        {/if}
+
+        <span class="flex select-none">{mainOperation} </span>
       </div>
 
       <span class="flex md:justify-end font-bold">{turbine.turbineState}</span>
       <span class="font-mono hidden md:flex">Scadenza cantiere: </span>
-      <span class="font-mono flex md:hidden">Scadenza: </span>
+      <span class="font-mono flex md:hidden"
+        >Scadenza: {expiringDate || "N/A"}</span
+      >
       {#if expiringDate}
-        <span class="font-mono font-bold text-end">{expiringDate}</span>
+        <span class="hidden md:flex font-mono font-bold text-end"
+          >{expiringDate}</span
+        >
       {:else}
-        <span class="font-mono font-bold text-end hidden md:flex"
+        <span class="hidden md:flex font-mono font-bold text-end"
           >Non disponibile</span
         >
-        <span class="font-mono font-bold text-end flex md:hidden">N/A</span>
       {/if}
     </div>
 
