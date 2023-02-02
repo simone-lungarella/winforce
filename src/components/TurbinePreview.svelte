@@ -75,11 +75,11 @@
       </div>
       <div class="col-span-1" />
 
-      {#if reachedStepDate !== null && reachedStepDate !== undefined}
+      <!-- {#if reachedStepDate !== null && reachedStepDate !== undefined}
         <span class="flex md:justify-end md:mr-5">{reachedStepDate}</span>
-      {:else}
-        <div class="hidden md:flex" />
-      {/if}
+      {:else} -->
+      <div class="hidden md:flex" />
+      <!-- {/if} -->
 
       <div class="flex gap-2 -mb-2">
         <svg
