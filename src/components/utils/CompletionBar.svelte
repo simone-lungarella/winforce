@@ -13,7 +13,7 @@
 
 <div class="flex">
   <div
-    class="transition duration-300 ease-in-out transform flex flex-row h-7 w-full md:w-3/4 gap-0.5"
+    class="transition duration-300 ease-in-out transform flex flex-row h-7 w-full lg:w-3/4 gap-0.5"
   >
     {#each Array(numberOfSteps) as _, index}
       {#if index < completedSteps}

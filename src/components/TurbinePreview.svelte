@@ -57,7 +57,7 @@
 <div class="snap-start pt-1">
   <div
     in:slide={{ duration: 1000 }}
-    class="bg-gray-800 px-4 my-2 mx-2 md:mx-0 rounded-sm shadow-md hover:ring-2 ring-blue-500 transition duration-300 ease-in-out transform h-auto md:h-56 pb-5 content-start"
+    class="bg-gray-800 px-4 my-2 mx-2 md:mx-0 rounded-sm shadow-md hover:ring-2 ring-blue-500 transition duration-300 ease-in-out transform h-auto md:h-68 xl:h-56 pb-5 content-start"
   >
     <div class="grid grid-cols-1 text-white font-mono gap-3">
       <h1 class="font-bold text-4xl mt-3 col-span-1 md:col-span-2">
@@ -148,16 +148,16 @@
       </div>
 
       <span class="flex md:justify-end font-bold">{turbine.turbineState}</span>
-      <span class="font-mono hidden md:flex">Scadenza cantiere: </span>
-      <span class="font-mono flex md:hidden"
+      <span class="font-mono hidden lg:flex">Scadenza cantiere: </span>
+      <span class="font-mono flex lg:hidden"
         >Scadenza: {expiringDate || "N/A"}</span
       >
       {#if expiringDate}
-        <span class="hidden md:flex font-mono font-bold text-end"
+        <span class="hidden lg:flex font-mono font-bold text-end justify-end"
           >{expiringDate}</span
         >
       {:else}
-        <span class="hidden md:flex font-mono font-bold text-end"
+        <span class="hidden lg:flex font-mono font-bold text-end justify-end"
           >Non disponibile</span
         >
       {/if}
