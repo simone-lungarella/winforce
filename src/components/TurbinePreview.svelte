@@ -81,7 +81,7 @@
       <div class="hidden md:flex" />
       <!-- {/if} -->
 
-      <div class="flex gap-2 -mb-2">
+      <div class="flex gap-2 md:-mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

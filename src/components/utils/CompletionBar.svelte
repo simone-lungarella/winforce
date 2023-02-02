@@ -13,13 +13,13 @@
 
 <div class="flex">
   <div
-    class="transition duration-300 ease-in-out transform flex flex-row bg-gray-500 h-7 w-3/4"
+    class="transition duration-300 ease-in-out transform flex flex-row bg-gray-500 h-7 w-full md:w-3/4"
   >
     {#each Array(numberOfSteps) as _, index}
       {#if index < completedSteps}
         <div class="border border-gray-400 bg-blue-500 h-full w-full" />
       {:else if index === completedSteps}
-        <div class="border border-gray-400 bg-blue-800 h-full w-full" />
+        <div class="border border-gray-400 bg-blue-700 h-full w-full" />
       {:else}
         <div class="border border-gray-400 bg-gray-500 h-full w-full" />
       {/if}
