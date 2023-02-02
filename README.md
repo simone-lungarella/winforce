@@ -7,8 +7,8 @@
   <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
 </p>
 
-<p> Application that helps stay organized offering basic crud operation with a captivating user interface built with material-ui components. The app, built with react, consent to handle windfarms and their states to help speed up the activities necessary to make the turbines run again. </p>
+<p> Application that helps stay organized offering basic crud operation with a captivating user interface built with tailwindcss. The app, built with svelte, consent to handle windfarms and their states to help speed up the activities necessary to make the turbines run again. </p>
 
 <p> Deployed on github pages, uses a Spring boot application deployed on Heroku as backend. </p>
 
-<!-- <p>Have a look at the deployed app reaching the <a href="https://simone-lungarella.github.io/winforce/">github page</a>!</p> -->
+<!-- <p>Have a look at the deployed app reaching the <a href="https://simone-lungarella.github.io/winforce2.0/">github page</a>!</p> -->
