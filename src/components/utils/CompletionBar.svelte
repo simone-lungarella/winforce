@@ -17,9 +17,9 @@
   >
     {#each Array(numberOfSteps) as _, index}
       {#if index < completedSteps}
-        <div class="border border-gray-400 bg-green-500 h-full w-full" />
+        <div class="border border-gray-400 bg-blue-500 h-full w-full" />
       {:else if index === completedSteps}
-        <div class="border border-gray-400 bg-green-800 h-full w-full" />
+        <div class="border border-gray-400 bg-blue-800 h-full w-full" />
       {:else}
         <div class="border border-gray-400 bg-gray-500 h-full w-full" />
       {/if}
