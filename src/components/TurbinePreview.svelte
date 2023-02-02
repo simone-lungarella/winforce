@@ -2,6 +2,7 @@
   import { slide } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
   import Step from "../enum/Step";
+  import CompletionBar from "./utils/CompletionBar.svelte";
 
   export let turbine = {
     id: 0,
@@ -20,7 +21,6 @@
     mailSent: false,
   };
 
-  // If creation date year is 2022 the reached step is Step[turbine.completedSteps + 2] else is + 1
   $: reachedStep = turbine.creationDate.includes("2022")
     ? Step[turbine.completedSteps + 2]
     : Step[turbine.completedSteps + 1];
@@ -67,23 +67,13 @@
         {/if}
       </h1>
 
-      <div class="flex flex-col gap-1">
-        <div class="flex bg-gray-600 h-7 rounded-sm overflow-hidden">
-          <div
-            class="bg-blue-500 h-full transition duration-300 ease-in-out transform"
-            style="width: {turbine.completedSteps * 12.5}%"
-          />
-          {#if reachedStep}
-            <span class="absolute font-bold text-lg flex px-1"
-              >{reachedStep}</span
-            >
-          {:else}
-            <span class="absolute font-bold text-lg flex px-1"
-              >Cantiere chiuso</span
-            >
-          {/if}
-        </div>
+      <div class="col-span-1 md:col-span-2">
+        <CompletionBar
+          completedSteps={turbine.completedSteps}
+          creationDate={turbine.creationDate}
+        />
       </div>
+      <div class="col-span-1" />
 
       {#if reachedStepDate !== null && reachedStepDate !== undefined}
         <span class="flex md:justify-end md:mr-5">{reachedStepDate}</span>
@@ -173,28 +163,30 @@
       {/if}
     </div>
 
-    <div class="absolute top-0 right-0 mr-5 mt-5">
+    <div class="absolute top-0 right-0 mr-2 mt-2">
       <div class="flex flex-col md:flex-row gap-2 md:gap-0">
         <button
-          class="bg-gray-700 hover:bg-gray-600 py-2 px-4 rounded-sm"
+          class="py-2 px-2 hover:bg-gray-400 rounded-full group"
           on:click|preventDefault={handleDetailsOpening}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+            width="22"
+            height="22"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="feather feather-search"
-            ><circle cx="11" cy="11" r="8" /><line
-              x1="21"
+            class="feather feather-maximize-2 group-hover:rotate-90 transition-all duration-300 ease-in-out"
+            ><polyline points="15 3 21 3 21 9" /><polyline
+              points="9 21 3 21 3 15"
+            /><line x1="21" y1="3" x2="14" y2="10" /><line
+              x1="3"
               y1="21"
-              x2="16.65"
-              y2="16.65"
+              x2="10"
+              y2="14"
             /></svg
           >
         </button>
