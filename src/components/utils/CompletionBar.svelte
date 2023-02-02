@@ -13,22 +13,20 @@
 
 <div class="flex">
   <div
-    class="transition duration-300 ease-in-out transform flex flex-row bg-gray-500 h-7 w-full md:w-3/4"
+    class="transition duration-300 ease-in-out transform flex flex-row h-7 w-full md:w-3/4 gap-0.5"
   >
     {#each Array(numberOfSteps) as _, index}
       {#if index < completedSteps}
-        <div class="border border-gray-400 bg-blue-500 h-full w-full" />
+        <div class="border border-gray-400 bg-blue-500 h-full w-full rounded" />
       {:else if index === completedSteps}
-        <div class="border border-gray-400 bg-blue-700 h-full w-full" />
+        <div class="border border-gray-400 bg-blue-800 h-full w-full rounded" />
       {:else}
-        <div class="border border-gray-400 bg-gray-500 h-full w-full" />
+        <div class="border border-gray-400 bg-gray-500 h-full w-full rounded" />
       {/if}
     {/each}
   </div>
 
-  {#if reachedStep}
-    <span class="absolute font-bold text-lg flex px-1">{reachedStep}</span>
-  {:else}
-    <span class="absolute font-bold text-lg flex px-1">Cantiere chiuso</span>
-  {/if}
+  <span class="absolute font-bold text-lg flex pl-2"
+    >{reachedStep || "Cantiere chiuso"}</span
+  >
 </div>

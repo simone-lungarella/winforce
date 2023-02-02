@@ -57,7 +57,7 @@
 <div class="snap-start pt-1">
   <div
     in:slide={{ duration: 1000 }}
-    class="bg-gray-800 px-4 my-2 mx-2 md:mx-0 rounded-sm shadow-md hover:ring-2 ring-blue-500 transition duration-300 ease-in-out transform h-auto md:h-56 pb-5 content-start group"
+    class="bg-gray-800 px-4 my-2 mx-2 md:mx-0 rounded-sm shadow-md hover:ring-2 ring-blue-500 transition duration-300 ease-in-out transform h-auto md:h-56 pb-5 content-start"
   >
     <div class="grid grid-cols-1 text-white font-mono gap-3">
       <h1 class="font-bold text-4xl mt-3 col-span-1 md:col-span-2">

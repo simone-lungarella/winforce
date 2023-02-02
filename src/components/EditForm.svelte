@@ -65,6 +65,15 @@
   };
 
   const handleFormSubmit = () => {
+    if (
+      windfarm.turbineName === "" ||
+      windfarm.description === "" ||
+      windfarm.operation.length === 0
+    ) {
+      console.log("Cannot submit missing required fields");
+      return;
+    }
+
     if (isEditMode) {
       updateWindfarm(windfarm).then((response) => {
         if (response !== undefined && response.status === 200) {
