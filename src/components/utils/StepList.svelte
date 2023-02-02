@@ -93,7 +93,7 @@
   <div
     in:slide={{ delay: 500, duration: 1000 }}
     id="stepsContainer"
-    class="grid grid-cols-7 md:p-5 text-lg text-left overflow-scroll h-32 md:h-64 gap-2 scrollbar-none shadow-md mt-5 items-center"
+    class="grid grid-cols-7 md:p-5 text-lg text-left overflow-scroll h-40 md:h-64 gap-2 scrollbar-none shadow-md mt-5 items-center"
   >
     {#await steps}
       <div class="col-span-7 text-center">Caricamento...</div>

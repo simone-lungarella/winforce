@@ -179,14 +179,9 @@
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="feather feather-maximize-2 group-hover:rotate-90 transition-all duration-300 ease-in-out"
-            ><polyline points="15 3 21 3 21 9" /><polyline
-              points="9 21 3 21 3 15"
-            /><line x1="21" y1="3" x2="14" y2="10" /><line
-              x1="3"
-              y1="21"
-              x2="10"
-              y2="14"
+            class="feather feather-book-open"
+            ><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path
+              d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"
             /></svg
           >
         </button>
