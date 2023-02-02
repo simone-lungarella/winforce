@@ -65,10 +65,10 @@
 
 <div
   in:fade={{ delay: 400, duration: 1000 }}
-  class="col-span-1 text-white md:ring-2 ring-gray-400 rounded-sm"
+  class="col-span-1 text-white ring-2 ring-gray-400 rounded-sm"
 >
   <div
-    class="grid justify-center place-content-center items-center grid-flow-col mb-3 mt-5 md:mt-0 md:border-b w-11/12 mx-auto md:py-2 gap-2 font-bold"
+    class="flex flex-row items-center md:justify-center mb-3 mt-5 md:mt-0 md:border-b w-11/12 mx-auto md:py-2 gap-2 font-bold"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -87,13 +87,13 @@
         d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
       /></svg
     >
-    <h1 class="text-center font-mono text-xl">Tracciamento fasi</h1>
+    <h1 class="font-mono text-xl">Tracciamento fasi</h1>
   </div>
 
   <div
     in:slide={{ delay: 500, duration: 1000 }}
     id="stepsContainer"
-    class="grid grid-cols-7 md:p-5 text-lg text-left overflow-scroll h-40 md:h-64 gap-2 scrollbar-none shadow-md mt-5 items-center"
+    class="grid grid-cols-7 md:p-5 text-lg text-left overflow-scroll h-44 md:h-64 gap-2 scrollbar-none mt-5 items-center"
   >
     {#await steps}
       <div class="col-span-7 text-center">Caricamento...</div>
