@@ -5,16 +5,16 @@
     <link rel="icon" href="./favicon.png" />
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_layout-996e221b.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/_layout-b3ab8c5f.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/_page-cfd661e6.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/start-5d76218f.js">
+		<link rel="modulepreload" href="./_app/immutable/start-6941db28.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index-38a06d27.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-e6774c86.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-1ce63baf.js">
-		<link rel="modulepreload" href="./_app/immutable/components/pages/windfarms/_page.svelte-1c9ad8c1.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/_layout.svelte-3b96836b.js">
+		<link rel="modulepreload" href="./_app/immutable/components/pages/windfarms/_page.svelte-c0a245b6.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/axios-67252f11.js">
 		<link rel="modulepreload" href="./_app/immutable/modules/pages/windfarms/_page.js-94291217.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/_page-fca24c55.js"><title>Task Manager Wind</title><!-- HEAD_svelte-d1wyaw_START --><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/png" href="/favicon.png"><!-- HEAD_svelte-d1wyaw_END -->
+		<link rel="modulepreload" href="./_app/immutable/chunks/_page-90a7f2f4.js"><title>Task Manager Wind</title><!-- HEAD_svelte-d1wyaw_START --><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/png" href="/favicon.png"><!-- HEAD_svelte-d1wyaw_END -->
   </head>
   <body data-sveltekit-preload-data="hover">
     <div style="display: contents">
@@ -27,15 +27,16 @@
   
 </header>
 
-<body class="bg-gray-900 text-white p-4 mb-32 overflow-y-hidden "><div><section class="mt-5 md:ml-5"><div class="flex flex-col md:flex-row gap-3 md:items-center font-mono"><input class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline" type="text" id="turbineName" name="turbineName" placeholder="Cerca" value="">
-      <input class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline" type="text" id="turbineName" name="turbineName" placeholder="Anno" value="">
-      <div class="relative"><select class="w-full min-w-1/2 min-w-[12rem] appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none hover:ring-2 ring-blue-400 focus:shadow-outline hover:cursor-pointer"><option value="ALL">Tutte</option><option value="ONLY_INCOMPLETE">In corso</option><option value="ONLY_COMPLETED">Cantieri chiusi</option></select>
-        <div class="absolute top-2 right-2 font-bold"><svg class="w-6 h-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M7.293 7.293a1 1 0 0 1 1.414 0L12 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z"></path></svg></div></div></div></section>
+<body class="bg-gray-900 text-white p-4 mb-32 overflow-y-hidden "><div><section class="mt-5 md:ml-5" id="filters"><div class="flex flex-col gap-3 font-mono"><div class="items-center flex flex-row justify-between md:justify-start gap-2"><input class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline" type="text" id="turbineName" name="turbineName" placeholder="Cerca" value="">
+
+        <button class="py-2 px-2 hover:text-blue-500 bg-gray-700 rounded-sm md:rounded-md"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></button></div>
+
+      </div></section>
 
   <div class="flex flex-row justify-between items-center mt-6 mb-4 mx-1 md:mx-6"><p class="font-mono text-lg">0 risultati</p>
     <div class="justify-end flex flex-row gap-4"><button class="bg-blue-500 rounded p-2 ring-2 ring-gray-300 hover:bg-blue-400 hover:ring-gray-200 group disabled:opacity-50 disabled:cursor-not-allowed" disabled><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text group-hover:rotate-12 group-hover:transition-transform group-hover:duration-500"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></button>
       <button class="bg-green-500 rounded p-2 ring-2 ring-gray-300 hover:bg-green-400 hover:ring-gray-200 group"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus group-hover:rotate-90 transition-all duration-300 ease-in-out"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></div></div>
-  <section class="min-h-[20rem] max-h-[20rem] md:min-h-[32rem] md:max-h-[32rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm svelte-d0a6yq"><div class="flex flex-col items-center justify-center h-full w-full mt-24"><div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-300 border"></div>
+  <section class="min-h-[18rem] max-h-[18rem] md:min-h-[34rem] md:max-h-[34rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm svelte-d0a6yq"><div class="flex flex-col items-center justify-center h-full w-full mt-24"><div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-300 border"></div>
         <p class="mt-4 text-xl font-bold font-mono">Caricamento in corso...</p></div>
 
     
@@ -44,14 +45,14 @@
 </div></body>
 
 
-		<script type="module" data-sveltekit-hydrate="mbl5gh">
-			import { start } from "./_app/immutable/start-5d76218f.js";
+		<script type="module" data-sveltekit-hydrate="8gqbl9">
+			import { start } from "./_app/immutable/start-6941db28.js";
 
 			start({
 				env: {},
 				paths: {"base":"","assets":""},
-				target: document.querySelector('[data-sveltekit-hydrate="mbl5gh"]').parentNode,
-				version: "1675344746446",
+				target: document.querySelector('[data-sveltekit-hydrate="8gqbl9"]').parentNode,
+				version: "1675621128619",
 				hydrate: {
 					node_ids: [0, 4],
 					data: [null,null],
