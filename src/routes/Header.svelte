@@ -49,7 +49,7 @@
   </div>
   {#if isMenuOpen}
     <div
-      class="bg-gray-600/75 w-3/4 md:w-1/5 absolute h-full top-0 right-0 shadow-2xl z-50"
+      class="bg-gray-600/75 w-3/4 md:w-1/2 lg:w-1/5 absolute h-full top-0 right-0 shadow-2xl z-50"
     >
       <div class="flex flex-row-reverse">
         <button
@@ -73,6 +73,20 @@
       </div>
       <nav>
         <ul class="gap-2 flex mr-10 flex-col p-4" aria-label="Navigation">
+          <li>
+            <div class="item">
+              <a href="./windfarms" class="text-white hover:text-blue-300"
+                >Turbine</a
+              >
+            </div>
+          </li>
+          <li>
+            <div class="item">
+              <a href="./maintenance" class="text-white hover:text-blue-300"
+                >Manutenzione</a
+              >
+            </div>
+          </li>
           <li>
             <div class="item">
               <button

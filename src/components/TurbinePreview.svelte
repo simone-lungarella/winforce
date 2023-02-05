@@ -39,6 +39,11 @@
       ).toLocaleDateString("it-IT")
     : null;
 
+  $: isOverdue =
+    expiringDate &&
+    new Date(turbine.permittingDate).getTime() + 90 * 24 * 60 * 60 * 1000 <
+      new Date().getTime();
+
   $: mainOperation = turbine.operation[0]
     ? turbine.operation[0].length > 16
       ? turbine.operation[0].substring(0, 14) + "..."
@@ -153,9 +158,9 @@
         >Scadenza: {expiringDate || "N/A"}</span
       >
       {#if expiringDate}
-        <span class="hidden lg:flex font-mono font-bold text-end justify-end"
-          >{expiringDate}</span
-        >
+        <div class="hidden lg:flex font-mono font-bold text-end justify-end">
+          <span class={isOverdue ? "text-red-500" : ""}>{expiringDate}</span>
+        </div>
       {:else}
         <span class="hidden lg:flex font-mono font-bold text-end justify-end"
           >Non disponibile</span

@@ -9,6 +9,7 @@
   import EditModal from "../../components/utils/EditModal.svelte";
   import CreateModal from "../../components/utils/CreateModal.svelte";
   import { onMount } from "svelte";
+  import Operation from "../../enum/Operation";
 
   let isDetailOpen = false;
   let turbine = {};
@@ -99,65 +100,156 @@
 
   let searchKey = "";
   let year = "";
+
   // Options are: ALL, ONLY_INCOMPLETE, ONLY_COMPLETED, ALL
   let listType = "ALL";
 
-  $: filteredTurbines = loadedWindfarms.filter(
-    (turbine) =>
-      (turbine.description.toLowerCase().includes(searchKey.toLowerCase()) ||
-        turbine.turbineName.toLowerCase().includes(searchKey.toLowerCase()) ||
-        turbine.turbineNumber
-          .toLowerCase()
-          .includes(searchKey.toLowerCase())) &&
-      turbine.creationDate.includes(year) &&
-      (listType === "ALL" ||
-        (listType === "ONLY_INCOMPLETE" && !turbine.completionDate) ||
-        (listType === "ONLY_COMPLETED" && turbine.completionDate))
-  );
+  // Options are: ALL, ONLY_BLADE, MAINTENANCE, MAIN_COMPS
+  let operationType = "ALL";
+
+  $: filteredTurbines = loadedWindfarms.filter((turbine) => {
+    const searchTerm = searchKey.toLowerCase();
+    const descMatch = turbine.description.toLowerCase().includes(searchTerm);
+    const nameMatch = turbine.turbineName.toLowerCase().includes(searchTerm);
+    const numberMatch = turbine.turbineNumber
+      .toLowerCase()
+      .includes(searchTerm);
+    const yearMatch = turbine.creationDate.includes(year);
+
+    const typeMatch =
+      listType === "ALL" ||
+      (listType === "ONLY_INCOMPLETE" && !turbine.completionDate) ||
+      (listType === "ONLY_COMPLETED" && turbine.completionDate);
+
+    console.log(Operation[2]);
+    const operationTypeMatch =
+      operationType === "ALL" ||
+      (operationType === "MAINTENANCE" &&
+        turbine.operation.some(
+          (operation) =>
+            operation.includes(Operation[20]) ||
+            operation.includes(Operation[21]) ||
+            operation.includes(Operation[22])
+        )) ||
+      (operationType === "ONLY_BLADES" &&
+        turbine.operation.some((operation) =>
+          operation.includes(Operation[2])
+        )) ||
+      (operationType === "MAIN_COMPS" &&
+        turbine.operation.some(
+          (operation) =>
+            !operation.includes(Operation[20]) ||
+            !operation.includes(Operation[21]) ||
+            !operation.includes(Operation[22])
+        ));
+
+    return (
+      (descMatch || nameMatch || numberMatch) &&
+      yearMatch &&
+      typeMatch &&
+      operationTypeMatch
+    );
+  });
 
   $: numberOfTurbines = filteredTurbines.length;
+
+  let isFilterVisible = false;
 </script>
 
 <div transition:slide={{ duration: 200 }}>
-  <section class="mt-5 md:ml-5">
-    <div class="flex flex-col md:flex-row gap-3 md:items-center font-mono">
-      <input
-        class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
-        type="text"
-        id="turbineName"
-        name="turbineName"
-        placeholder="Cerca"
-        bind:value={searchKey}
-      />
-      <input
-        class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
-        type="text"
-        id="turbineName"
-        name="turbineName"
-        placeholder="Anno"
-        bind:value={year}
-      />
-      <div class="relative">
-        <select
-          class="w-full min-w-1/2 min-w-[12rem] appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none hover:ring-2 ring-blue-400 focus:shadow-outline hover:cursor-pointer"
-          bind:value={listType}
+  <section class="mt-5 md:ml-5" id="filters">
+    <div class="flex flex-col gap-3 font-mono">
+      <div
+        class="items-center flex flex-row justify-between md:justify-start gap-2"
+      >
+        <input
+          class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
+          type="text"
+          id="turbineName"
+          name="turbineName"
+          placeholder="Cerca"
+          bind:value={searchKey}
+        />
+
+        <button
+          class="py-2 px-2 hover:text-blue-500 bg-gray-700 rounded-sm md:rounded-md"
+          on:click={() => {
+            isFilterVisible = !isFilterVisible;
+          }}
         >
-          <option value="ALL">Tutte</option>
-          <option value="ONLY_INCOMPLETE">In corso</option>
-          <option value="ONLY_COMPLETED">Cantieri chiusi</option>
-        </select>
-        <div class="absolute top-2 right-2 font-bold">
           <svg
-            class="w-6 h-6 text-white fill-current"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class={isFilterVisible ? "text-blue-500 rotate-90" : "text-white"}
+            ><polygon
+              points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+            /></svg
           >
-            <path
-              d="M7.293 7.293a1 1 0 0 1 1.414 0L12 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z"
-            />
-          </svg>
-        </div>
+        </button>
       </div>
+
+      {#if isFilterVisible}
+        <div class="flex flex-col md:flex-row gap-2">
+          <input
+            class="appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none focus:ring-2 ring-blue-400 focus:shadow-outline"
+            type="text"
+            id="turbineName"
+            name="turbineName"
+            placeholder="Anno"
+            bind:value={year}
+          />
+          <div class="relative">
+            <select
+              class="w-full min-w-1/2 min-w-[13rem] appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none hover:ring-2 ring-blue-400 focus:shadow-outline hover:cursor-pointer"
+              bind:value={listType}
+            >
+              <option value="ALL">Tutte le attività</option>
+              <option value="ONLY_INCOMPLETE">In corso</option>
+              <option value="ONLY_COMPLETED">Cantieri chiusi</option>
+            </select>
+            <div class="absolute top-2 right-2 font-bold">
+              <svg
+                class="w-6 h-6 text-white fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M7.293 7.293a1 1 0 0 1 1.414 0L12 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="relative">
+            <select
+              class="w-full min-w-1/2 min-w-[15rem] appearance-none bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-sm md:rounded-md focus:outline-none hover:ring-2 ring-blue-400 focus:shadow-outline hover:cursor-pointer"
+              bind:value={operationType}
+            >
+              <option value="ALL">Tutte le operazioni</option>
+              <option value="ONLY_BLADES">Pale</option>
+              <option value="MAIN_COMPS">Main components</option>
+              <option value="MAINTENANCE">Manutenzioni Ordinarie</option>
+            </select>
+            <div class="absolute top-2 right-2 font-bold">
+              <svg
+                class="w-6 h-6 text-white fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M7.293 7.293a1 1 0 0 1 1.414 0L12 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      {/if}
     </div>
   </section>
 
@@ -221,7 +313,7 @@
     </div>
   </div>
   <section
-    class="min-h-[20rem] max-h-[20rem] md:min-h-[32rem] md:max-h-[32rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm"
+    class="min-h-[18rem] max-h-[18rem] md:min-h-[34rem] md:max-h-[34rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm"
   >
     {#if loadedWindfarms.length === 0}
       <div
