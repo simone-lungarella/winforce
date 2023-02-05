@@ -49,7 +49,9 @@ const Operation = {
     21: "Attività Varie",
     22: "Bonifica Ambientale",
     23: "Sostituzione Pala",
-    24: "Sostituzione Pitch Gear"
+    24: "Sostituzione Pitch Gear",
+    25: "Vasca sterrato",
+    26: "Vasca asfalto"
 };
 
 

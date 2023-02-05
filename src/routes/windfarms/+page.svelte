@@ -128,7 +128,9 @@
           (operation) =>
             operation.includes(Operation[20]) ||
             operation.includes(Operation[21]) ||
-            operation.includes(Operation[22])
+            operation.includes(Operation[22]) ||
+            operation.includes(Operation[25]) ||
+            operation.includes(Operation[26])
         )) ||
       (operationType === "ONLY_BLADES" &&
         turbine.operation.some((operation) =>
