@@ -121,7 +121,6 @@
       (listType === "ONLY_INCOMPLETE" && !turbine.completionDate) ||
       (listType === "ONLY_COMPLETED" && turbine.completionDate);
 
-    console.log(Operation[2]);
     const operationTypeMatch =
       operationType === "ALL" ||
       (operationType === "MAINTENANCE" &&
