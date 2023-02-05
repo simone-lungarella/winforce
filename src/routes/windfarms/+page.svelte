@@ -139,9 +139,11 @@
       (operationType === "MAIN_COMPS" &&
         turbine.operation.some(
           (operation) =>
-            !operation.includes(Operation[20]) ||
-            !operation.includes(Operation[21]) ||
-            !operation.includes(Operation[22])
+            !operation.includes(Operation[20]) &&
+            !operation.includes(Operation[21]) &&
+            !operation.includes(Operation[22]) &&
+            !operation.includes(Operation[25]) &&
+            !operation.includes(Operation[26])
         ));
 
     return (
