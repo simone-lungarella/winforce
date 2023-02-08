@@ -153,16 +153,18 @@
       </div>
 
       <span class="flex md:justify-end font-bold">{turbine.turbineState}</span>
-      <span class="font-mono hidden lg:flex">Scadenza cantiere: </span>
-      <span class="font-mono flex lg:hidden"
-        >Scadenza: {expiringDate || "N/A"}</span
+      <span class="font-mono hidden xl:flex">Scadenza cantiere: </span>
+      <span class="font-mono flex xl:hidden"
+        >Scadenza:&ThinSpace;<span class="font-bold"
+          >{expiringDate || "N/A"}</span
+        ></span
       >
       {#if expiringDate}
-        <div class="hidden lg:flex font-mono font-bold text-end justify-end">
+        <div class="hidden xl:flex font-mono font-bold text-end justify-end">
           <span class={isOverdue ? "text-red-500" : ""}>{expiringDate}</span>
         </div>
       {:else}
-        <span class="hidden lg:flex font-mono font-bold text-end justify-end"
+        <span class="hidden xl:flex font-mono font-bold text-end justify-end"
           >Non disponibile</span
         >
       {/if}
