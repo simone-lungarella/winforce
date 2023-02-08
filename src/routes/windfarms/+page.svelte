@@ -160,8 +160,11 @@
 </script>
 
 <div transition:slide={{ duration: 200 }}>
-  <section class="mt-5 md:ml-5" id="filters">
-    <div class="flex flex-col gap-3 font-mono">
+  <div id="full-content" class="p-4">
+    <section
+      class="mt-5 flex flex-col gap-3 font-mono h-min-[10vh]"
+      id="filters"
+    >
       <div
         class="items-center flex flex-row justify-between md:justify-start gap-2"
       >
@@ -253,128 +256,130 @@
           </div>
         </div>
       {/if}
-    </div>
-  </section>
+    </section>
 
-  <div
-    class="flex flex-row justify-between items-center mt-6 mb-4 mx-1 md:mx-6"
-  >
-    <p class="font-mono text-lg">{numberOfTurbines} risultati</p>
-    <div class="justify-end flex flex-row gap-4">
-      <button
-        class="bg-blue-500 rounded p-2 ring-2 ring-gray-300 hover:bg-blue-400 hover:ring-gray-200 group
+    <div class="flex flex-row justify-between items-center h-[10vh]">
+      <p class="font-mono text-lg">{numberOfTurbines} risultati</p>
+      <div class="justify-end flex flex-row gap-4">
+        <button
+          class="bg-blue-500 rounded p-2 ring-2 ring-gray-300 hover:bg-blue-400 hover:ring-gray-200 group
         disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={loadedWindfarms.length === 0}
-        on:click={downloadCsv}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-file-text group-hover:rotate-12 group-hover:transition-transform group-hover:duration-500"
-          ><path
-            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-          /><polyline points="14 2 14 8 20 8" /><line
-            x1="16"
-            y1="13"
-            x2="8"
-            y2="13"
-          /><line x1="16" y1="17" x2="8" y2="17" /><polyline
-            points="10 9 9 9 8 9"
-          /></svg
+          disabled={loadedWindfarms.length === 0}
+          on:click={downloadCsv}
         >
-      </button>
-      <button
-        class="bg-green-500 rounded p-2 ring-2 ring-gray-300 hover:bg-green-400 hover:ring-gray-200 group"
-        on:click={handleCreateModalOpening}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-plus group-hover:rotate-90 transition-all duration-300 ease-in-out"
-          ><line x1="12" y1="5" x2="12" y2="19" /><line
-            x1="5"
-            y1="12"
-            x2="19"
-            y2="12"
-          /></svg
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-file-text group-hover:rotate-12 group-hover:transition-transform group-hover:duration-500"
+            ><path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            /><polyline points="14 2 14 8 20 8" /><line
+              x1="16"
+              y1="13"
+              x2="8"
+              y2="13"
+            /><line x1="16" y1="17" x2="8" y2="17" /><polyline
+              points="10 9 9 9 8 9"
+            /></svg
+          >
+        </button>
+        <button
+          class="bg-green-500 rounded p-2 ring-2 ring-gray-300 hover:bg-green-400 hover:ring-gray-200 group"
+          on:click={handleCreateModalOpening}
         >
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-plus group-hover:rotate-90 transition-all duration-300 ease-in-out"
+            ><line x1="12" y1="5" x2="12" y2="19" /><line
+              x1="5"
+              y1="12"
+              x2="19"
+              y2="12"
+            /></svg
+          >
+        </button>
+      </div>
     </div>
-  </div>
-  <section
-    class="min-h-[18rem] max-h-[20rem] md:min-h-[34rem] md:max-h-[34rem] px-2 overflow-y-scroll scrollable ring-2 ring-gray-600 rounded-sm"
-  >
-    {#if loadedWindfarms.length === 0}
-      <div
-        class="flex flex-col items-center justify-center h-full w-full mt-24"
-      >
+    <section
+      class="px-1 md:px-2 ring-2 overflow-y-scroll scrollable ring-gray-600 rounded-sm mt-2 {isFilterVisible
+        ? 'h-[42vh] md:h-[60vh]'
+        : 'h-[65vh]'}"
+    >
+      {#if loadedWindfarms.length === 0}
         <div
-          class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-300 border"
-        />
-        <p class="mt-4 text-xl font-bold font-mono">Caricamento in corso...</p>
-      </div>
-    {:else}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {#each filteredTurbines as turbine (turbine.id)}
-          <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
-        {/each}
-      </div>
-    {/if}
+          class="flex flex-col items-center justify-center h-full w-full mt-24"
+        >
+          <div
+            class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-300 border"
+          />
+          <p class="mt-4 text-xl font-bold font-mono">
+            Caricamento in corso...
+          </p>
+        </div>
+      {:else}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {#each filteredTurbines as turbine (turbine.id)}
+            <TurbinePreview {turbine} on:showDetails={handleDetailOpening} />
+          {/each}
+        </div>
+      {/if}
 
-    {#if isDetailOpen}
-      <div
-        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
-        on:click={handleModalClosing}
-        on:keydown={handleModalClosing}
-      >
-        <Turbine
-          {turbine}
-          on:closeDetails={handleModalClosing}
-          on:editMode={handleEditModalOpening}
-          on:deleted={handleDeletion}
-        />
-      </div>
-    {/if}
-    {#if isEditModelOpen}
-      <div
-        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
-        on:click={handleModalClosing}
-        on:keydown={handleModalClosing}
-      >
-        <EditModal
-          {turbine}
-          on:close={() => (isEditModelOpen = false)}
-          on:updated={handleUpdate}
-        />
-      </div>
-    {/if}
-    {#if isCreateModelOpen}
-      <div
-        class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
-        on:click={handleModalClosing}
-        on:keydown={handleModalClosing}
-      >
-        <CreateModal
-          on:close={() => (isCreateModelOpen = false)}
-          on:created={handleCreation}
-        />
-      </div>
-    {/if}
-  </section>
+      {#if isDetailOpen}
+        <div
+          class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
+          on:click={handleModalClosing}
+          on:keydown={handleModalClosing}
+        >
+          <Turbine
+            {turbine}
+            on:closeDetails={handleModalClosing}
+            on:editMode={handleEditModalOpening}
+            on:deleted={handleDeletion}
+          />
+        </div>
+      {/if}
+      {#if isEditModelOpen}
+        <div
+          class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
+          on:click={handleModalClosing}
+          on:keydown={handleModalClosing}
+        >
+          <EditModal
+            {turbine}
+            on:close={() => (isEditModelOpen = false)}
+            on:updated={handleUpdate}
+          />
+        </div>
+      {/if}
+      {#if isCreateModelOpen}
+        <div
+          class="h-full w-full absolute top-0 left-0 bg-gray-800 backdrop-filter bg-opacity-75 backdrop-blur-sm"
+          on:click={handleModalClosing}
+          on:keydown={handleModalClosing}
+        >
+          <CreateModal
+            on:close={() => (isCreateModelOpen = false)}
+            on:created={handleCreation}
+          />
+        </div>
+      {/if}
+    </section>
+  </div>
 </div>
 
 <style>
