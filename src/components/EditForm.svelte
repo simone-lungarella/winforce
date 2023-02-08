@@ -75,21 +75,29 @@
     }
 
     if (isEditMode) {
-      updateWindfarm(windfarm).then((response) => {
-        if (response !== undefined && response.status === 200) {
-          dispatch("updated");
-        } else {
-          // TODO Handle error
-        }
-      });
+      updateWindfarm(windfarm)
+        .then((response) => {
+          if (response !== undefined && response.status === 200) {
+            dispatch("updated");
+          } else {
+            console.log("Error while updating windfarm: ", response);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
-      createWindfarm(windfarm).then((response) => {
-        if (response !== undefined && response.status === 200) {
-          dispatch("created");
-        } else {
-          // TODO Handle error
-        }
-      });
+      createWindfarm(windfarm)
+        .then((response) => {
+          if (response !== undefined && response.status === 200) {
+            dispatch("created");
+          } else {
+            console.log("Error while creating windfarm: ", response);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 </script>
