@@ -32,7 +32,7 @@
     operations = Object.values(Operation).map((operation) => {
       return {
         name: operation,
-        isSelected: false,
+        isSelected: windfarm.operation.includes(operation),
       };
     });
   });
