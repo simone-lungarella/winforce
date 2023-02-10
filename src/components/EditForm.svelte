@@ -16,7 +16,7 @@
     odlNumber: null,
     power: "KILOWATT",
     operation: [],
-    turbineState: "In marcia",
+    turbineState: "In Marcia",
     startingDateEEMM: null,
     startingDateOOCC: null,
     permittingDate: null,
