@@ -74,6 +74,14 @@
       return;
     }
 
+    if (windfarm.power == "") {
+      windfarm.power = "KILOWATT";
+    }
+
+    if (windfarm.turbineState == "") {
+      windfarm.turbineState = "In marcia";
+    }
+
     if (isEditMode) {
       updateWindfarm(windfarm)
         .then((response) => {
