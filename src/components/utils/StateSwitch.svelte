@@ -2,8 +2,8 @@
   import { slide } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
 
+  export let state = "In Marcia";
   const dispatch = createEventDispatcher();
-  let state = "In Marcia";
 
   const handleChange = () => {
     dispatch("change", state);

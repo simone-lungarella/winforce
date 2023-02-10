@@ -97,6 +97,7 @@
     } else {
       createWindfarm(windfarm)
         .then((response) => {
+          console.log(response);
           if (response !== undefined && response.status === 200) {
             dispatch("created");
           } else {
@@ -215,7 +216,10 @@
           </button>
         </div>
         <div class="col-span-full mt-auto">
-          <PowerSwitch on:change={(event) => (windfarm.power = event.detail)} />
+          <PowerSwitch
+            on:change={(event) => (windfarm.power = event.detail)}
+            isKilowatt={windfarm.power === "KILOWATT"}
+          />
         </div>
       </div>
       <!-- Second form div -->
@@ -225,6 +229,7 @@
         <div class="col-span-full">
           <StateSwitch
             on:change={(event) => (windfarm.turbineState = event.detail)}
+            state={windfarm.turbineState}
           />
         </div>
 

@@ -1,9 +1,9 @@
 <script>
-  import { fade, slide } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
 
+  export let isKilowatt = true;
   const dispatch = createEventDispatcher();
-  let isKilowatt = true;
 
   const handleChange = () => {
     dispatch("change", isKilowatt ? "KILOWATT" : "MEGAWATT");
