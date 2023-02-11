@@ -92,7 +92,8 @@
         .then((response) => {
           console.log("Received response: ", response);
           if (response !== undefined && response.status === 200) {
-            dispatch("created");
+            // dispatch("created");
+            console.log("Should have been created", response);
           } else {
             console.log("Error while creating windfarm: ", response);
           }
