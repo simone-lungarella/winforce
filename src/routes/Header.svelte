@@ -75,20 +75,6 @@
         <ul class="gap-2 flex mr-10 flex-col p-4" aria-label="Navigation">
           <li>
             <div class="item">
-              <a href="./windfarms" class="text-white hover:text-blue-300"
-                >Turbine</a
-              >
-            </div>
-          </li>
-          <li>
-            <div class="item">
-              <a href="./maintenance" class="text-white hover:text-blue-300"
-                >Manutenzione</a
-              >
-            </div>
-          </li>
-          <li>
-            <div class="item">
               <button
                 class="text-white hover:text-blue-300"
                 on:click={handleLogout}>Esci</button
