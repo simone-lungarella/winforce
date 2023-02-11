@@ -44,6 +44,7 @@ export async function createWindfarm(windfarm) {
             headers: { Authorization: "bearer " + token },
         };
 
+        console.log("Sending request of creation using config: " + JSON.stringify(config) + " and windfarm: " + JSON.stringify(windfarm));
         return await axios.post(baseUrl + "/event", windfarm, config);
     } else {
         // TODO: Handle this

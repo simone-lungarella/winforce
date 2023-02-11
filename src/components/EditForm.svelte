@@ -74,14 +74,6 @@
       return;
     }
 
-    if (windfarm.power == "") {
-      windfarm.power = "KILOWATT";
-    }
-
-    if (windfarm.turbineState == "") {
-      windfarm.turbineState = "In marcia";
-    }
-
     if (isEditMode) {
       updateWindfarm(windfarm)
         .then((response) => {
@@ -95,9 +87,10 @@
           console.log(error);
         });
     } else {
+      console.log("Creating windfarm: ", windfarm);
       createWindfarm(windfarm)
         .then((response) => {
-          console.log(response);
+          console.log("Received response: ", response);
           if (response !== undefined && response.status === 200) {
             dispatch("created");
           } else {
