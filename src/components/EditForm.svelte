@@ -92,8 +92,7 @@
         .then((response) => {
           console.log("Received response: ", response);
           if (response !== undefined && response.status === 200) {
-            // dispatch("created");
-            console.log("Should have been created", response);
+            dispatch("created");
           } else {
             console.log("Error while creating windfarm: ", response);
           }
@@ -353,7 +352,7 @@
           </button>
           <button
             class="font-bold font-mono bg-green-500 py-2 rounded w-24"
-            on:click={handleFormSubmit}
+            on:click|preventDefault={handleFormSubmit}
           >
             <p>{isEditMode ? "Modifica" : "Crea"}</p>
           </button>
