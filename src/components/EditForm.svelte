@@ -38,27 +38,53 @@
   });
 
   let currentActiveIndex = 0;
-  function scrollByOffset() {
+  const handleScroll = () => {
     const element = document.getElementById("scrollable");
-    let amount = 0;
+    const scrollLeft = element.scrollLeft;
+    const scrollWidth = element.scrollWidth;
+    const offsetWidth = element.offsetWidth;
+    const scrollRight = scrollWidth - scrollLeft - offsetWidth;
 
-    if (element != null) {
-      if (currentActiveIndex === 1) {
-        if (window.innerWidth < 768) {
-          amount = element.scrollWidth / 3;
-        } else {
-          amount = element.scrollWidth / 2;
-        }
-      } else if (currentActiveIndex === 2) {
-        amount = element.scrollWidth;
-      }
-
-      element.scrollTo({
-        left: amount,
-        behavior: "smooth",
-      });
+    if (scrollLeft <= 10) {
+      currentActiveIndex = 0;
+    } else if (scrollRight <= 10) {
+      currentActiveIndex = 2;
+    } else {
+      currentActiveIndex = 1;
     }
-  }
+  };
+
+  const scrollLeft = () => {
+    const element = document.getElementById("scrollable");
+    // Smoothly scroll to left
+    element.scrollTo({
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    const element = document.getElementById("scrollable");
+    // Smoothly scroll to right
+    element.scrollTo({
+      left: element.scrollWidth,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollCenter = () => {
+    const element = document.getElementById("scrollable");
+    let amount = element.scrollWidth / 2;
+
+    if (window.innerWidth < 768) {
+      amount = element.scrollWidth / 3;
+    }
+    // Smoothly scroll to center
+    element.scrollTo({
+      left: amount,
+      behavior: "smooth",
+    });
+  };
 
   const handleFormClosing = () => {
     dispatch("close");
@@ -137,6 +163,7 @@
       class="flex flex-row gap-5 text-black p-2 w-[19rem] md:w-[32.5rem] scrollbar-none overflow-scroll snap-x snap-mandatory"
       on:click|stopPropagation
       on:keydown|stopPropagation
+      on:scroll={handleScroll}
     >
       <div
         class="flex flex-col gap-3 bg-gray-800 p-5 rounded ring-2 ring-gray-500 snap-center"
@@ -361,26 +388,26 @@
     >
       <input
         type="checkbox"
-        class={currentActiveIndex === 0 ? "dot bg-blue-400" : "dot bg-gray-300"}
+        checked={currentActiveIndex === 0}
+        class="dot bg-gray-300 checked:bg-blue-400"
         on:change={() => {
-          currentActiveIndex = 0;
-          scrollByOffset();
+          scrollLeft();
         }}
       />
       <input
         type="checkbox"
-        class={currentActiveIndex === 1 ? "dot bg-blue-400" : "dot bg-gray-300"}
+        checked={currentActiveIndex === 1}
+        class="dot bg-gray-300 checked:bg-blue-400"
         on:change={() => {
-          currentActiveIndex = 1;
-          scrollByOffset();
+          scrollCenter();
         }}
       />
       <input
         type="checkbox"
-        class={currentActiveIndex === 2 ? "dot bg-blue-400" : "dot bg-gray-300"}
+        checked={currentActiveIndex === 2}
+        class="dot bg-gray-300 checked:bg-blue-400"
         on:change={() => {
-          currentActiveIndex = 2;
-          scrollByOffset();
+          scrollRight();
         }}
       />
     </div>

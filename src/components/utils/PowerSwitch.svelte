@@ -15,7 +15,7 @@
     class="flex flex-row justify-center gap-4 font-bold font-mono h-full w-[13rem] md:w-[27rem]"
   >
     <button
-      class={isKilowatt ? "button ring-2 ring-green-500" : "button"}
+      class={isKilowatt ? "button ring-4 ring-green-500" : "button"}
       type="button"
       on:click={() => {
         isKilowatt = true;
@@ -41,7 +41,7 @@
       >Kilowatt
     </button>
     <button
-      class={isKilowatt ? "button" : "button ring-2 ring-blue-500"}
+      class={isKilowatt ? "button" : "button ring-4 ring-blue-500"}
       type="button"
       on:click={() => {
         isKilowatt = false;
