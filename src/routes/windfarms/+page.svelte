@@ -5,11 +5,11 @@
     getWindfarms,
     getExportData,
   } from "../../services/TurbineService.js";
-  import Turbine from "../../components/Turbine.svelte";
   import EditModal from "../../components/utils/EditModal.svelte";
   import CreateModal from "../../components/utils/CreateModal.svelte";
   import { onMount } from "svelte";
   import Operation from "../../enum/Operation";
+  import TurbineDetail from "../../components/TurbineDetail.svelte";
 
   let isDetailOpen = false;
   let turbine = {};
@@ -345,8 +345,8 @@
           on:click={handleModalClosing}
           on:keydown={handleModalClosing}
         >
-          <Turbine
-            {turbine}
+          <TurbineDetail
+            windfarm={turbine}
             on:closeDetails={handleModalClosing}
             on:editMode={handleEditModalOpening}
             on:deleted={handleDeletion}

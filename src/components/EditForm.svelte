@@ -366,13 +366,13 @@
         <div class="grid grid-flow-col place-content-center w-full mt-5 gap-2">
           <button
             type="button"
-            class="font-bold font-mono bg-red-500 py-2 rounded w-24"
+            class="font-bold font-mono bg-red-500 hover:bg-red-600 py-2 rounded w-24"
             on:click={handleFormClosing}
           >
             Annulla
           </button>
           <button
-            class="font-bold font-mono bg-green-500 py-2 rounded w-24"
+            class="font-bold font-mono bg-green-500 hover:bg-green-600 py-2 rounded w-24"
             on:click|preventDefault={handleFormSubmit}
           >
             <p>{isEditMode ? "Modifica" : "Crea"}</p>
