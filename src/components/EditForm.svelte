@@ -21,6 +21,7 @@
     startingDateOOCC: null,
     permittingDate: null,
     priorNotification: null,
+    toNotDismantle: false,
   };
 
   const dispatch = createEventDispatcher();
@@ -118,16 +119,11 @@
   let isSendingRequest = false;
 
   const handleFormSubmit = () => {
-    if (isSendingRequest) {
+    if (isSendingRequest || !allRequiredFieldsAreProvided()) {
       return;
     }
 
     isSendingRequest = true;
-
-    if (!allRequiredFieldsAreProvided()) {
-      console.log("Cannot submit missing required fields");
-      return;
-    }
 
     if (isEditMode) {
       updateWindfarm(windfarm)
@@ -261,6 +257,20 @@
               required
             />
           </button>
+        </div>
+        <div class="flex flex-row justify-between p-2 items-center">
+          <label class="text-xl text-white font-mono" for="smantleCheckbox"
+            >Non smantellare</label
+          >
+          <input
+            id="smantleCheckbox"
+            class="checkbox w-8 h-8"
+            type="checkbox"
+            value={windfarm.toNotDismantle}
+            on:change={(event) => {
+              windfarm.toNotDismantle = event.target.checked;
+            }}
+          />
         </div>
         <div class="col-span-full mt-auto">
           <PowerSwitch

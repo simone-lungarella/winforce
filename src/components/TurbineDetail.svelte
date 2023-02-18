@@ -20,6 +20,7 @@
     startingDateOOCC: null,
     permittingDate: null,
     priorNotification: null,
+    toNotDismantle: false,
   };
 
   const dispatch = createEventDispatcher();
@@ -73,6 +74,8 @@
   const handleEditMode = () => {
     dispatch("editMode", windfarm.id);
   };
+
+  let infoTooltip = false;
 </script>
 
 <div
@@ -147,7 +150,43 @@
       </div>
 
       <div class="ring-2 rounded ring-gray-600 px-2 py-1 text-white">
-        <p class="font-mono text-xl">Attivit&agrave;</p>
+        <div class="flex flex-row items-center gap-2 relative">
+          <p class="font-mono text-xl">Attivit&agrave;</p>
+          <button
+            class="hover:text-amber-400 {infoTooltip ? 'text-amber-400' : ''}"
+            on:click={() => (infoTooltip = !infoTooltip)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-info"
+              ><circle cx="12" cy="12" r="10" /><line
+                x1="12"
+                y1="16"
+                x2="12"
+                y2="12"
+              /><line x1="12" y1="8" x2="12.01" y2="8" /></svg
+            >
+          </button>
+          {#if infoTooltip}
+            <div
+              class="absolute z-10 bg-gray-400 text-white rounded-sm shadow-md p-2 cursor-default top-8"
+            >
+              <p>
+                {windfarm.toNotDismantle
+                  ? "Da non smantellare"
+                  : "Da smantellare"}
+              </p>
+            </div>
+          {/if}
+        </div>
         <div class="p-2">
           <ul class="font-mono">
             {#each windfarm.operation as operation}
