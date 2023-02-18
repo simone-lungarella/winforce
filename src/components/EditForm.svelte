@@ -405,7 +405,8 @@
             Annulla
           </button>
           <button
-            class="font-bold font-mono bg-green-500 hover:bg-green-600 py-2 rounded w-24 disabled:{isSendingRequest}"
+            class="font-bold font-mono bg-green-500 hover:bg-green-600 py-2 rounded w-24"
+            disabled={isSendingRequest}
             on:click|preventDefault={handleFormSubmit}
           >
             <p>{isEditMode ? "Modifica" : "Crea"}</p>
