@@ -90,12 +90,41 @@
     dispatch("close");
   };
 
+  const allRequiredFieldsAreProvided = () => {
+    return (
+      windfarm.turbineName !== "" &&
+      windfarm.description !== "" &&
+      windfarm.operation.length > 0 &&
+      windfarm.operation[0] !== ""
+    );
+  };
+
+  const clearForm = () => {
+    windfarm = {
+      turbineName: "",
+      turbineNumber: "",
+      description: "",
+      odlNumber: null,
+      power: "KILOWATT",
+      operation: [],
+      turbineState: "In Marcia",
+      startingDateEEMM: null,
+      startingDateOOCC: null,
+      permittingDate: null,
+      priorNotification: null,
+    };
+  };
+
+  let isSendingRequest = false;
+
   const handleFormSubmit = () => {
-    if (
-      windfarm.turbineName === "" ||
-      windfarm.description === "" ||
-      windfarm.operation.length === 0
-    ) {
+    if (isSendingRequest) {
+      return;
+    }
+
+    isSendingRequest = true;
+
+    if (!allRequiredFieldsAreProvided()) {
       console.log("Cannot submit missing required fields");
       return;
     }
@@ -105,6 +134,8 @@
         .then((response) => {
           if (response !== undefined && response.status === 200) {
             dispatch("updated");
+            isSendingRequest = false;
+            clearForm();
           } else {
             console.log("Error while updating windfarm: ", response);
           }
@@ -116,6 +147,8 @@
       createWindfarm(windfarm)
         .then(() => {
           dispatch("created");
+          isSendingRequest = false;
+          clearForm();
         })
         .catch((error) => {
           console.log(error);
@@ -372,7 +405,7 @@
             Annulla
           </button>
           <button
-            class="font-bold font-mono bg-green-500 hover:bg-green-600 py-2 rounded w-24"
+            class="font-bold font-mono bg-green-500 hover:bg-green-600 py-2 rounded w-24 disabled:{isSendingRequest}"
             on:click|preventDefault={handleFormSubmit}
           >
             <p>{isEditMode ? "Modifica" : "Crea"}</p>
