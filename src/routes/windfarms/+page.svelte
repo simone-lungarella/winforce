@@ -158,8 +158,6 @@
     .sort((a, b) => {
       if (sortingOrder === "ASC") {
         return a.turbineName.localeCompare(b.turbineName);
-      } else {
-        return b.turbineName.localeCompare(a.turbineName);
       }
     });
 
@@ -214,7 +212,7 @@
             ? 'text-white'
             : 'text-blue-500 rotate-180'}"
           on:click={() => {
-            sortingOrder = sortingOrder === "ASC" ? "DESC" : "ASC";
+            sortingOrder = sortingOrder === "ASC" ? "NONE" : "ASC";
           }}
         >
           <svg
