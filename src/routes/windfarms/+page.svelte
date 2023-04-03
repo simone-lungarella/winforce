@@ -106,53 +106,62 @@
 
   // Options are: ALL, ONLY_BLADE, MAINTENANCE, MAIN_COMPS
   let operationType = "ALL";
+  let sortingOrder = "ASC";
 
-  $: filteredTurbines = loadedWindfarms.filter((turbine) => {
-    const searchTerm = searchKey.toLowerCase();
-    const descMatch = turbine.description.toLowerCase().includes(searchTerm);
-    const nameMatch = turbine.turbineName.toLowerCase().includes(searchTerm);
-    const numberMatch = turbine.turbineNumber
-      .toLowerCase()
-      .includes(searchTerm);
-    const yearMatch = turbine.creationDate.includes(year);
+  $: filteredTurbines = loadedWindfarms
+    .filter((turbine) => {
+      const searchTerm = searchKey.toLowerCase();
+      const descMatch = turbine.description.toLowerCase().includes(searchTerm);
+      const nameMatch = turbine.turbineName.toLowerCase().includes(searchTerm);
+      const numberMatch = turbine.turbineNumber
+        .toLowerCase()
+        .includes(searchTerm);
+      const yearMatch = turbine.creationDate.includes(year);
 
-    const typeMatch =
-      listType === "ALL" ||
-      (listType === "ONLY_INCOMPLETE" && !turbine.completionDate) ||
-      (listType === "ONLY_COMPLETED" && turbine.completionDate);
+      const typeMatch =
+        listType === "ALL" ||
+        (listType === "ONLY_INCOMPLETE" && !turbine.completionDate) ||
+        (listType === "ONLY_COMPLETED" && turbine.completionDate);
 
-    const operationTypeMatch =
-      operationType === "ALL" ||
-      (operationType === "MAINTENANCE" &&
-        turbine.operation.some(
-          (operation) =>
-            operation.includes(Operation[20]) ||
-            operation.includes(Operation[21]) ||
-            operation.includes(Operation[22]) ||
-            operation.includes(Operation[25]) ||
-            operation.includes(Operation[26])
-        )) ||
-      (operationType === "ONLY_BLADES" &&
-        turbine.operation.some((operation) =>
-          operation.includes(Operation[2])
-        )) ||
-      (operationType === "MAIN_COMPS" &&
-        turbine.operation.some(
-          (operation) =>
-            !operation.includes(Operation[20]) &&
-            !operation.includes(Operation[21]) &&
-            !operation.includes(Operation[22]) &&
-            !operation.includes(Operation[25]) &&
-            !operation.includes(Operation[26])
-        ));
+      const operationTypeMatch =
+        operationType === "ALL" ||
+        (operationType === "MAINTENANCE" &&
+          turbine.operation.some(
+            (operation) =>
+              operation.includes(Operation[20]) ||
+              operation.includes(Operation[21]) ||
+              operation.includes(Operation[22]) ||
+              operation.includes(Operation[25]) ||
+              operation.includes(Operation[26])
+          )) ||
+        (operationType === "ONLY_BLADES" &&
+          turbine.operation.some((operation) =>
+            operation.includes(Operation[2])
+          )) ||
+        (operationType === "MAIN_COMPS" &&
+          turbine.operation.some(
+            (operation) =>
+              !operation.includes(Operation[20]) &&
+              !operation.includes(Operation[21]) &&
+              !operation.includes(Operation[22]) &&
+              !operation.includes(Operation[25]) &&
+              !operation.includes(Operation[26])
+          ));
 
-    return (
-      (descMatch || nameMatch || numberMatch) &&
-      yearMatch &&
-      typeMatch &&
-      operationTypeMatch
-    );
-  });
+      return (
+        (descMatch || nameMatch || numberMatch) &&
+        yearMatch &&
+        typeMatch &&
+        operationTypeMatch
+      );
+    })
+    .sort((a, b) => {
+      if (sortingOrder === "ASC") {
+        return a.turbineName.localeCompare(b.turbineName);
+      } else {
+        return b.turbineName.localeCompare(a.turbineName);
+      }
+    });
 
   $: numberOfTurbines = filteredTurbines.length;
 
@@ -197,6 +206,29 @@
             ><polygon
               points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
             /></svg
+          >
+        </button>
+        <button
+          class="py-2 px-2 hover:text-blue-500 bg-gray-700 rounded-sm md:rounded-md {sortingOrder ===
+          'ASC'
+            ? 'text-white'
+            : 'text-blue-500 rotate-180'}"
+          on:click={() => {
+            sortingOrder = sortingOrder === "ASC" ? "DESC" : "ASC";
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class={sortingOrder === "ASC" ? "text-white" : "text-blue-500"}
+            ><polyline points="18 15 12 9 6 15" /></svg
           >
         </button>
       </div>
