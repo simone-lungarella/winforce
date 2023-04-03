@@ -106,8 +106,9 @@
 
   // Options are: ALL, ONLY_BLADE, MAINTENANCE, MAIN_COMPS
   let operationType = "ALL";
-  let sortingOrder = "ASC";
+  let sortingOrder = "NONE";
 
+  // Filter and then sort only if sortingOrder is not "NONE"
   $: filteredTurbines = loadedWindfarms
     .filter((turbine) => {
       const searchTerm = searchKey.toLowerCase();
@@ -208,7 +209,7 @@
         </button>
         <button
           class="py-2 px-2 hover:text-blue-500 bg-gray-700 rounded-sm md:rounded-md {sortingOrder ===
-          'ASC'
+          'NONE'
             ? 'text-white'
             : 'text-blue-500 rotate-180'}"
           on:click={() => {
@@ -225,7 +226,7 @@
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class={sortingOrder === "ASC" ? "text-white" : "text-blue-500"}
+            class={sortingOrder === "NONE" ? "text-white" : "text-blue-500"}
             ><polyline points="18 15 12 9 6 15" /></svg
           >
         </button>
