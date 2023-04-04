@@ -158,7 +158,7 @@
     })
     .sort((a, b) => {
       if (sortingOrder === "ASC") {
-        return a.turbineName.localeCompare(b.turbineName);
+        return b.turbineNumber.localeCompare(a.turbineNumber);
       }
     });
 
