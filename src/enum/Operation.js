@@ -51,8 +51,8 @@ const Operation = {
     23: "Sostituzione Pala",
     24: "Sostituzione Pitch Gear",
     25: "Vasca sterrato",
-    26: "Vasca asfalto"
+    26: "Vasca asfalto",
+    27: "Ispezione pale UT con PLE"
 };
-
 
 export default Operation;
