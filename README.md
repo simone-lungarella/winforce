@@ -9,6 +9,4 @@
 
 Application that helps stay organized offering basic crud operation with a captivating user interface built with tailwindcss. The app, built with svelte, consent to handle windfarms and their states to help speed up the activities necessary to make the turbines run again.
 
-Deployed on github pages, uses a Spring boot application deployed on Heroku as backend.
-
 Have a look at the user interface guide [Guide IT](https://github.com/simone-lungarella/winforce2.0/blob/master/Manuale%20di%20utilizzo%20applicazione%20WIND.md).
